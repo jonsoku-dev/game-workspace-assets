@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "source": "atlas.png",
+  "profile": "style.json",
+  "source_origin": "Preexisting generated example; rebuilt locally without network access",
+  "resampling": "nearest",
+  "passed": true,
+  "asset_count": 9,
+  "assets": [
+    {
+      "name": "scout",
+      "kind": "character",
+      "size": 48,
+      "source_box": [
+        0,
+        0,
+        399,
+        459
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 48,
+        "height": 48,
+        "mode": "RGBA",
+        "foreground_pixels": 1120,
+        "transparent_pixels": 1184,
+        "semi_alpha_pixels": 0,
+        "color_count": 16,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          6,
+          1,
+          41,
+          46
+        ],
+        "color_limit": 16,
+        "kind": "character"
+      }
+    },
+    {
+      "name": "forager",
+      "kind": "character",
+      "size": 48,
+      "source_box": [
+        399,
+        0,
+        822,
+        459
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 48,
+        "height": 48,
+        "mode": "RGBA",
+        "foreground_pixels": 1110,
+        "transparent_pixels": 1194,
+        "semi_alpha_pixels": 0,
+        "color_count": 16,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          5,
+          1,
+          42,
+          46
+        ],
+        "color_limit": 16,
+        "kind": "character"
+      }
+    },
+    {
+      "name": "owl-cartographer",
+      "kind": "character",
+      "size": 48,
+      "source_box": [
+        822,
+        0,
+        1254,
+        459
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 48,
+        "height": 48,
+        "mode": "RGBA",
+        "foreground_pixels": 1410,
+        "transparent_pixels": 894,
+        "semi_alpha_pixels": 0,
+        "color_count": 16,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          2,
+          1,
+          46,
+          46
+        ],
+        "color_limit": 16,
+        "kind": "character"
+      }
+    },
+    {
+      "name": "compass",
+      "kind": "icon",
+      "size": 32,
+      "source_box": [
+        0,
+        459,
+        399,
+        798
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 32,
+        "height": 32,
+        "mode": "RGBA",
+        "foreground_pixels": 519,
+        "transparent_pixels": 505,
+        "semi_alpha_pixels": 0,
+        "color_count": 12,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          3,
+          1,
+          28,
+          31
+        ],
+        "color_limit": 12,
+        "kind": "icon"
+      }
+    },
+    {
+      "name": "acorn",
+      "kind": "icon",
+      "size": 24,
+      "source_box": [
+        399,
+        459,
+        822,
+        798
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 24,
+        "height": 24,
+        "mode": "RGBA",
+        "foreground_pixels": 278,
+        "transparent_pixels": 298,
+        "semi_alpha_pixels": 0,
+        "color_count": 10,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          3,
+          1,
+          21,
+          23
+        ],
+        "color_limit": 12,
+        "kind": "icon"
+      }
+    },
+    {
+      "name": "feather",
+      "kind": "icon",
+      "size": 32,
+      "source_box": [
+        822,
+        459,
+        1254,
+        798
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 32,
+        "height": 32,
+        "mode": "RGBA",
+        "foreground_pixels": 439,
+        "transparent_pixels": 585,
+        "semi_alpha_pixels": 0,
+        "color_count": 12,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          1,
+          1,
+          30,
+          31
+        ],
+        "color_limit": 12,
+        "kind": "icon"
+      }
+    },
+    {
+      "name": "lantern",
+      "kind": "item",
+      "size": 32,
+      "source_box": [
+        0,
+        798,
+        399,
+        1254
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 32,
+        "height": 32,
+        "mode": "RGBA",
+        "foreground_pixels": 390,
+        "transparent_pixels": 634,
+        "semi_alpha_pixels": 0,
+        "color_count": 17,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          6,
+          1,
+          25,
+          31
+        ],
+        "color_limit": 24,
+        "kind": "item"
+      }
+    },
+    {
+      "name": "field-pack",
+      "kind": "item",
+      "size": 32,
+      "source_box": [
+        399,
+        798,
+        822,
+        1254
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 32,
+        "height": 32,
+        "mode": "RGBA",
+        "foreground_pixels": 685,
+        "transparent_pixels": 339,
+        "semi_alpha_pixels": 0,
+        "color_count": 14,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          1,
+          2,
+          31,
+          29
+        ],
+        "color_limit": 24,
+        "kind": "item"
+      }
+    },
+    {
+      "name": "hatchet",
+      "kind": "item",
+      "size": 32,
+      "source_box": [
+        822,
+        798,
+        1254,
+        1254
+      ],
+      "passed": true,
+      "checks": {
+        "size": true,
+        "rgba": true,
+        "binary_alpha": true,
+        "nonempty": true,
+        "transparency": true,
+        "palette": true,
+        "color_limit": true,
+        "isolated_ratio": true,
+        "clear_edges": true,
+        "baseline": true
+      },
+      "metrics": {
+        "width": 32,
+        "height": 32,
+        "mode": "RGBA",
+        "foreground_pixels": 326,
+        "transparent_pixels": 698,
+        "semi_alpha_pixels": 0,
+        "color_count": 18,
+        "colors_outside_palette": 0,
+        "isolated_pixels": 0,
+        "isolated_ratio": 0.0,
+        "edge_pixels": 0,
+        "visible_bounds": [
+          1,
+          1,
+          30,
+          31
+        ],
+        "color_limit": 24,
+        "kind": "item"
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "checks": {
+    "size": true,
+    "rgba": true,
+    "binary_alpha": true,
+    "nonempty": true,
+    "transparency": true,
+    "palette": true,
+    "color_limit": true,
+    "isolated_ratio": true,
+    "clear_edges": true,
+    "baseline": true
+  },
+  "metrics": {
+    "width": 32,
+    "height": 32,
+    "mode": "RGBA",
+    "foreground_pixels": 336,
+    "transparent_pixels": 688,
+    "semi_alpha_pixels": 0,
+    "color_count": 11,
+    "colors_outside_palette": 0,
+    "isolated_pixels": 0,
+    "isolated_ratio": 0.0,
+    "edge_pixels": 0,
+    "visible_bounds": [
+      7,
+      1,
+      24,
+      31
+    ],
+    "color_limit": 24,
+    "kind": "item"
+  }
+}

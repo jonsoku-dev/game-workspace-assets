@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "request": {
+    "kind": "character",
+    "prompt": "A small woodland scout in a moss-green hooded cloak, with warm brown boots, belt and a quiver. Friendly readable face, front three-quarter view, transparent background.",
+    "size": 48,
+    "limit": 16,
+    "palette": [
+      "#271625",
+      "#453235",
+      "#6c3a30",
+      "#8b422e",
+      "#aa5233",
+      "#ca7a39",
+      "#ac7242",
+      "#de9a44",
+      "#eabd7e",
+      "#faddae",
+      "#f8c277",
+      "#e89d5b",
+      "#464a30",
+      "#66733f",
+      "#93994d",
+      "#bbb072",
+      "#466465",
+      "#81a291",
+      "#afbaa2",
+      "#353442",
+      "#4d525e",
+      "#635e76",
+      "#87808b",
+      "#bc945a"
+    ],
+    "style": "Warm woodland adventure pixel art; dark aubergine ink, forest and moss greens, cream parchment, ochre brass, rust leather, warm skin and muted teal-blue accents. Compact readable silhouettes, sparse highlights, no added outline.",
+    "view": "Front-facing three-quarter characters; isolated inventory objects, transparent background.",
+    "outline": null
+  },
+  "variant_request": {
+    "schema_version": 1,
+    "base": "../../codex-scout-styled/asset.png",
+    "base_metadata": "../../codex-scout-styled/metadata.json",
+    "equipment": "sources/lantern.png",
+    "anchor": [
+      36,
+      31
+    ],
+    "offset": [
+      -3,
+      -3
+    ],
+    "allowed_region": [
+      35,
+      28,
+      46,
+      44
+    ],
+    "allowed_occlusion": [
+      [
+        35,
+        29,
+        38,
+        34
+      ]
+    ]
+  },
+  "origin": "local-equipment-overlay",
+  "base_sha256": "bdb123d2820c0fb3bcb432fc34d7e88068cce479c46230bad84773452cab1300",
+  "equipment_sha256": "b42114b9c5279a8b517d32e156522207f3ca741142e99046fbf4ab81e7220a34",
+  "base_visible_bounds": [
+    10,
+    1,
+    38,
+    46
+  ],
+  "import": {
+    "filter": "nearest",
+    "pivot_px_from_top_left": [
+      24.0,
+      46
+    ]
+  },
+  "visual_review": "pending"
+}

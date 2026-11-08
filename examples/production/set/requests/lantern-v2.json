@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "kind": "item",
+  "size": 32,
+  "prompt": "A squat woodland brass inventory lantern, isolated front three-quarter view. Broad squared brass frame and square base (#CA7A39, #DE9A44, #EABD7E), small squared hanging loop above, dark aubergine #271625 selective contour. Main body is a wide box, not a tall cylindrical bottle. Large muted TEAL BLUE GLASS panes (#466465, #81A291, #AFBAA2), with one broad pale cream diagonal reflection stripe running from lower left to upper right across the front pane. Glass stays visibly teal rather than orange or white. Brass peaked roof and feet, compact readable chunky clusters. Approximately 24 pixels wide and 28 pixels tall in a 32 pixel square; upper-left light, sparse highlights, warm woodland adventure equipment.",
+  "profile": "../../../woodland/style.json"
+}

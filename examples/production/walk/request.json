@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "frames": [
+    {"path": "frames/01.png", "duration_ms": 130},
+    {"path": "frames/02.png", "duration_ms": 110},
+    {"path": "frames/03.png", "duration_ms": 130},
+    {"path": "frames/04.png", "duration_ms": 110}
+  ],
+  "pivot_px_from_top_left": [24, 46],
+  "loop": true
+}

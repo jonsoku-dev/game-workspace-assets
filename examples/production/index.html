@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>숲길 에셋 검수</title>
+<style>
+  :root { color-scheme: light; color: #302d24; background: #f6f3e9; font: 16px/1.6 system-ui, sans-serif; }
+  body { max-width: 1080px; margin: 32px auto; padding: 0 18px; }
+  h1 { font-size: clamp(30px, 5vw, 52px); letter-spacing: -.07em; margin: 0; }
+  h2 { margin: 32px 0 12px; font-size: 23px; letter-spacing: -.04em; }
+  p { margin: 6px 0 12px; }
+  a { color: #35583d; text-underline-offset: 3px; }
+  .clips { display: grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap: 12px; }
+  figure { margin: 0; background: #eeeede; padding: 12px; }
+  figcaption { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  img { max-width: 100%; height: auto; image-rendering: pixelated; }
+  .clip { display: grid; place-items:center; min-height: 216px; }
+  .clip img { width: 192px; }
+  button { font: inherit; border: 1px solid #a2af96; color:#30462e; background:#f8f8ed; border-radius:4px; cursor:pointer; padding: 4px 8px; }
+  article { margin: 12px 0 24px; }
+</style>
+<main>
+  <h1>숲길 에셋 검수</h1>
+  <p>게임에 납품하는 PNG와 시트의 실제 재생 미리보기입니다. <a href="../forest-scene/">숲길에서 플레이</a></p>
+  <h2>동작과 효과</h2>
+  <div class="clips">
+    <figure><div class="clip"><img src="walk/result/preview.gif" alt="정찰병 걷기 네 포즈가 반복되는 미리보기"></div><figcaption><a href="walk/result/sheet.json">걷기 · 480ms 반복</a></figcaption></figure>
+    <figure><div class="clip"><img id="burst" src="effects/pickup/result/preview.gif" alt="아이템 수집 후 나타났다가 사라지는 반짝임"></div><figcaption><a href="effects/pickup/result/sheet.json">수집 · 600ms</a><button type="button" id="replay">다시 재생</button></figcaption></figure>
+    <figure><div class="clip"><img src="effects/flame/result/preview.gif" alt="작은 불꽃과 불씨가 반복되는 미리보기"></div><figcaption><a href="effects/flame/result/sheet.json">불꽃 · 960ms 반복</a></figcaption></figure>
+  </div>
+  <article><h2>정찰병 장비 변형</h2><p>같은 몸과 발선 위에 등불과 지팡이를 붙였습니다.</p><img src="gear/comparison.png" alt="정찰병 원본, 장비 레이어와 합성 결과"></article>
+  <article><h2>독립 제작 세트</h2><p>각 쌍의 왼쪽은 독립 생성 결과, 오른쪽은 기준 그림입니다. <a href="set/comparison-refinement-v2/contact-sheet.png">첫 결과와 수정 결과 비교</a></p><img src="set/comparison-best-v2/contact-sheet.png" alt="정찰병과 수정한 도토리·등불을 기준 에셋 옆에 놓은 1배와 4배 비교판"></article>
+  <article><h2>반복 지형</h2><p><a href="tiles/grass/repeat.png">잔디 3×3</a> · <a href="tiles/dirt-path/repeat.png">흙길 3×3</a></p><img src="tiles/mixed-assembly.png" alt="잔디 타일과 흙길 타일을 배치한 모습"></article>
+</main>
+<script>
+  let playback = 0;
+  document.querySelector('#replay').addEventListener('click', () => {
+    document.querySelector('#burst').src = 'effects/pickup/result/preview.gif?play=' + (++playback);
+  });
+</script>
+</html>

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-11-08T04:58:27.768572+00:00",
+  "baseline_evidence": "evidence-v1.json",
+  "baseline_comparison": "comparison-v1/contact-sheet.png",
+  "refinement_comparison": "comparison-refinement-v2/contact-sheet.png",
+  "selected_comparison": "comparison-best-v2/contact-sheet.png",
+  "generation": {
+    "simulated": false,
+    "new_independent_runs": [
+      {
+        "asset": "acorn",
+        "command": ".venv/bin/pixel-asset build --request examples/production/set/requests/acorn-v2.json --out examples/production/set/acorn-v2 --codex",
+        "exit_code": 0,
+        "status": "ready"
+      },
+      {
+        "asset": "lantern",
+        "command": ".venv/bin/pixel-asset build --request examples/production/set/requests/lantern-v2.json --out examples/production/set/lantern-v2 --codex",
+        "exit_code": 0,
+        "status": "ready"
+      }
+    ],
+    "inputs": "Public text-only briefs with woodland profile approved colors, plus the CLI automatic geometric layout guide. No private or canonical exemplar image attached; no --style-reference. No API keys or alternate services.",
+    "distinct_source_count_in_selected_comparison": 3
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/pixel-asset compare --request examples/production/set/compare-refinement-v2.json --out examples/production/set/comparison-refinement-v2",
+      "exit_code": 0,
+      "status": "ready"
+    },
+    {
+      "command": ".venv/bin/pixel-asset compare --request examples/production/set/compare-best-v2.json --out examples/production/set/comparison-best-v2",
+      "exit_code": 0,
+      "status": "ready"
+    }
+  ],
+  "validation": {
+    "full_suite": {
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "passed": true,
+      "tests": 57
+    },
+    "foreign_working_directory_cli": {
+      "cwd": "/var/folders/kn/41nhgj9s4rggk2z8pq2qt3bc0000gn/T/tmpxcm7bh8h",
+      "request": "compare-best-v2.json",
+      "exit_code": 0
+    },
+    "historical_v1_bundle_hashes_preserved": true
+  },
+  "source_deduplication": {
+    "path": "scout-styled-v1",
+    "type": "relative-directory-symlink",
+    "target": "../../codex-scout-styled",
+    "reason": "Preserve every historical v1 pointer and hash while removing copied scout bytes; selected v2 request references original bundle directly."
+  },
+  "visual_review": {
+    "performed": true,
+    "business_approval": "pending",
+    "style_consistency_approval": "pending",
+    "selection": [
+      {
+        "subject": "acorn",
+        "selected_bundle": "acorn-v2",
+        "improved": true,
+        "observed": "Moss-green cap and small green leaf now visible; closer to canonical woodland colors than v1 brown cap.",
+        "remaining_difference": "Cap is flatter and nut narrower/more pointed than canonical exemplar; leaf differs in silhouette."
+      },
+      {
+        "subject": "lantern",
+        "selected_bundle": "lantern-v2",
+        "improved": true,
+        "observed": "Muted teal pane with broad diagonal pale reflection and squared brass frame now visible, replacing v1 orange glass and rounded lamp.",
+        "remaining_difference": "Frame is wider and squatter, hanging loop smaller and paler, contour lighter than canonical exemplar."
+      },
+      {
+        "subject": "scout",
+        "selected_bundle": "../../codex-scout-styled",
+        "improved": null,
+        "observed": "Existing independently generated styled scout retained without regeneration.",
+        "remaining_difference": "Proportions and contour differ from canonical atlas exemplar."
+      }
+    ],
+    "artifacts_inspected": [
+      "comparison-refinement-v2/contact-sheet.png",
+      "comparison-best-v2/contact-sheet.png"
+    ],
+    "engine_integration": "not-tested"
+  }
+}

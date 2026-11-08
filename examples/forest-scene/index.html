@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>이끼숲 순찰길 · 픽셀 게임 씬</title>
+  <link rel="icon" href="../woodland/sprites/acorn.png">
+  <link rel="stylesheet" href="scene.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="heading">
+      <div><h1>이끼숲 순찰길</h1>
+      <p>정찰병을 움직여 숲길에 놓인 세 가지 물건을 모으세요.</p></div>
+      <button type="button" id="reset"><span aria-hidden="true">↺</span> 다시 시작</button>
+    </header>
+
+    <div class="board">
+      <section class="field" aria-label="숲길 게임">
+        <div id="scene-shell">
+          <canvas id="scene" width="352" height="176" tabindex="0" aria-label="숲길. 좌우 방향키 또는 A, D로 움직이고 아이템에 가까이 가면 자동으로 줍습니다.">숲길 게임을 실행하려면 Canvas를 지원하는 브라우저가 필요합니다.</canvas>
+        </div>
+        <div class="toolbar">
+          <div class="controls" aria-label="정찰병 이동">
+            <button type="button" data-direction="left" aria-label="왼쪽으로 이동">←</button>
+            <button type="button" data-direction="right" aria-label="오른쪽으로 이동">→</button>
+            <span>길게 눌러 이동</span>
+          </div>
+          <label class="zoom">화면 배율
+            <select id="zoom" aria-label="화면 배율"><option value="fit">맞춤</option><option value="1">원본 1×</option></select>
+          </label>
+        </div>
+      </section>
+
+      <aside aria-label="수집 기록과 픽셀 검사">
+        <section class="inventory">
+          <div class="inventory-title"><h2><img src="../woodland/sprites/field-pack.png" alt="">수집 가방</h2>
+            <strong id="count" aria-label="수집 개수">0 / 3</strong></div>
+          <ul class="items">
+            <li data-loot="acorn" data-collected="false"><img src="../woodland/sprites/acorn.png" alt=""><span>도토리</span><small></small></li>
+            <li data-loot="feather" data-collected="false"><img src="../woodland/sprites/feather.png" alt=""><span>황금 깃털</span><small></small></li>
+            <li data-loot="compass" data-collected="false"><img src="../woodland/sprites/compass.png" alt=""><span>황동 나침반</span><small></small></li>
+          </ul>
+          <p id="status" role="status" aria-live="polite">숲길을 준비하는 중입니다.</p>
+        </section>
+        <label class="inspect-toggle"><span>발 위치 검사</span><input id="inspect" type="checkbox"><i aria-hidden="true"></i></label>
+      </aside>
+    </div>
+
+    <section id="inspection" hidden aria-labelledby="inspect-title">
+      <div class="detail-frame"><canvas id="detail" width="240" height="240" aria-label="정찰병 원본 픽셀과 발 피벗을 확대한 검사 화면"></canvas></div>
+      <div class="readout">
+        <h2 id="inspect-title">발 기준점</h2>
+        <p>격자 한 칸은 원본 1픽셀입니다. 십자선은 캐릭터를 바닥에 놓는 기준점입니다.</p>
+        <dl>
+          <div><dt>스프라이트</dt><dd id="native-size">—</dd></div>
+          <div><dt>원본 피벗</dt><dd id="pivot">—</dd></div>
+          <div><dt>씬의 발 위치</dt><dd id="position">—</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+  <script>
+    const scene = document.querySelector('#scene');
+    const shell = document.querySelector('#scene-shell');
+    const zoom = document.querySelector('#zoom');
+    const fitOption = zoom.options[0];
+    function setZoom() {
+      const fit = Math.max(1, Math.min(3, Math.floor(shell.clientWidth / scene.width)));
+      fitOption.textContent = '맞춤 ' + fit + '×';
+      const scale = zoom.value === 'fit' ? fit : 1;
+      scene.style.width = (scene.width * scale) + 'px';
+      scene.style.height = (scene.height * scale) + 'px';
+    }
+    new ResizeObserver(setZoom).observe(shell);
+    zoom.addEventListener('change', setZoom);
+    const inspect = document.querySelector('#inspect');
+    function showInspector() { document.querySelector('#inspection').hidden = !inspect.checked; }
+    inspect.addEventListener('change', showInspector);
+    showInspector();
+  </script>
+</body>
+</html>

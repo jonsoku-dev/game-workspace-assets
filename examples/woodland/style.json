@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "palette": [
+    "#271625",
+    "#453235",
+    "#6C3A30",
+    "#8B422E",
+    "#AA5233",
+    "#CA7A39",
+    "#AC7242",
+    "#DE9A44",
+    "#EABD7E",
+    "#FADDAE",
+    "#F8C277",
+    "#E89D5B",
+    "#464A30",
+    "#66733F",
+    "#93994D",
+    "#BBB072",
+    "#466465",
+    "#81A291",
+    "#AFBAA2",
+    "#353442",
+    "#4D525E",
+    "#635E76",
+    "#87808B",
+    "#BC945A"
+  ],
+  "style": "Warm woodland adventure pixel art; dark aubergine ink, forest and moss greens, cream parchment, ochre brass, rust leather, warm skin and muted teal-blue accents. Compact readable silhouettes, sparse highlights, no added outline.",
+  "view": "Front-facing three-quarter characters; isolated inventory objects, transparent background."
+}

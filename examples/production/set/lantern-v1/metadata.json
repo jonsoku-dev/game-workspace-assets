@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "request": {
+    "kind": "item",
+    "prompt": "A small woodland brass hand lantern with a curved handle, warm cream glass, rust brown base and sparse ochre highlights, isolated inventory equipment, three-quarter view, compact readable silhouette.",
+    "size": 32,
+    "limit": 24,
+    "palette": [
+      "#271625",
+      "#453235",
+      "#6c3a30",
+      "#8b422e",
+      "#aa5233",
+      "#ca7a39",
+      "#ac7242",
+      "#de9a44",
+      "#eabd7e",
+      "#faddae",
+      "#f8c277",
+      "#e89d5b",
+      "#464a30",
+      "#66733f",
+      "#93994d",
+      "#bbb072",
+      "#466465",
+      "#81a291",
+      "#afbaa2",
+      "#353442",
+      "#4d525e",
+      "#635e76",
+      "#87808b",
+      "#bc945a"
+    ],
+    "style": "Warm woodland adventure pixel art; dark aubergine ink, forest and moss greens, cream parchment, ochre brass, rust leather, warm skin and muted teal-blue accents. Compact readable silhouettes, sparse highlights, no added outline.",
+    "view": "Front-facing three-quarter characters; isolated inventory objects, transparent background.",
+    "outline": null
+  },
+  "origin": "codex-imagegen",
+  "generation_prompt": "One standalone item sprite: A small woodland brass hand lantern with a curved handle, warm cream glass, rust brown base and sparse ochre highlights, isolated inventory equipment, three-quarter view, compact readable silhouette.\nSTYLE: Warm woodland adventure pixel art; dark aubergine ink, forest and moss greens, cream parchment, ochre brass, rust leather, warm skin and muted teal-blue accents. Compact readable silhouettes, sparse highlights, no added outline.\nVIEW: Front-facing three-quarter characters; isolated inventory objects, transparent background.\nOUTLINE: clean selective dark contour, readable at 32px. Use at most 24 colors from #271625 #453235 #6c3a30 #8b422e #aa5233 #ca7a39 #ac7242 #de9a44 #eabd7e #faddae #f8c277 #e89d5b #464a30 #66733f #93994d #bbb072 #466465 #81a291 #afbaa2 #353442 #4d525e #635e76 #87808b #bc945a.\nBACKGROUND: actual transparency. Keep the whole subject inside the box; the attached layout is a placement guide only. Omit the box and baseline from the artwork. No letters, logos, red cross symbols, dithering, particles, or ground shadow.",
+  "style_reference_used": false,
+  "import": {
+    "filter": "nearest",
+    "pivot_px_from_top_left": [
+      16.0,
+      16.0
+    ]
+  },
+  "visual_review": "pending"
+}

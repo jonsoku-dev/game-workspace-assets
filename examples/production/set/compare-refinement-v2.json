@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "name": "Woodland targeted refinement: v1 then v2",
+  "assets": [
+    {
+      "id": "acorn-v1",
+      "label": "acorn v1: generated / local atlas exemplar",
+      "bundle": "acorn-v1",
+      "reference": {
+        "path": "../../woodland/sprites/acorn.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "acorn-v2",
+      "label": "acorn v2: generated / local atlas exemplar",
+      "bundle": "acorn-v2",
+      "reference": {
+        "path": "../../woodland/sprites/acorn.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "lantern-v1",
+      "label": "lantern v1: generated / local atlas exemplar",
+      "bundle": "lantern-v1",
+      "reference": {
+        "path": "../../woodland/sprites/lantern.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "lantern-v2",
+      "label": "lantern v2: generated / local atlas exemplar",
+      "bundle": "lantern-v2",
+      "reference": {
+        "path": "../../woodland/sprites/lantern.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    }
+  ]
+}

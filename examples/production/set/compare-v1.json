@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "name": "Woodland independent build comparison",
+  "assets": [
+    {
+      "id": "scout",
+      "label": "scout - independent Codex build / same-atlas exemplar",
+      "bundle": "scout-styled-v1",
+      "reference": {
+        "path": "../../woodland/sprites/scout.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "acorn",
+      "label": "acorn - independent Codex build / same-atlas exemplar",
+      "bundle": "acorn-v1",
+      "reference": {
+        "path": "../../woodland/sprites/acorn.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "lantern",
+      "label": "lantern - independent Codex build / same-atlas exemplar",
+      "bundle": "lantern-v1",
+      "reference": {
+        "path": "../../woodland/sprites/lantern.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    }
+  ]
+}

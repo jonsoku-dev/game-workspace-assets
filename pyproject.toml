@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pixel-asset-pipeline"
+version = "0.2.0"
+description = "Produce pixel-art sprites, variants, sheets, terrain tiles and visual effects."
+requires-python = ">=3.10"
+dependencies = ["Pillow>=10,<13"]
+
+[project.scripts]
+pixel-asset = "pixel_asset_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

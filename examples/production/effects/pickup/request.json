@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "preset": "pickup",
+  "size": 32,
+  "palette": [
+    "#64754b",
+    "#e5ad57",
+    "#fff1d0"
+  ],
+  "seed": 17
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "name": "Woodland selected builds after targeted refinement",
+  "assets": [
+    {
+      "id": "scout",
+      "label": "scout: selected independent build / local atlas exemplar",
+      "bundle": "../../codex-scout-styled",
+      "reference": {
+        "path": "../../woodland/sprites/scout.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "acorn",
+      "label": "acorn: selected independent build / local atlas exemplar",
+      "bundle": "acorn-v2",
+      "reference": {
+        "path": "../../woodland/sprites/acorn.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    },
+    {
+      "id": "lantern",
+      "label": "lantern: selected independent build / local atlas exemplar",
+      "bundle": "lantern-v2",
+      "reference": {
+        "path": "../../woodland/sprites/lantern.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png"
+      }
+    }
+  ]
+}

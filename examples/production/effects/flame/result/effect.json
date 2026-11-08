@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "producer": "local-procedural",
+  "preset": "flame",
+  "size": 32,
+  "seed": 17,
+  "frame_count": 12,
+  "duration_ms": 960,
+  "loop": true,
+  "palette": [
+    "#c36643",
+    "#e5ad57",
+    "#fff1d0"
+  ],
+  "frame_checks": [
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    },
+    {
+      "rgba": true,
+      "binary_alpha": true,
+      "palette": true,
+      "blank": false
+    }
+  ],
+  "terminal_blank": false,
+  "review": "Original procedural art; visual and engine acceptance are separate from format checks.",
+  "passed": true
+}

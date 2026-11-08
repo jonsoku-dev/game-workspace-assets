@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "base": "../../codex-scout-styled/asset.png",
+  "base_metadata": "../../codex-scout-styled/metadata.json",
+  "equipment": "sources/lantern.png",
+  "anchor": [
+    36,
+    31
+  ],
+  "offset": [
+    -3,
+    -3
+  ],
+  "allowed_region": [
+    35,
+    28,
+    46,
+    44
+  ],
+  "allowed_occlusion": [
+    [
+      35,
+      29,
+      38,
+      34
+    ]
+  ]
+}

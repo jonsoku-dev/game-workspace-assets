@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "kind": "icon",
+  "size": 24,
+  "prompt": "A compact woodland inventory acorn, tilted slightly clockwise. The upper third is a broad MOSS GREEN cap (#66733F base, #93994D highlight, #464A30 shadow) with a small moss green leaf at its upper right and a short dark brown stem. The lower two thirds are one ochre nut (#CA7A39, #DE9A44, #EABD7E) tapering to a rounded point. Thick selective dark aubergine contour #271625, sparse large pixel clusters, one cream highlight. Keep the cap unmistakably green rather than brown. Approximately 18 pixels wide and 21 pixels tall within a 24 pixel square; isolated front three-quarter game inventory icon. No realistic rib texture or tiny scattered highlights.",
+  "profile": "../../../woodland/style.json"
+}

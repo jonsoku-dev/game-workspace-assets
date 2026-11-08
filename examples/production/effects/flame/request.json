@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "preset": "flame",
+  "size": 32,
+  "palette": [
+    "#c36643",
+    "#e5ad57",
+    "#fff1d0"
+  ],
+  "seed": 17
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-11-08T04:55:32.391083+00:00",
+  "native_generation": {
+    "simulated": false,
+    "new_runs": [
+      {
+        "asset": "acorn",
+        "command": ".venv/bin/pixel-asset build --request examples/production/set/requests/acorn-v1.json --out examples/production/set/acorn-v1 --codex",
+        "exit_code": 0,
+        "status": "ready",
+        "explicit_style_image_attachment": false
+      },
+      {
+        "asset": "lantern",
+        "command": ".venv/bin/pixel-asset build --request examples/production/set/requests/lantern-v1.json --out examples/production/set/lantern-v1 --codex",
+        "exit_code": 0,
+        "status": "ready",
+        "explicit_style_image_attachment": false
+      }
+    ],
+    "retained_existing_bundle": "scout-styled-v1",
+    "transmitted_inputs": "text brief, approved woodland style colors and pipeline-generated geometric layout only; no woodland exemplar images sent by these new runs"
+  },
+  "comparison_cli": {
+    "command": ".venv/bin/pixel-asset compare --request examples/production/set/compare-v1.json --out examples/production/set/comparison-v1",
+    "exit_code": 0,
+    "status": "ready"
+  },
+  "foreign_working_directory": {
+    "cwd": "/var/folders/kn/41nhgj9s4rggk2z8pq2qt3bc0000gn/T/tmpvj9x9fhd",
+    "command": [
+      "/Users/jongseoklee/Documents/ChatGPT/pixel-art/.venv/bin/pixel-asset",
+      "compare",
+      "--request",
+      "/Users/jongseoklee/Documents/ChatGPT/pixel-art/examples/production/set/compare-v1.json",
+      "--out",
+      "/var/folders/kn/41nhgj9s4rggk2z8pq2qt3bc0000gn/T/tmpvj9x9fhd/comparison"
+    ],
+    "exit_code": 0,
+    "stdout": {
+      "schema_version": 1,
+      "status": "ready",
+      "files": {
+        "contact_sheet": "contact-sheet.png",
+        "manifest": "manifest.json"
+      }
+    },
+    "stderr": ""
+  },
+  "validation": {
+    "command": ".venv/bin/python -m unittest discover -s tests -v",
+    "tests": 55,
+    "passed": true,
+    "focused_comparison_tests": 5
+  },
+  "visual_review": {
+    "status": "compared-not-approved",
+    "artifact": "comparison-v1/contact-sheet.png",
+    "observations": [
+      "Native 1x and nearest 4x sprite/reference pairs are visible, centers or foot pivots aligned without rescaling silhouettes.",
+      "Scout retains a woodland hood, quiver and boots but proportions differ from the local atlas exemplar.",
+      "Acorn is readable; generated brown cap differs from the green canonical exemplar cap.",
+      "Lantern is readable; generated handle, glass and silhouette differ from the canonical exemplar."
+    ],
+    "style_consistency_approval": "pending",
+    "engine_integration": "not-tested"
+  }
+}

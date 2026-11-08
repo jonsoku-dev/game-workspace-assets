@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "checks": {
+    "exact_square_size": true,
+    "fully_opaque": true,
+    "palette": true,
+    "color_limit": true,
+    "seam_heuristic": true
+  },
+  "metrics": {
+    "color_count": 5,
+    "seams": {
+      "x": {
+        "seam_mean_channel_jump": 2.8125,
+        "interior_mean_channel_jump": 1.6686827956989247,
+        "threshold": 8.0,
+        "passed": true
+      },
+      "y": {
+        "seam_mean_channel_jump": 0.0,
+        "interior_mean_channel_jump": 4.123655913978495,
+        "threshold": 8.24731182795699,
+        "passed": true
+      }
+    }
+  },
+  "edge_assessment": "contrast heuristic only; repeated motifs and perceptual seams require visual review",
+  "visual_review": "pending",
+  "engine_integration": "not_checked"
+}

@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "name": "Woodland targeted refinement: v1 then v2",
+  "request_sha256": "9ac0f99912da763aff20f734f4c9bdc2875ebd434d571dc7cfdb82bcd2bc41a2",
+  "scales": [
+    1,
+    4
+  ],
+  "filter": "nearest",
+  "visual_review": "pending",
+  "assets": [
+    {
+      "id": "acorn-v1",
+      "label": "acorn v1: generated / local atlas exemplar",
+      "bundle": "acorn-v1",
+      "declared_origin": "codex-imagegen",
+      "style_reference_used": false,
+      "sha256": {
+        "sprite": "bd16d75f74da13b2a102eb8b16945c444ff144a9d733c50e7fc9dacae4be0316",
+        "source": "c52bd854e4d3e992edf795a09d3a1cb46b62673b9fca204d0ead3f86e57d78d3",
+        "metadata": "1bc4e65071c8bb7e965f98c406b7aafbeb8e67b576efa1ca8a4f3ea8c394490b",
+        "validation": "1f7f9104cfc2c3e87dd24f1ac79b4bf77fae2befae62d9dce88833c33bda12d9"
+      },
+      "pivot_px_from_top_left": [
+        12.0,
+        12.0
+      ],
+      "size": 24,
+      "validation": {
+        "passed": true,
+        "checks": {
+          "size": true,
+          "rgba": true,
+          "binary_alpha": true,
+          "nonempty": true,
+          "transparency": true,
+          "palette": true,
+          "color_limit": true,
+          "isolated_ratio": true,
+          "clear_edges": true,
+          "baseline": true
+        },
+        "metrics": {
+          "width": 24,
+          "height": 24,
+          "mode": "RGBA",
+          "foreground_pixels": 227,
+          "transparent_pixels": 349,
+          "semi_alpha_pixels": 0,
+          "color_count": 10,
+          "colors_outside_palette": 0,
+          "isolated_pixels": 0,
+          "isolated_ratio": 0.0,
+          "edge_pixels": 0,
+          "visible_bounds": [
+            4,
+            1,
+            20,
+            23
+          ],
+          "color_limit": 12,
+          "kind": "icon"
+        }
+      },
+      "visual_review": "pending",
+      "reference": {
+        "path": "../../woodland/sprites/acorn.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png",
+        "sha256": "f2d05f5e06bc3403b3f5c6f29738753b66abcde67aa40a9b64122417acc973dd",
+        "role": "local-comparison-only"
+      }
+    },
+    {
+      "id": "acorn-v2",
+      "label": "acorn v2: generated / local atlas exemplar",
+      "bundle": "acorn-v2",
+      "declared_origin": "codex-imagegen",
+      "style_reference_used": false,
+      "sha256": {
+        "sprite": "38f23d505bd60186163fbf41cc313e947d6ccecb9f9eded46fc4e13095fa35cc",
+        "source": "0ea2a05b42510564143229cbc0f78640d93076b00f191d13ec85a559a0066ac1",
+        "metadata": "62c8b85b8eed32438a93b26214b208bd3dae4d2a5c322c098ee6796b4ee9ce85",
+        "validation": "7084dd91a893bf3d8551c4d669601e6babc7a755a277f2a2057f3daae5ff0aa7"
+      },
+      "pivot_px_from_top_left": [
+        12.0,
+        12.0
+      ],
+      "size": 24,
+      "validation": {
+        "passed": true,
+        "checks": {
+          "size": true,
+          "rgba": true,
+          "binary_alpha": true,
+          "nonempty": true,
+          "transparency": true,
+          "palette": true,
+          "color_limit": true,
+          "isolated_ratio": true,
+          "clear_edges": true,
+          "baseline": true
+        },
+        "metrics": {
+          "width": 24,
+          "height": 24,
+          "mode": "RGBA",
+          "foreground_pixels": 243,
+          "transparent_pixels": 333,
+          "semi_alpha_pixels": 0,
+          "color_count": 11,
+          "colors_outside_palette": 0,
+          "isolated_pixels": 0,
+          "isolated_ratio": 0.0,
+          "edge_pixels": 0,
+          "visible_bounds": [
+            3,
+            1,
+            21,
+            23
+          ],
+          "color_limit": 12,
+          "kind": "icon"
+        }
+      },
+      "visual_review": "pending",
+      "reference": {
+        "path": "../../woodland/sprites/acorn.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png",
+        "sha256": "f2d05f5e06bc3403b3f5c6f29738753b66abcde67aa40a9b64122417acc973dd",
+        "role": "local-comparison-only"
+      }
+    },
+    {
+      "id": "lantern-v1",
+      "label": "lantern v1: generated / local atlas exemplar",
+      "bundle": "lantern-v1",
+      "declared_origin": "codex-imagegen",
+      "style_reference_used": false,
+      "sha256": {
+        "sprite": "c7896873df24d2bd986dd7c6c49767f0b712c2eb44dcbfe82a03ad509253fb44",
+        "source": "a031d8bd9a2147211a95bb615799f4a0068ffced092537f4728cf886d1e43a68",
+        "metadata": "4579dfcffeee6172021261f6da48051d6b171ea91e77c9f3c34aa00de6ee6ea7",
+        "validation": "5c3d0781f6ae50e771e648b5a33125f8350d749edd8dcbe2314e01f0cccc968b"
+      },
+      "pivot_px_from_top_left": [
+        16.0,
+        16.0
+      ],
+      "size": 32,
+      "validation": {
+        "passed": true,
+        "checks": {
+          "size": true,
+          "rgba": true,
+          "binary_alpha": true,
+          "nonempty": true,
+          "transparency": true,
+          "palette": true,
+          "color_limit": true,
+          "isolated_ratio": true,
+          "clear_edges": true,
+          "baseline": true
+        },
+        "metrics": {
+          "width": 32,
+          "height": 32,
+          "mode": "RGBA",
+          "foreground_pixels": 336,
+          "transparent_pixels": 688,
+          "semi_alpha_pixels": 0,
+          "color_count": 11,
+          "colors_outside_palette": 0,
+          "isolated_pixels": 0,
+          "isolated_ratio": 0.0,
+          "edge_pixels": 0,
+          "visible_bounds": [
+            7,
+            1,
+            24,
+            31
+          ],
+          "color_limit": 24,
+          "kind": "item"
+        }
+      },
+      "visual_review": "pending",
+      "reference": {
+        "path": "../../woodland/sprites/lantern.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png",
+        "sha256": "0062e0d61beb0604b2a6162bcd820961aa5f76bdf0e29d76d2a668adc9428d01",
+        "role": "local-comparison-only"
+      }
+    },
+    {
+      "id": "lantern-v2",
+      "label": "lantern v2: generated / local atlas exemplar",
+      "bundle": "lantern-v2",
+      "declared_origin": "codex-imagegen",
+      "style_reference_used": false,
+      "sha256": {
+        "sprite": "c3dce39084e6a7bf5249b05c149a53a50691b1085a2dc2c2996efef2a4fbce22",
+        "source": "e1a996ccb64cfc97facaddf65bd5de00d8b8ff1c6ef35de0752526eaeeca7ae7",
+        "metadata": "aa017167c8c47d4956bedaaf17076be8dc696f3af304046cbbdf4a4b57e63c6a",
+        "validation": "dcdd729e02da3d470b0431bcbe4199d7f57f77dd872554a86c4efc90b1d46032"
+      },
+      "pivot_px_from_top_left": [
+        16.0,
+        16.0
+      ],
+      "size": 32,
+      "validation": {
+        "passed": true,
+        "checks": {
+          "size": true,
+          "rgba": true,
+          "binary_alpha": true,
+          "nonempty": true,
+          "transparency": true,
+          "palette": true,
+          "color_limit": true,
+          "isolated_ratio": true,
+          "clear_edges": true,
+          "baseline": true
+        },
+        "metrics": {
+          "width": 32,
+          "height": 32,
+          "mode": "RGBA",
+          "foreground_pixels": 465,
+          "transparent_pixels": 559,
+          "semi_alpha_pixels": 0,
+          "color_count": 16,
+          "colors_outside_palette": 0,
+          "isolated_pixels": 0,
+          "isolated_ratio": 0.0,
+          "edge_pixels": 0,
+          "visible_bounds": [
+            4,
+            1,
+            28,
+            31
+          ],
+          "color_limit": 24,
+          "kind": "item"
+        }
+      },
+      "visual_review": "pending",
+      "reference": {
+        "path": "../../woodland/sprites/lantern.png",
+        "provenance": "same-atlas-exemplar: examples/woodland/atlas.png",
+        "sha256": "0062e0d61beb0604b2a6162bcd820961aa5f76bdf0e29d76d2a668adc9428d01",
+        "role": "local-comparison-only"
+      }
+    }
+  ],
+  "distinct_source_count": 4,
+  "generation_executed": false,
+  "reference_policy": "local exemplars; same-atlas references do not demonstrate independent generation"
+}

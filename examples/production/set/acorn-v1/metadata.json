@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "request": {
+    "kind": "icon",
+    "prompt": "One large ripe acorn with a warm brown ridged cap and short curved stem, a single ochre nut, isolated inventory icon, three-quarter view, bold readable compact silhouette.",
+    "size": 24,
+    "limit": 12,
+    "palette": [
+      "#271625",
+      "#453235",
+      "#6c3a30",
+      "#8b422e",
+      "#aa5233",
+      "#ca7a39",
+      "#ac7242",
+      "#de9a44",
+      "#eabd7e",
+      "#faddae",
+      "#f8c277",
+      "#e89d5b",
+      "#464a30",
+      "#66733f",
+      "#93994d",
+      "#bbb072",
+      "#466465",
+      "#81a291",
+      "#afbaa2",
+      "#353442",
+      "#4d525e",
+      "#635e76",
+      "#87808b",
+      "#bc945a"
+    ],
+    "style": "Warm woodland adventure pixel art; dark aubergine ink, forest and moss greens, cream parchment, ochre brass, rust leather, warm skin and muted teal-blue accents. Compact readable silhouettes, sparse highlights, no added outline.",
+    "view": "Front-facing three-quarter characters; isolated inventory objects, transparent background.",
+    "outline": null
+  },
+  "origin": "codex-imagegen",
+  "generation_prompt": "One standalone icon sprite: One large ripe acorn with a warm brown ridged cap and short curved stem, a single ochre nut, isolated inventory icon, three-quarter view, bold readable compact silhouette.\nSTYLE: Warm woodland adventure pixel art; dark aubergine ink, forest and moss greens, cream parchment, ochre brass, rust leather, warm skin and muted teal-blue accents. Compact readable silhouettes, sparse highlights, no added outline.\nVIEW: Front-facing three-quarter characters; isolated inventory objects, transparent background.\nOUTLINE: clean selective dark contour, readable at 24px. Use at most 12 colors from #271625 #453235 #6c3a30 #8b422e #aa5233 #ca7a39 #ac7242 #de9a44 #eabd7e #faddae #f8c277 #e89d5b #464a30 #66733f #93994d #bbb072 #466465 #81a291 #afbaa2 #353442 #4d525e #635e76 #87808b #bc945a.\nBACKGROUND: actual transparency. Keep the whole subject inside the box; the attached layout is a placement guide only. Omit the box and baseline from the artwork. No letters, logos, red cross symbols, dithering, particles, or ground shadow.",
+  "style_reference_used": false,
+  "import": {
+    "filter": "nearest",
+    "pivot_px_from_top_left": [
+      12.0,
+      12.0
+    ]
+  },
+  "visual_review": "pending"
+}
