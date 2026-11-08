@@ -149,3 +149,7 @@ PIXEL_ASSET_CLI="$PWD/.venv/bin/pixel-asset" node examples/mock-game-plugin/impo
 ## 0.5.0 원본 PNG와 GIF 재편집
 
 `pixel-asset snap`으로 확대 PNG를 지정 격자에 샘플링해 새 마스터를 만든다. 정면에서 두 팔과 다리가 따로 보이면 `rig-draft`가 마스크와 관절의 초안을 제안한다. 관절을 지정한 원화는 `motion`으로 리그와 동작별 접촉·잘림 검수 그림을 함께 만든다. `effect-clip`은 로컬 GIF의 프레임을 복원하고 배경·크기를 조정해 모으기, 비행, 충돌 세 구간으로 재편집한다. 출력 시트를 캐릭터의 `action-set`에 전달할 수 있다. [실행 가능한 제작 계약](.agents/skills/pixel-asset-pipeline/references/production.md)
+
+## 0.6.0 Rive 캐릭터 내보내기
+
+`pixel-asset rive`는 투명 PNG 포즈와 프레임별 밀리초를 받아 이미지·이름 있는 애니메이션·숫자 입력으로 선택하는 상태 머신을 하나의 `.riv`에 넣는다. 한 캐릭터의 부위 연결이 중요하면 `motion`에서 `single_body:true`를 쓰고 동작 중 새로 분리된 실루엣을 확인한다. 인사·환호처럼 추가로 그려야 할 동작은 `extra_actions`의 관절 변환으로 표현한다. 프레임 픽셀은 Rive 파일에 내장되며 런타임에서 개별 본을 다시 조작하는 라이브 퍼펫은 별도 제작 범위다. [설치본 입력과 출력 계약](.agents/skills/pixel-asset-pipeline/references/production.md)

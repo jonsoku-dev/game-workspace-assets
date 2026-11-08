@@ -367,3 +367,27 @@ pixel-asset rig-draft --request rig.json --out joints
 ```
 
 정면에서 팔·몸·다리 사이의 투명한 틈이 보이는 단일 원화를 사용한다. 초안의 마스크·부모·관절을 그림과 맞춰 확인하고 승인 후 motion 요청에 사용한다. [입력 가이드와 지원 자세](rig-draft.md)
+
+## rive · 상태 머신으로 동작을 선택하는 캐릭터 파일
+
+```json
+{"schema_version":1,"size":[48,48],"actions":{"idle":{"loop":true,"frames":[{"path":"idle-1.png","duration_ms":160}]},"wave":{"loop":true,"frames":[{"path":"walk-1.png","duration_ms":120},{"path":"walk-2.png","duration_ms":120}]}}}
+```
+
+```sh
+pixel-asset rive --request rive-poses.json --out rive-out
+```
+
+예시의 두 번째 동작에는 명령 검사용 기존 두 프레임을 넣었다. 실제 캐릭터는 원하는 동작의 원본 포즈를 지정한다. 한 장짜리 캐릭터 원화에서는 먼저 아래 순서로 준비한다. `motion` 출력의 `action-set.request.json`도 그대로 사용할 수 있다. 하나의 캐릭터를 같은 크기의 투명 PNG에 배치한다. 손·발·효과를 따로 움직이는 라이브 본은 내보내지 않는다.
+
+`character.riv` 하나에 이미지와 모든 타임라인을 포함한다. 아트보드는 `Character`, 상태 머신은 `Character Actions`, Number 입력은 `action`이다. 입력값은 JSON에서 선언한 동작 순서대로 0부터 붙는다. `rive.json`에 각 값·동작명·길이·원본 프레임 지문을 기록한다. `loop:false`는 선택을 바꿀 때까지 마지막 포즈를 유지한다. `rive.Rive`로 파일을 열고 `stateMachineInputs("Character Actions")`에서 `action`의 값을 바꿔 실제 캔버스에서 확인한다.
+
+
+캐릭터 몸이 연결되어야 할 때는 `motion` 입력에서 `single_body:true`를 지정한다. 별도 동작은 `extra_actions`에 `{"wave":{"loop":true,"frames":[…]}}` 형태로 넣는다. `frames`는 기존과 같은 관절별 회전·이동·재생 길이 배열이다. `motion`은 기존 여섯 동작을 위한 `action-set.request.json`도 계속 생성한다. 추가 동작까지 포함한 `rive-poses.json`과 기술 검사 결과를 확인한 뒤 다음과 같이 파일을 내보낸다.
+
+```sh
+pixel-asset motion --request art/motion.request.json --out builds/motion
+pixel-asset rive --request builds/motion/rive-poses.json --out builds/rive
+```
+
+중립에서는 붙은 팔이 회전 중 떨어지면 해당 프레임의 `inspection.json`에서 분리된 픽셀의 면적과 위치를 본다. 필요하면 부위의 `joint_underlap`에 연결할 부모·자식 좌표 `parent_px`, `child_px`, 연결 폭의 반경 `radius_px`, 원화의 색 샘플 좌표 `source_px`와 선택 사항인 가장자리 색 `edge_px`를 둔다. 원화의 투명 영역과 팔레트를 유지하면서 소매와 관절이 겹치도록 조정하는 방식이다. 걷기와 달리기는 지지발과 들어 올린 발이 서로 뒤바뀌는지, 인사와 환호는 팔꿈치·어깨가 이어지는지 실제 재생 크기에서 검토한다.

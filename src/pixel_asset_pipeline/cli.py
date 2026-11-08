@@ -8,12 +8,13 @@ import sys
 
 from PIL import Image, ImageDraw
 
-from . import action_set, asset_set, effect_clip, effects, motion, provider, raster, rig_draft, sheet, snap, tile, variant
+from . import action_set, asset_set, effect_clip, effects, motion, provider, raster, rig_draft, rive, sheet, snap, tile, variant
 from .bundle import open_png, publish, write_json
 from .spec import Request, rgb
 
 
 LOCAL_PRODUCERS = {
+    "rive": (rive.produce, "export pose animations to a self-contained Rive file with a selectable state machine"),
     "rig-draft": (rig_draft.produce, "propose an editable rig for a separated front-facing figure"),
     "snap": (snap.produce, "sample a guided pixel grid and prepare a palette-limited master"),
     "effect-clip": (effect_clip.produce, "reorder an existing GIF into charge, travel and impact phases"),

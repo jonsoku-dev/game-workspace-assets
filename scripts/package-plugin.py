@@ -28,6 +28,8 @@ def main():
         "src/pixel_asset_pipeline/motion.py",
         "src/pixel_asset_pipeline/snap.py",
         "src/pixel_asset_pipeline/rig_draft.py",
+        "src/pixel_asset_pipeline/rive.py",
+        "src/pixel_asset_pipeline/rive_binary.py",
         "src/pixel_asset_pipeline/effect_clip.py",
         "src/pixel_asset_pipeline/effects.py",
         "src/pixel_asset_pipeline/sheet.py",
