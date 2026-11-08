@@ -31,3 +31,9 @@
 3D 제작과 씬 통합을 위해 같은 원본 다섯 곳의 실제 파일, 로컬 Blender·Webstage·Frameforge 도구, 채택 여부와 라이선스를 [3D 레퍼런스 검토](model-references.md)에 기록한다.
 
 [Agent Sprite Forge와 pixelfx](sprite-forge.md)에는 정지 마스터, 여섯 동작, 로컬 미디어 후처리와 pixelfx 연동을 조사한 결과를 기록했다. 이 저장소의 `action-set`은 로컬 프레임과 로컬 효과 시트를 입력으로 받는다.
+
+## 프레임별 작화와 Rive
+
+Polymation의 픽셀 캐릭터 문서는 카메라 쪽으로 향하는 팔다리의 단축과 윤곽 재작화를 설명한다. 가려진 신체나 포즈 변화가 큰 경우에는 기존 프레임을 flipbook으로 보존하는 경로도 있다. v0.7.0의 `character`는 완성 셀을 직접 입력받아 선택·재생하는 로컬 경로를 지원한다. 이 제품의 리깅·작화 코드는 복사하지 않았다. [픽셀 캐릭터](https://polymation.stunning.gg/docs/pixel-characters) · [이미지 리그](https://polymation.stunning.gg/docs/rig-from-picture) · [공개 체험](https://polymation.stunning.gg/try/)
+
+플레이어에는 공식 `@rive-app/canvas` 2.49.4의 JS·WASM과 MIT 고지를 포함한다. 공급 패키지와 파일 지문은 설치 배포물에 보존한다. [런타임 소스](https://github.com/rive-app/rive-wasm) · [포함 파일의 출처와 SHA-256](../src/pixel_asset_pipeline/player/vendor/integrity.json)
