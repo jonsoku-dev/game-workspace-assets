@@ -1,0 +1,13 @@
+{
+  "name": "model-assets",
+  "version": "0.3.0",
+  "description": "Build Blender game props and spatial mesh effects, then verify the compiled GLB in Three.js.",
+  "skills": "./.agents/skills/",
+  "interface": {
+    "displayName": "Model Assets",
+    "shortDescription": "Build and verify local 3D game props",
+    "category": "Creativity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["게임용 등불을 만들고 Blender와 Three.js에서 확인해 줘."]
+  }
+}

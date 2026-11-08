@@ -1,0 +1,42 @@
+{
+  "assets": [
+    {
+      "id": "rescue-crate",
+      "producer": "model-assets",
+      "request": "crate.json"
+    }
+  ],
+  "brief": {
+    "controls": "Read-only model inspection.",
+    "goal": "Inspect the inset hardware, painted panels and emblem at game scale.",
+    "title": "Workshop Crate"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "units": "meters",
+    "up": "+Y"
+  },
+  "id": "workshop-props",
+  "nodes": [
+    {
+      "asset": "rescue-crate",
+      "id": "crate",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        15,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "schema_version": 1
+}

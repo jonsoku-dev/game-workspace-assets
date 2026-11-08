@@ -1,0 +1,434 @@
+{
+  "schema_version": 1,
+  "origin": "local-authored-poses",
+  "cell_size": [
+    64,
+    48
+  ],
+  "pivot_px_from_top_left": [
+    29,
+    40
+  ],
+  "actions": {
+    "idle": {
+      "loop": true,
+      "duration_ms": 680,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 180,
+          "source": {
+            "path": "poses/idle-00.png",
+            "sha256": "3e026413999f31be11e44839c22ff1c8bc7217baaf405954ac384a9f888131f6"
+          }
+        },
+        {
+          "rect": {
+            "x": 64,
+            "y": 0,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 160,
+          "source": {
+            "path": "poses/idle-01.png",
+            "sha256": "2fe256bc2044aa935bc9fc864172cc7b740a2957bfc188432553859fba759045"
+          }
+        },
+        {
+          "rect": {
+            "x": 128,
+            "y": 0,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 180,
+          "source": {
+            "path": "poses/idle-02.png",
+            "sha256": "6235b91b587711327d37d4a8ffb082d999aa64e17951865a9bf43aad42d4ce49"
+          }
+        },
+        {
+          "rect": {
+            "x": 192,
+            "y": 0,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 160,
+          "source": {
+            "path": "poses/idle-03.png",
+            "sha256": "2fe256bc2044aa935bc9fc864172cc7b740a2957bfc188432553859fba759045"
+          }
+        }
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "duration_ms": 660,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 48,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/walk-00.png",
+            "sha256": "590e8131aeea739f38f299c1b985437e8b01ea66738bdce3c4cb13170c1f374c"
+          }
+        },
+        {
+          "rect": {
+            "x": 64,
+            "y": 48,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/walk-01.png",
+            "sha256": "994eb3efca84777ee3dd874d2cbe3f92707460c71516bdd5d5898aec98509276"
+          }
+        },
+        {
+          "rect": {
+            "x": 128,
+            "y": 48,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/walk-02.png",
+            "sha256": "af14563a221db384ae54c841857091e649db9eee5b25e925deed42240906f0fa"
+          }
+        },
+        {
+          "rect": {
+            "x": 192,
+            "y": 48,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/walk-03.png",
+            "sha256": "ba2ed64d1618b62788000141bdbbb8bff3c87d8d8bbfb2d2289a1b2910299d24"
+          }
+        },
+        {
+          "rect": {
+            "x": 256,
+            "y": 48,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/walk-04.png",
+            "sha256": "ba416390d17476ea69d61690cd4ded784f14beb7b182d6647f287b5d93d40d85"
+          }
+        },
+        {
+          "rect": {
+            "x": 320,
+            "y": 48,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/walk-05.png",
+            "sha256": "a5902961c6527db0826f2bdd1a05e5bc229d59119d9ee8f4c4d12b4a9fe08999"
+          }
+        }
+      ]
+    },
+    "run": {
+      "loop": true,
+      "duration_ms": 390,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 96,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 65,
+          "source": {
+            "path": "poses/run-00.png",
+            "sha256": "e02fd2f2515d2b8e67781cb07ac95eb4f29d2c101d4b41e4bc41209cb037d978"
+          }
+        },
+        {
+          "rect": {
+            "x": 64,
+            "y": 96,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 65,
+          "source": {
+            "path": "poses/run-01.png",
+            "sha256": "9e4696f3fd2e3aae79da2c98b624e443d1f77272cd528668213fbd7df902b283"
+          }
+        },
+        {
+          "rect": {
+            "x": 128,
+            "y": 96,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 65,
+          "source": {
+            "path": "poses/run-02.png",
+            "sha256": "77a78d56e6e6fb5aed05a13b91f6824aa3cf42d3756aa86da596b559e1669aea"
+          }
+        },
+        {
+          "rect": {
+            "x": 192,
+            "y": 96,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 65,
+          "source": {
+            "path": "poses/run-03.png",
+            "sha256": "09d624093760ce1b5c6e3b851547ebf432af9fd8322ac4aa1018090dbbdab1e4"
+          }
+        },
+        {
+          "rect": {
+            "x": 256,
+            "y": 96,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 65,
+          "source": {
+            "path": "poses/run-04.png",
+            "sha256": "9cca1f5f846f74a9533aef0e050ea22b910038e465030582187bf36a99cebb84"
+          }
+        },
+        {
+          "rect": {
+            "x": 320,
+            "y": 96,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 65,
+          "source": {
+            "path": "poses/run-05.png",
+            "sha256": "9caef4d9f5f9b7c316af78ab14b9266b799d0678b6190ce3fea3ff419b6d8568"
+          }
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "duration_ms": 640,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 144,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 130,
+          "source": {
+            "path": "poses/attack-00.png",
+            "sha256": "b84748a0dfcafc669dd4aedd0c9ee4da4072ada4bf773fd084f212b1ba291631"
+          }
+        },
+        {
+          "rect": {
+            "x": 64,
+            "y": 144,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 170,
+          "source": {
+            "path": "poses/attack-01.png",
+            "sha256": "ef7ecca96fcf78e9dc17b15bd88f25a021f63e25a18e37580ed4ccda6eced72c"
+          }
+        },
+        {
+          "rect": {
+            "x": 128,
+            "y": 144,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 70,
+          "source": {
+            "path": "poses/attack-02.png",
+            "sha256": "76dc859060d88c05eb3f5256e91bc4cb690e4221ecccc98cf114dfa0f86aca71"
+          }
+        },
+        {
+          "rect": {
+            "x": 192,
+            "y": 144,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 110,
+          "source": {
+            "path": "poses/attack-03.png",
+            "sha256": "b9a47ac67a30b9499faacc8443dd8e6d89ec2342a8883361a9385dc28433027e"
+          }
+        },
+        {
+          "rect": {
+            "x": 256,
+            "y": 144,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 160,
+          "source": {
+            "path": "poses/attack-04.png",
+            "sha256": "3e026413999f31be11e44839c22ff1c8bc7217baaf405954ac384a9f888131f6"
+          }
+        }
+      ]
+    },
+    "jump": {
+      "loop": false,
+      "duration_ms": 650,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 192,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 130,
+          "source": {
+            "path": "poses/jump-00.png",
+            "sha256": "b30a405b656cc8febade45ac9cf94c182ce24f8a8cd24a78d8b9a46d3446b155"
+          }
+        },
+        {
+          "rect": {
+            "x": 64,
+            "y": 192,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 100,
+          "source": {
+            "path": "poses/jump-01.png",
+            "sha256": "446f57d1e08bfaa652ee07fb55c511f34bf29ef9d9a698314158fc44660dc36d"
+          }
+        },
+        {
+          "rect": {
+            "x": 128,
+            "y": 192,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 180,
+          "source": {
+            "path": "poses/jump-02.png",
+            "sha256": "e88bb709ddec23bb3880c3b6f79e6b7ca2fe8de3230546187999b57b0fb58459"
+          }
+        },
+        {
+          "rect": {
+            "x": 192,
+            "y": 192,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 100,
+          "source": {
+            "path": "poses/jump-03.png",
+            "sha256": "f113c6c750b4c14f9dd89aedc22d3097071e8d4b69daf50efea8d20a00f9fa86"
+          }
+        },
+        {
+          "rect": {
+            "x": 256,
+            "y": 192,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 140,
+          "source": {
+            "path": "poses/jump-04.png",
+            "sha256": "226364ee464c7f047b3165b634760d073ace74839adf3a0e74d640fcf4fb69fe"
+          }
+        }
+      ]
+    },
+    "hurt": {
+      "loop": false,
+      "duration_ms": 400,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 240,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 90,
+          "source": {
+            "path": "poses/hurt-00.png",
+            "sha256": "14f626a62e8644b6d998a80d2e1c7be1aab2f3918aae6cb0ea9d0dd17063fbdf"
+          }
+        },
+        {
+          "rect": {
+            "x": 64,
+            "y": 240,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 130,
+          "source": {
+            "path": "poses/hurt-01.png",
+            "sha256": "5e5dc570c1e7dbfc2df98143c9e4d191d57a961e5dabc3b1abee8878fd56fb3c"
+          }
+        },
+        {
+          "rect": {
+            "x": 128,
+            "y": 240,
+            "w": 64,
+            "h": 48
+          },
+          "duration_ms": 180,
+          "source": {
+            "path": "poses/hurt-02.png",
+            "sha256": "3e026413999f31be11e44839c22ff1c8bc7217baaf405954ac384a9f888131f6"
+          }
+        }
+      ]
+    }
+  },
+  "events": [],
+  "preview": {
+    "timing": "GIF centiseconds rounded; exact milliseconds in metadata",
+    "effects": "composited; newest contact replaces prior instance",
+    "scope": "one action traversal plus initial effect tail; loops retrigger within that window",
+    "visual_review": "pending"
+  }
+}

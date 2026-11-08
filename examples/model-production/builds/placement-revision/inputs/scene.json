@@ -1,0 +1,45 @@
+{
+  "assets": [
+    {
+      "id": "rescue-crate",
+      "producer": "model-assets",
+      "reuse": {
+        "asset": "rescue-crate",
+        "run_id": "9de8989a982b42c29b58c070b850a820"
+      }
+    }
+  ],
+  "brief": {
+    "controls": "Read-only model inspection.",
+    "goal": "Inspect the inset hardware, painted panels and emblem at game scale.",
+    "title": "Workshop Crate · placement revision"
+  },
+  "coordinates": {
+    "handedness": "right",
+    "units": "meters",
+    "up": "+Y"
+  },
+  "id": "workshop-props",
+  "nodes": [
+    {
+      "asset": "rescue-crate",
+      "id": "crate",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        30,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "schema_version": 1
+}

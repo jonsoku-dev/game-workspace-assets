@@ -8,12 +8,13 @@ import sys
 
 from PIL import Image, ImageDraw
 
-from . import asset_set, effects, provider, raster, sheet, tile, variant
+from . import action_set, asset_set, effects, provider, raster, sheet, tile, variant
 from .bundle import open_png, publish, write_json
 from .spec import Request, rgb
 
 
 LOCAL_PRODUCERS = {
+    "action-set": (action_set.produce, "pack six authored actions with timed local pixelfx effects"),
     "variant": (variant.produce, "attach equipment without rescaling a character"),
     "compare": (asset_set.produce, "review a set of build bundles at 1x and 4x"),
     "sheet": (sheet.produce, "pack same-grid poses with a common pivot and frame timings"),

@@ -1,7 +1,7 @@
 {
   "name": "pixel-asset-pipeline",
-  "version": "0.2.1",
-  "description": "Create and check 2D game sprites, equipment variants, animation sheets, terrain tiles and pixel effects.",
+  "version": "0.3.2",
+  "description": "Create and check 2D game sprites, equipment variants, six-action sprite sets, animation sheets, terrain tiles and pixel effects.",
   "skills": "./.agents/skills/",
   "interface": {
     "displayName": "Pixel Asset Pipeline",

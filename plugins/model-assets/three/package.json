@@ -1,0 +1,7 @@
+{
+  "name": "model-assets-three-consumer",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "dependencies": { "three": "0.187.0" }
+}

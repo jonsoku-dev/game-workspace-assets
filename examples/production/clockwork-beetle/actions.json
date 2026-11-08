@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "cell_size": [
+    64,
+    48
+  ],
+  "pivot_px_from_top_left": [
+    29,
+    40
+  ],
+  "actions": {
+    "idle": {
+      "loop": true,
+      "frames": [
+        {
+          "path": "poses/idle-00.png",
+          "duration_ms": 180
+        },
+        {
+          "path": "poses/idle-01.png",
+          "duration_ms": 160
+        },
+        {
+          "path": "poses/idle-02.png",
+          "duration_ms": 180
+        },
+        {
+          "path": "poses/idle-03.png",
+          "duration_ms": 160
+        }
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "frames": [
+        {
+          "path": "poses/walk-00.png",
+          "duration_ms": 110
+        },
+        {
+          "path": "poses/walk-01.png",
+          "duration_ms": 110
+        },
+        {
+          "path": "poses/walk-02.png",
+          "duration_ms": 110
+        },
+        {
+          "path": "poses/walk-03.png",
+          "duration_ms": 110
+        },
+        {
+          "path": "poses/walk-04.png",
+          "duration_ms": 110
+        },
+        {
+          "path": "poses/walk-05.png",
+          "duration_ms": 110
+        }
+      ]
+    },
+    "run": {
+      "loop": true,
+      "frames": [
+        {
+          "path": "poses/run-00.png",
+          "duration_ms": 65
+        },
+        {
+          "path": "poses/run-01.png",
+          "duration_ms": 65
+        },
+        {
+          "path": "poses/run-02.png",
+          "duration_ms": 65
+        },
+        {
+          "path": "poses/run-03.png",
+          "duration_ms": 65
+        },
+        {
+          "path": "poses/run-04.png",
+          "duration_ms": 65
+        },
+        {
+          "path": "poses/run-05.png",
+          "duration_ms": 65
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "frames": [
+        {
+          "path": "poses/attack-00.png",
+          "duration_ms": 130
+        },
+        {
+          "path": "poses/attack-01.png",
+          "duration_ms": 170
+        },
+        {
+          "path": "poses/attack-02.png",
+          "duration_ms": 70
+        },
+        {
+          "path": "poses/attack-03.png",
+          "duration_ms": 110
+        },
+        {
+          "path": "poses/attack-04.png",
+          "duration_ms": 160
+        }
+      ]
+    },
+    "jump": {
+      "loop": false,
+      "frames": [
+        {
+          "path": "poses/jump-00.png",
+          "duration_ms": 130
+        },
+        {
+          "path": "poses/jump-01.png",
+          "duration_ms": 100
+        },
+        {
+          "path": "poses/jump-02.png",
+          "duration_ms": 180
+        },
+        {
+          "path": "poses/jump-03.png",
+          "duration_ms": 100
+        },
+        {
+          "path": "poses/jump-04.png",
+          "duration_ms": 140
+        }
+      ]
+    },
+    "hurt": {
+      "loop": false,
+      "frames": [
+        {
+          "path": "poses/hurt-00.png",
+          "duration_ms": 90
+        },
+        {
+          "path": "poses/hurt-01.png",
+          "duration_ms": 130
+        },
+        {
+          "path": "poses/hurt-02.png",
+          "duration_ms": 180
+        }
+      ]
+    }
+  },
+  "events": []
+}

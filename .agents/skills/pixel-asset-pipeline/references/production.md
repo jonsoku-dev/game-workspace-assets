@@ -81,3 +81,114 @@ pixel-asset effect --request effect.json --out effect-out
 ```
 
 `pickup`은 10프레임 × 60ms이며 마지막 프레임은 투명하다. `flame`은 12프레임 × 80ms의 반복 불꽃이다. size는 16~64px, 팔레트는 바깥색에서 중심색 순서로 서로 다른 3~8색이다. 시드와 입력이 같으면 같은 소스 픽셀을 만든다. 효과는 중심 원점과 프레임 전체 격자를 유지한다. 한 픽셀짜리 불티와 빈 종료 프레임을 보존한다. 출력은 sheet.png, sheet.json, preview.gif, effect.json이다.
+
+## action-set · 캐릭터 6동작과 접촉 효과
+
+```json
+{
+  "schema_version": 1,
+  "cell_size": [
+    48,
+    48
+  ],
+  "pivot_px_from_top_left": [
+    24,
+    46
+  ],
+  "actions": {
+    "idle": {
+      "loop": true,
+      "frames": [
+        {
+          "path": "idle-1.png",
+          "duration_ms": 80
+        },
+        {
+          "path": "idle-2.png",
+          "duration_ms": 120
+        }
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "frames": [
+        {
+          "path": "walk-1.png",
+          "duration_ms": 80
+        },
+        {
+          "path": "walk-2.png",
+          "duration_ms": 120
+        }
+      ]
+    },
+    "run": {
+      "loop": true,
+      "frames": [
+        {
+          "path": "run-1.png",
+          "duration_ms": 80
+        },
+        {
+          "path": "run-2.png",
+          "duration_ms": 120
+        }
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "frames": [
+        {
+          "path": "attack-1.png",
+          "duration_ms": 80
+        },
+        {
+          "path": "attack-2.png",
+          "duration_ms": 120
+        }
+      ]
+    },
+    "jump": {
+      "loop": false,
+      "frames": [
+        {
+          "path": "jump-1.png",
+          "duration_ms": 80
+        },
+        {
+          "path": "jump-2.png",
+          "duration_ms": 120
+        }
+      ]
+    },
+    "hurt": {
+      "loop": false,
+      "frames": [
+        {
+          "path": "hurt-1.png",
+          "duration_ms": 80
+        },
+        {
+          "path": "hurt-2.png",
+          "duration_ms": 120
+        }
+      ]
+    }
+  },
+  "events": []
+}
+```
+
+```sh
+pixel-asset action-set --request actions.json --out scout-actions
+```
+
+동작별로 그린 로컬 PNG를 요청 폴더 안에 준비한다. 캐릭터 셀과 발 피벗은 여섯 동작에 공통이다. 처음 세 동작은 반복하고 공격·점프·피격은 한 번 재생한다. `events`에 다음과 같은 객체를 넣으면 접촉 프레임부터 별도 pixelfx 시트를 재생한다. frame은 0부터 세며 시작 시각은 앞선 캐릭터 프레임 시간의 합이다. at_px와 effect_anchor_px는 각각 캐릭터 셀과 효과 프레임의 좌상단 기준이다. 지정한 효과 접점과 pixelfx가 기록한 원래 바닥 피벗은 각각 유지한다.
+
+```json
+{"action":"attack","frame":1,"sheet":"fx/hit.png","metadata":"fx/hit.json","license":"fx/LICENSE","notice":"fx/NOTICE.md","at_px":[46,25],"effect_anchor_px":[44,44]}
+```
+
+캐릭터 아틀라스, 액션별 프레임·시간·이벤트 메타데이터, 합성 재생 미리보기와 효과 고지는 stdout의 상대 파일 목록으로 전달된다. 프레임 저작과 게임 판정은 호출자가 맡는다.
+
+각 캐릭터 동작에는 최대 64프레임, 이벤트 하나의 pixelfx 시트에는 최대 256프레임을 쓴다. 루프의 끝을 지나는 효과는 다음 접촉까지 이어지며, 같은 이벤트가 다시 시작되면 최신 접촉에서 재생을 시작한다. GIF는 한 번의 동작과 그 효과의 꼬리를 보여 준다. 미리보기의 픽셀·시간 예산을 넘는 극단적인 입력은 CLI가 오류를 반환한다. 정확한 프레임 시간은 JSON에서 읽는다.

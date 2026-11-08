@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "id": "clockwork-beetle",
+  "brief": {
+    "title": "Clockwork beetle",
+    "goal": "Inspect an original articulated six-action mechanical beetle.",
+    "controls": "Read-only scene; action playback is selected by the host."
+  },
+  "coordinates": {
+    "units": "meters",
+    "up": "+Y",
+    "handedness": "right"
+  },
+  "assets": [
+    {
+      "id": "beetle",
+      "producer": "pixel-action-set",
+      "request": "builds/native/inputs/beetle/request.json",
+      "files": {
+        "atlas": "builds/native/assets/beetle/atlas.png",
+        "metadata": "builds/native/assets/beetle/action-set.json",
+        "preview": "builds/native/assets/beetle/preview.gif",
+        "credits": "builds/native/assets/beetle/credits.json"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "beetle-actor",
+      "asset": "beetle",
+      "action": "idle",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "size_m": 0.64
+    }
+  ],
+  "input_scene": "builds/native/inputs/scene.json"
+}

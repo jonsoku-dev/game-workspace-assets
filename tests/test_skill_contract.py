@@ -56,6 +56,9 @@ class SkillContractTests(unittest.TestCase):
                 "step-a.png": "examples/production/walk/frames/01.png",
                 "step-b.png": "examples/production/walk/frames/02.png",
             }
+            for action in ("idle", "walk", "run", "attack", "jump", "hurt"):
+                for index in (1, 2):
+                    fixtures[f"{action}-{index}.png"] = f"examples/production/walk/frames/{index:02}.png"
             for target, source in fixtures.items():
                 destination = work / target
                 destination.parent.mkdir(parents=True, exist_ok=True)

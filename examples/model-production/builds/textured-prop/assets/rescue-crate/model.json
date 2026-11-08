@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "name": "Workshop rescue crate",
+  "blender_version": "5.2.1 LTS",
+  "scope": "selected static meshes; direct Principled PBR with optional packed PNG/JPEG base color",
+  "original": {
+    "textures": [
+      {
+        "width": 512,
+        "height": 512,
+        "rgba_sha256": "a3754829b47784a2f0c3359ee1a7f8ee3b3f70b51cf4f0b150013c8fa6e70208"
+      }
+    ],
+    "meshes": 27,
+    "triangles": 2916,
+    "bounds_min": [
+      -0.5685999989509583,
+      -0.40700000524520874,
+      0.0
+    ],
+    "bounds_max": [
+      0.5685999989509583,
+      0.38499999046325684,
+      0.7274999618530273
+    ],
+    "dimensions_m": [
+      1.1371999979019165,
+      0.7919999957084656,
+      0.7274999618530273
+    ],
+    "materials": [
+      "Brushed brass hardware",
+      "Graphite protective frame",
+      "Inset rubber gasket",
+      "Rescue enamel"
+    ],
+    "units": "meters",
+    "up_axis": "+Z"
+  },
+  "reimported": {
+    "textures": [
+      {
+        "width": 512,
+        "height": 512,
+        "rgba_sha256": "a3754829b47784a2f0c3359ee1a7f8ee3b3f70b51cf4f0b150013c8fa6e70208"
+      }
+    ],
+    "meshes": 27,
+    "triangles": 2916,
+    "bounds_min": [
+      -0.5685999989509583,
+      -0.40700000524520874,
+      0.0
+    ],
+    "bounds_max": [
+      0.5685999989509583,
+      0.38499999046325684,
+      0.7274999618530273
+    ],
+    "dimensions_m": [
+      1.1371999979019165,
+      0.7919999957084656,
+      0.7274999618530273
+    ],
+    "materials": [
+      "Brushed brass hardware",
+      "Graphite protective frame",
+      "Inset rubber gasket",
+      "Rescue enamel"
+    ],
+    "units": "meters",
+    "up_axis": "+Z"
+  },
+  "checks": {
+    "triangles_match": true,
+    "texture_pixels_match": true,
+    "materials_match": true,
+    "bounds_match": true,
+    "mesh_count_match": true
+  },
+  "bounds_tolerance_m": 1.1371999979019166e-05,
+  "glb_up_axis": "+Y",
+  "flags": {
+    "roundtrip_verified": true,
+    "source_self_contained": true,
+    "preview_dressing_exported": false,
+    "engine_integration_verified": false
+  },
+  "review": {
+    "file": "review.png",
+    "columns_left_to_right": [
+      "front",
+      "side",
+      "rear"
+    ],
+    "upper_row_px": 384,
+    "lower_row_px": 128,
+    "lower_row_independently_rendered": true,
+    "art_approval": "not established"
+  }
+}

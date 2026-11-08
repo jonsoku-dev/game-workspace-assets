@@ -1,0 +1,112 @@
+{
+  "passed": true,
+  "default_scene_index": 0,
+  "three_version": "0.187.0",
+  "scene_count": 1,
+  "mesh_count": 4,
+  "vertex_count": 5832,
+  "triangle_count": 2916,
+  "material_count": 4,
+  "texture_count": 1,
+  "textured_mesh_count": 1,
+  "decoded_textures": [
+    {
+      "width": 512,
+      "height": 512,
+      "color_space": "srgb",
+      "rgba_sha256": "a3754829b47784a2f0c3359ee1a7f8ee3b3f70b51cf4f0b150013c8fa6e70208",
+      "unique_rgba": 287,
+      "decoder": "Blender local PNG/JPEG"
+    }
+  ],
+  "material_colors": [
+    [
+      0.012000000104308128,
+      0.02199999988079071,
+      0.02500000037252903,
+      1
+    ],
+    [
+      0.03500000014901161,
+      0.06499999761581421,
+      0.07500000298023224,
+      1
+    ],
+    [
+      0.47999998927116394,
+      0.3100000023841858,
+      0.10000000149011612,
+      1
+    ],
+    [
+      1,
+      1,
+      1,
+      1
+    ]
+  ],
+  "texture_scope": "embedded-png-jpeg",
+  "bounds": {
+    "min": [
+      -0.5686000213027,
+      0,
+      -0.38499999046325684
+    ],
+    "max": [
+      0.568600058555603,
+      0.7274999916553497,
+      0.40699999732896686
+    ],
+    "size": [
+      1.137200079858303,
+      0.7274999916553497,
+      0.7919999877922237
+    ]
+  },
+  "texture_comparison": {
+    "uv_position_samples_match": true,
+    "uv_position_tolerance": "rounded to 0.0001 in meters/UV units",
+    "decoded_pixels_match": true,
+    "material_colors_match": true,
+    "textured_meshes_present": true,
+    "scope": "decoded RGBA, sRGB material factors, UV/world-position sample sets at 0.0001 precision; visual appearance needs browser review"
+  },
+  "receipt": {
+    "contract": {
+      "id": "webstage-asset",
+      "version": "1.0"
+    },
+    "ok": true,
+    "budget": "hero"
+  },
+  "compiled_comparison": {
+    "checks": {
+      "drawable": true,
+      "y_up_bounds_and_dimensions_match": true,
+      "triangles_positive_and_not_increased": true
+    },
+    "bounds_tolerance_m": 0.0011371999979019165,
+    "expected_y_up_bounds": {
+      "min": [
+        -0.5685999989509583,
+        0.0,
+        -0.38499999046325684
+      ],
+      "max": [
+        0.5685999989509583,
+        0.7274999618530273,
+        0.40700000524520874
+      ],
+      "size": [
+        1.1371999979019165,
+        0.7274999618530273,
+        0.7919999957084656
+      ]
+    },
+    "source_triangles": 2916,
+    "compiled_triangles": 2916,
+    "triangle_retention_ratio": 1.0,
+    "scope": "Webstage may simplify triangles and merge meshes; topology/material equivalence is not asserted"
+  },
+  "schema_version": 1
+}

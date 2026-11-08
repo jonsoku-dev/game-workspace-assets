@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "id": "workshop-props",
+  "brief": {
+    "title": "Workshop Crate · placement revision",
+    "goal": "Inspect the inset hardware, painted panels and emblem at game scale.",
+    "controls": "Read-only model inspection."
+  },
+  "coordinates": {
+    "units": "meters",
+    "up": "+Y",
+    "handedness": "right"
+  },
+  "assets": [
+    {
+      "id": "rescue-crate",
+      "producer": "model-assets",
+      "files": {
+        "metadata": "builds/textured-prop/assets/rescue-crate/model.json",
+        "model": "builds/textured-prop/assets/rescue-crate/model.web.glb",
+        "preview": "builds/textured-prop/assets/rescue-crate/preview.png",
+        "raw": "builds/textured-prop/assets/rescue-crate/model.glb",
+        "receipt": "builds/textured-prop/assets/rescue-crate/model.web.glb.webstage.json",
+        "review": "builds/textured-prop/assets/rescue-crate/review.png",
+        "source": "builds/textured-prop/assets/rescue-crate/source.blend",
+        "validation": "builds/textured-prop/assets/rescue-crate/three-validation.json"
+      },
+      "reuse": {
+        "run_id": "9de8989a982b42c29b58c070b850a820",
+        "asset": "rescue-crate",
+        "run": "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820",
+        "artifacts": [
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:1c5a438852a8d4708b833d50954820b46e2ff7764eb67f55107f9ef94c3dc96c",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:4cb71a5ea53df9589a60f81723ea3ef40f4171d1c218f3fe3ce393a01ccee0ef",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:6955c45c25090eb141313d0d79f3930fb9fc32cbdce540aa89ed155d44780cdb",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:d35b65a55af37015357585b0ff35c2ca02d90b4f14eb6a1a53380c2fe574889d",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:6e59f59bd3407f2f12b244b0eaf0cae1b4d2ba6aa452e4f111aa11d13db2c2dc",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:d364a79125948315e8fb7cceae6968846edcdd94dabfb64157d479ceb35e8366",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:1c0533fbc7cf3319a75bec28661f31ff0ac8cf56cda3d52f4a1ed0d9a6d4b192",
+          "urn:game-studio:5eec133b-1d8d-442e-a3df-930741c110a2:run:9de8989a982b42c29b58c070b850a820:artifact:839710ddbe2da665cffe465b09c67e6eb679fca6a540d2eb773de4bc132a2940"
+        ]
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "crate",
+      "asset": "rescue-crate",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        30,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "input_scene": "builds/placement-revision/inputs/scene.json"
+}

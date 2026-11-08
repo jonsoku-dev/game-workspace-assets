@@ -10,3 +10,7 @@
 
 - 제작 명령, 옵션, 출력 계약 또는 검수 방식이 바뀌면 같은 변경에서 프로젝트 스킬(`.agents/skills/pixel-asset-pipeline/SKILL.md`)과 영향을 받는 제작 계약 예시를 갱신한다. 검수에서 얻은 교훈은 다음 작업의 선택이나 수정 방법을 바꿀 때 지침에 반영하고, 특정 그림의 승인 기록은 해당 산출물 리비전에 남긴다.
 - 새 명령은 스킬의 명령 선택 표와 `references/production.md`에 실행 가능한 로컬 예시를 추가한다. `tests/test_skill_contract.py`가 설치용 폴더에서 CLI 목록과 문서를 대조하고 예시를 실행한다. 설치되는 지침을 수정해 배포할 때는 플러그인과 Python 패키지 버전을 함께 올리고, 릴리스 버전과 검증 결과를 `docs/asset-production-plan.md`에 기록한다.
+
+## 독립 3D 제작기
+
+위 2D 제작·배포 규칙은 루트 픽셀 플러그인에 적용한다. `plugins/model-assets`는 자체 manifest, 스킬, 검증과 배포 목록을 가진 Blender 제작기다. 3D 제작 명령 변경 시 같은 플러그인의 스킬·예시를 갱신한다. 게임 프로젝트에서의 채택과 검증은 headless 스튜디오의 SSOT 그래프에 연결한다.

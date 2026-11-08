@@ -19,6 +19,7 @@ def main():
         "pyproject.toml",
         "src/pixel_asset_pipeline/__init__.py",
         "src/pixel_asset_pipeline/asset_set.py",
+        "src/pixel_asset_pipeline/action_set.py",
         "src/pixel_asset_pipeline/bundle.py",
         "src/pixel_asset_pipeline/cli.py",
         "src/pixel_asset_pipeline/effects.py",

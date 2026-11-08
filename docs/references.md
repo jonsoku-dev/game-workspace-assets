@@ -27,3 +27,7 @@
 | 4 | **캐릭터와 이펙트의 합성·타이밍.** 기존 pickup/flame의 납품 방식에 캐릭터 앞·뒤 레이어와 기준 프레임 정보를 추가하는 후보이다. [pixelfx의 합성과 acting](https://github.com/patch-gg/pixelfx/tree/a84159688af3ca37a4be05a0d422b94451b2e24e#acting) | 정찰병이 지팡이를 휘두르는 1회성 예시로 손 부착점, 뒤쪽 잔상, 앞쪽 타격광, 타격 프레임의 일치를 확인한다. 전투 판정과 피해 처리는 호스트에 둔다. |
 
 후순위로는 승인된 스프라이트의 지정색만 바꾸는 [팔레트 변형](https://github.com/aldegad/sprite-gen/blob/main/docs/recolor.md), 인벤토리 창의 모서리를 보존하며 늘리는 [9-slice UI 아트와 스크롤 배경 레이어](https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/main/skills/disciplines/create-game-assets/references/raster-pipeline.md)가 있다. 엔진이 정해지면 pixelfx의 Aseprite 스타일 JSON을 참고해 **한 엔진의 실제 임포트**부터 검증한다. 이 후보들은 로컬 PNG 처리와 기존 Codex 내장 생성 경로 안에서 검토할 수 있다.
+
+3D 제작과 씬 통합을 위해 같은 원본 다섯 곳의 실제 파일, 로컬 Blender·Webstage·Frameforge 도구, 채택 여부와 라이선스를 [3D 레퍼런스 검토](model-references.md)에 기록한다.
+
+[Agent Sprite Forge와 pixelfx](sprite-forge.md)에는 정지 마스터, 여섯 동작, 로컬 미디어 후처리와 pixelfx 연동을 조사한 결과를 기록했다. 이 저장소의 `action-set`은 로컬 프레임과 로컬 효과 시트를 입력으로 받는다.

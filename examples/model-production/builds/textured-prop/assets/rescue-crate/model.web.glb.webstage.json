@@ -1,0 +1,30 @@
+{
+  "contract": {
+    "id": "webstage-asset",
+    "version": "1.0"
+  },
+  "ok": true,
+  "kind": "gltf",
+  "budget": "hero",
+  "input": {
+    "path": "model.glb",
+    "bytes": 601672
+  },
+  "output": {
+    "path": "model.web.glb",
+    "bytes": 562848
+  },
+  "metrics": {
+    "bytes": 562848,
+    "triangles": 2916,
+    "textures": 1,
+    "textureEdge": 512,
+    "drawCalls": 4,
+    "animations": 0,
+    "meshes": 4,
+    "materials": 4
+  },
+  "violations": [],
+  "generatedAt": "2026-11-08T10:28:50.794Z",
+  "generator": "@webstage/compiler@1.0.0"
+}

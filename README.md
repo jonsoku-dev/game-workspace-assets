@@ -87,12 +87,12 @@ codex plugin add pixel-asset-pipeline@pixel-asset-pipeline
 
 ### 설치된 스킬 업데이트
 
-프로젝트에서 직접 쓰는 스킬의 원본은 [SKILL.md](.agents/skills/pixel-asset-pipeline/SKILL.md)다. 캐시로 설치한 플러그인은 새 버전을 별도로 등록한다. 0.2.0이 등록된 상태에서 별도 경로의 0.2.1로 교체하는 절차는 아래와 같다. 등록을 교체하기 전에 새 폴더 생성을 먼저 마친다.
+프로젝트에서 직접 쓰는 스킬의 원본은 [SKILL.md](.agents/skills/pixel-asset-pipeline/SKILL.md)다. 캐시로 설치한 플러그인은 새 버전을 별도로 등록한다. 이전에 등록한 버전을 별도 경로의 0.3.2로 교체하는 절차는 아래와 같다. 등록을 교체하기 전에 새 폴더 생성을 먼저 마친다.
 
 ```sh
-python3 scripts/package-plugin.py /absolute/new/pixel-asset-0.2.1
+python3 scripts/package-plugin.py /absolute/new/pixel-asset-0.3.2
 codex plugin marketplace remove pixel-asset-pipeline
-codex plugin marketplace add /absolute/new/pixel-asset-0.2.1
+codex plugin marketplace add /absolute/new/pixel-asset-0.3.2
 codex plugin add pixel-asset-pipeline@pixel-asset-pipeline
 codex plugin list --marketplace pixel-asset-pipeline --json
 ```
@@ -124,3 +124,11 @@ PIXEL_ASSET_CLI="$PWD/.venv/bin/pixel-asset" node examples/mock-game-plugin/impo
 [아홉 개의 결과](examples/woodland/results.json)는 Codex 내장 도구가 생성한 [한 장의 아틀라스](examples/woodland/atlas.png)를 로컬에서 분리하고 검증한 것이다. 샘플을 요구한 [생성 프롬프트](examples/woodland/atlas-prompt.txt)도 함께 보존했다. 독립 CLI 생성 실행의 [48px 정찰병](examples/codex-scout/asset.png)은 별도 결과다. 팔레트만 사용한 첫 실행에서는 몸이 길게 나왔다. 같은 요청에 기존 정찰병을 스타일 참조로 고른 [두 번째 실행](examples/codex-scout-styled/preview.png)에서는 후드와 머리가 더 크게 읽힌다. 두 에셋 모두 기술 검사를 통과했고 게임 내 시각 승인은 별도 단계로 남는다.
 
 [벤치마킹 자료](docs/references.md)에 반영한 부분과 나중에 검토할 기능을 모두 남겼다. 실제 앱 제작 플러그인·게임 엔진과의 통합은 해당 호스트가 제공될 때 검증한다.
+
+## 3D 소품 제작
+
+[Model Assets](plugins/model-assets/README.md)는 같은 저장소에서 독립 설치한다. Blender에서 만든 편집 원본과 컴파일된 GLB를 납품하고 Three.js로 실제 로딩·렌더링을 검사한다. 픽셀 플러그인의 배포 파일 목록과 설치 캐시는 별개다. 게임에서의 에셋 사용·배치·검증은 스튜디오 프로젝트의 SSOT 그래프에 연결한다.
+
+## 6동작 세트와 pixelfx
+
+`pixel-asset action-set --request actions.json --out scout-actions`는 로컬 프레임을 대기·걷기·달리기·공격·점프·피격으로 묶는다. pixelfx로 만든 효과 시트와 JSON을 접촉 프레임에 연결하고 원본 고지를 납품한다. [입력 계약](.agents/skills/pixel-asset-pipeline/references/production.md#action-set--캐릭터-6동작과-접촉-효과) · [Agent Sprite Forge 검토](docs/sprite-forge.md)

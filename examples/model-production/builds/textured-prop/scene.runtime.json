@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "id": "workshop-props",
+  "brief": {
+    "title": "Workshop Crate",
+    "goal": "Inspect the inset hardware, painted panels and emblem at game scale.",
+    "controls": "Read-only model inspection."
+  },
+  "coordinates": {
+    "units": "meters",
+    "up": "+Y",
+    "handedness": "right"
+  },
+  "assets": [
+    {
+      "id": "rescue-crate",
+      "producer": "model-assets",
+      "request": "builds/textured-prop/inputs/rescue-crate.request.json",
+      "files": {
+        "model": "builds/textured-prop/assets/rescue-crate/model.web.glb",
+        "metadata": "builds/textured-prop/assets/rescue-crate/model.json",
+        "validation": "builds/textured-prop/assets/rescue-crate/three-validation.json",
+        "source": "builds/textured-prop/assets/rescue-crate/source.blend",
+        "raw": "builds/textured-prop/assets/rescue-crate/model.glb",
+        "preview": "builds/textured-prop/assets/rescue-crate/preview.png",
+        "review": "builds/textured-prop/assets/rescue-crate/review.png",
+        "receipt": "builds/textured-prop/assets/rescue-crate/model.web.glb.webstage.json"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "crate",
+      "asset": "rescue-crate",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation_degrees": [
+        0,
+        15,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "input_scene": "builds/textured-prop/inputs/scene.json"
+}
