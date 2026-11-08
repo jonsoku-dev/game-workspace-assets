@@ -14,3 +14,16 @@
 첫 번째 화면에서 함께 언급된 인벤토리·세이브·던전 생성은 게임 플레이 시스템에 해당한다. 프레임 애니메이션과 12색 반복 타일은 0.2에서 각각 sheet와 tile로 분리했다. 타일의 이음새와 특수 효과의 불티는 투명 단일 스프라이트와 다른 방식으로 검사한다. 출시와 스토어 업로드는 배포 레이어의 책임이다.
 
 사용한 외부 구현은 이미지 생성 시의 Codex 내장 기능과 로컬 Pillow이다. 이 표의 저장소에서 스킬 본문, 코드, 에셋을 가져오지 않았다. 소스 라이선스와 고지 범위는 [검토 기록](license-review.md)에 남겼다.
+
+## 0.2.1 이후의 제작 후보
+
+첨부된 픽셀 제작 공식, 게임 개발 스킬 소개 두 장, pixelfx 소개 화면을 설치된 0.2.1과 다시 대조했다. 아래 항목은 검토 후보이며 현재 CLI에 추가된 명령은 아니다.
+
+| 순서 | 남은 제작 작업 | 첫 검증물 |
+| --- | --- | --- |
+| 1 | **아틀라스 분리.** 현재 sheet는 개별 PNG를 시트로 묶는다. 반대 방향으로는 투명 원본 시트, 행·열, 이름을 받아 투명 여백을 찾고 애매한 경계만 사용자가 지정할 수 있게 한다. 서로 다른 소품의 상대 크기는 한 배율로 유지한다. [sprite-gen 시트 분리](https://github.com/aldegad/sprite-gen/blob/main/docs/sheet-slicing.md) | woodland 원본을 9개로 추출한다. 알파 128 이상 기준으로 원본 1254px의 단순 3등분선 y=418·836은 각각 전경 317·55픽셀을 지난다. 현재 예제의 y=459·798은 전경 0픽셀이다. 추출 사각형·이름을 기록하고 원위치에 붙여 가시 픽셀 손실을 검사한다. |
+| 2 | **기준 캐릭터 한 장에서 대기 동작 제작.** 현재 걷기 포즈는 예제 전용 코드로 그린다. 먼저 고정할 얼굴·발과 움직일 몸통을 지정하는 짧은 호흡 루프를 독립 제작 경로로 검토한다. 공격 자세 생성은 별도의 미술 문제다. [sprite-gen 호흡 모드](https://github.com/aldegad/sprite-gen/blob/main/docs/breathing.md) | 승인 정찰병의 4포즈를 만들어 동일 팔레트·피벗·고정 영역의 픽셀 보존을 확인하고, 원속도에서 몸통이 자연스럽게 보이는지 검수한다. |
+| 3 | **함께 연결되는 지형 세트.** 현재 tile은 한 타일의 자기 반복을 확인한다. 방향별 길 입구를 정의한 뒤 직선·모서리·끝·교차로를 한 세트로 제작한다. [지형 조합 제작 지침](https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/main/skills/disciplines/create-game-assets/references/raster-pipeline.md) | 메모리에서 만든 32px 타일 두 개는 각각 통과했지만, 위아래로 붙이자 폭 8px의 길이 겹치는 픽셀은 0개였다. 방향별 연결 마스크를 서로 비교하고 실제 혼합 지도에서 길이 이어지는지 확인한다. |
+| 4 | **캐릭터와 이펙트의 합성·타이밍.** 기존 pickup/flame의 납품 방식에 캐릭터 앞·뒤 레이어와 기준 프레임 정보를 추가하는 후보이다. [pixelfx의 합성과 acting](https://github.com/patch-gg/pixelfx/tree/a84159688af3ca37a4be05a0d422b94451b2e24e#acting) | 정찰병이 지팡이를 휘두르는 1회성 예시로 손 부착점, 뒤쪽 잔상, 앞쪽 타격광, 타격 프레임의 일치를 확인한다. 전투 판정과 피해 처리는 호스트에 둔다. |
+
+후순위로는 승인된 스프라이트의 지정색만 바꾸는 [팔레트 변형](https://github.com/aldegad/sprite-gen/blob/main/docs/recolor.md), 인벤토리 창의 모서리를 보존하며 늘리는 [9-slice UI 아트와 스크롤 배경 레이어](https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/main/skills/disciplines/create-game-assets/references/raster-pipeline.md)가 있다. 엔진이 정해지면 pixelfx의 Aseprite 스타일 JSON을 참고해 **한 엔진의 실제 임포트**부터 검증한다. 이 후보들은 로컬 PNG 처리와 기존 Codex 내장 생성 경로 안에서 검토할 수 있다.
