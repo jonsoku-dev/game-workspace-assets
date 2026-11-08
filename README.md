@@ -83,7 +83,21 @@ codex plugin marketplace add /absolute/new/pixel-asset-package
 codex plugin add pixel-asset-pipeline@pixel-asset-pipeline
 ```
 
-프로젝트에서는 `$pixel-asset-pipeline`으로 호출한다. 설치된 플러그인의 스킬 이름은 `pixel-asset-pipeline:pixel-asset-pipeline`이다. 캐시된 플러그인에서 CLI가 PATH에 없으면 준비된 Python으로 `PYTHONPATH="$PLUGIN_ROOT/src" "$PYTHON" -m pixel_asset_pipeline.cli ...`를 실행한다. 공유할 때는 [라이선스 검토 기록](docs/license-review.md)의 배포 범위를 확인한다.
+프로젝트에서는 `$pixel-asset-pipeline`으로 호출한다. 설치된 플러그인의 스킬 이름은 `pixel-asset-pipeline:pixel-asset-pipeline`이다. 캐시된 플러그인의 지침을 사용할 때는 같은 설치본의 CLI를 준비된 Python으로 `PYTHONPATH="$PLUGIN_ROOT/src" "$PYTHON" -m pixel_asset_pipeline.cli ...`를 실행한다. 공유할 때는 [라이선스 검토 기록](docs/license-review.md)의 배포 범위를 확인한다.
+
+### 설치된 스킬 업데이트
+
+프로젝트에서 직접 쓰는 스킬의 원본은 [SKILL.md](.agents/skills/pixel-asset-pipeline/SKILL.md)다. 캐시로 설치한 플러그인은 새 버전을 별도로 등록한다. 0.2.0이 등록된 상태에서 별도 경로의 0.2.1로 교체하는 절차는 아래와 같다. 등록을 교체하기 전에 새 폴더 생성을 먼저 마친다.
+
+```sh
+python3 scripts/package-plugin.py /absolute/new/pixel-asset-0.2.1
+codex plugin marketplace remove pixel-asset-pipeline
+codex plugin marketplace add /absolute/new/pixel-asset-0.2.1
+codex plugin add pixel-asset-pipeline@pixel-asset-pipeline
+codex plugin list --marketplace pixel-asset-pipeline --json
+```
+
+마지막 출력의 installed 항목에서 `version`과 `enabled`를 확인한다. 개발 시 CLI 명령·제작 계약·검수 방법의 변경은 같은 커밋의 스킬 지침에 반영한다. 설치용 스킬의 모든 명령과 대표 로컬 예시는 `.venv/bin/python -m unittest discover -s tests -p test_skill_contract.py -v`로 검사한다.
 
 **호출자는 생성 방식과 비어 있는 새 번들 경로를 지정한다.** 성공 시 종료 코드 0과 stdout 한 줄의 JSON을 받는다.
 
