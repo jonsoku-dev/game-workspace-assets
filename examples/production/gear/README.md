@@ -31,5 +31,4 @@ edge contact, clipping, unauthorized overlap or changed foot pixels.
 
 Current results pass automated raster and preservation checks. The comparison
 was visually inspected at native-pixel enlargement by the implementing agent.
-Human creative approval and actual game-engine import remain unverified;
-`visual_review` remains `pending` in generated metadata.
+The user approved these 0.2.0 variants in the [art approval record](../../../docs/asset-production-plan.md). Generated metadata records the build-time state. Game-engine import is still unverified.
