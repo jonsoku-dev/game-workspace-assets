@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pixel-asset-pipeline"
-version = "0.3.2"
-description = "Produce pixel-art sprites, variants, sheets, terrain tiles and visual effects."
+version = "0.5.0"
+description = "Produce pixel-art sprites, variants, locally rigged motion, sheets, terrain tiles and visual effects."
 requires-python = ">=3.10"
 dependencies = ["Pillow>=10,<13"]
 

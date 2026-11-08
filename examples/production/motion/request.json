@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "approved": true,
+  "master": "master.png",
+  "pivot_px_from_top_left": [
+    24,
+    41
+  ],
+  "rig": {
+    "parts": [
+      {
+        "id": "body",
+        "role": "torso",
+        "parent": null,
+        "anchor_px": [
+          24,
+          24
+        ],
+        "rect": [
+          21,
+          18,
+          7,
+          13
+        ]
+      },
+      {
+        "id": "head",
+        "role": "head",
+        "parent": "body",
+        "anchor_px": [
+          24,
+          18
+        ],
+        "rect": [
+          20,
+          11,
+          9,
+          7
+        ]
+      },
+      {
+        "id": "left",
+        "role": "arm_left",
+        "parent": "body",
+        "anchor_px": [
+          20,
+          20
+        ],
+        "rect": [
+          17,
+          20,
+          4,
+          11
+        ]
+      },
+      {
+        "id": "right",
+        "role": "arm_right",
+        "parent": "body",
+        "anchor_px": [
+          28,
+          20
+        ],
+        "rect": [
+          28,
+          20,
+          4,
+          11
+        ]
+      },
+      {
+        "id": "legl",
+        "role": "leg_left",
+        "parent": null,
+        "anchor_px": [
+          23,
+          31
+        ],
+        "rect": [
+          21,
+          31,
+          3,
+          10
+        ]
+      },
+      {
+        "id": "legr",
+        "role": "leg_right",
+        "parent": null,
+        "anchor_px": [
+          26,
+          31
+        ],
+        "rect": [
+          25,
+          31,
+          3,
+          10
+        ]
+      }
+    ]
+  }
+}

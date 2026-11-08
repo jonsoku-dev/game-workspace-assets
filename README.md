@@ -132,3 +132,20 @@ PIXEL_ASSET_CLI="$PWD/.venv/bin/pixel-asset" node examples/mock-game-plugin/impo
 ## 6동작 세트와 pixelfx
 
 `pixel-asset action-set --request actions.json --out scout-actions`는 로컬 프레임을 대기·걷기·달리기·공격·점프·피격으로 묶는다. pixelfx로 만든 효과 시트와 JSON을 접촉 프레임에 연결하고 원본 고지를 납품한다. [입력 계약](.agents/skills/pixel-asset-pipeline/references/production.md#action-set--캐릭터-6동작과-접촉-효과) · [Agent Sprite Forge 검토](docs/sprite-forge.md)
+
+## 0.4.0 로컬 모션 제작
+
+`motion`은 승인한 원본의 보이는 픽셀과 명시적 관절 리그로 6동작을 제작한다. 자동 분할이나 가려진 신체 생성은 하지 않는다. 다음 자가 제작 대조군은 외부 다운로드 없이 실행한다. 새 출력 경로를 사용한다.
+
+```sh
+.venv/bin/pixel-asset motion --request examples/production/motion/request.json --out /tmp/pixel-motion-control
+.venv/bin/pixel-asset action-set --request /tmp/pixel-motion-control/action-set.request.json --out /tmp/pixel-motion-actions
+```
+
+원본은 [master.png](examples/production/motion/master.png), 부위와 관절은 [request.json](examples/production/motion/request.json)에 있다. 원본·중립의 가시 픽셀 일치, 팔레트 보존, 동작별 실제 변화와 잘림·접촉·중복 지표를 검사한다. `inspection.json`의 기술 통과와 아트 승인은 별개다. 생성한 GIF를 원속도로 보고 원본 1×에서 관절 틈·실루엣·접지·공격 접촉·루프를 확인한다. [제작 계약](.agents/skills/pixel-asset-pipeline/references/production.md)의 동작별 `actions` 수정으로 결함 있는 동작만 새 출력에 재제작한다. 의도한 정지는 시간 또는 `hold:true`로 표현하며 복제만으로 새 동작을 주장하지 않는다.
+
+이 릴리스는 저장소의 패키지와 플러그인 버전만 0.4.0으로 올린다. 실제 사용자 CLI·플러그인 설치는 별도 작업이다. 출력 번들은 macOS/Linux의 원자적 no-replace 게시와 Windows의 비덮어쓰기 rename으로 기존 결과를 보호한다.
+
+## 0.5.0 원본 PNG와 GIF 재편집
+
+`pixel-asset snap`으로 확대 PNG를 지정 격자에 샘플링해 새 마스터를 만든다. 정면에서 두 팔과 다리가 따로 보이면 `rig-draft`가 마스크와 관절의 초안을 제안한다. 관절을 지정한 원화는 `motion`으로 리그와 동작별 접촉·잘림 검수 그림을 함께 만든다. `effect-clip`은 로컬 GIF의 프레임을 복원하고 배경·크기를 조정해 모으기, 비행, 충돌 세 구간으로 재편집한다. 출력 시트를 캐릭터의 `action-set`에 전달할 수 있다. [실행 가능한 제작 계약](.agents/skills/pixel-asset-pipeline/references/production.md)

@@ -8,12 +8,16 @@ import sys
 
 from PIL import Image, ImageDraw
 
-from . import action_set, asset_set, effects, provider, raster, sheet, tile, variant
+from . import action_set, asset_set, effect_clip, effects, motion, provider, raster, rig_draft, sheet, snap, tile, variant
 from .bundle import open_png, publish, write_json
 from .spec import Request, rgb
 
 
 LOCAL_PRODUCERS = {
+    "rig-draft": (rig_draft.produce, "propose an editable rig for a separated front-facing figure"),
+    "snap": (snap.produce, "sample a guided pixel grid and prepare a palette-limited master"),
+    "effect-clip": (effect_clip.produce, "reorder an existing GIF into charge, travel and impact phases"),
+    "motion": (motion.produce, "author six local articulated actions from an approved master and explicit rig"),
     "action-set": (action_set.produce, "pack six authored actions with timed local pixelfx effects"),
     "variant": (variant.produce, "attach equipment without rescaling a character"),
     "compare": (asset_set.produce, "review a set of build bundles at 1x and 4x"),

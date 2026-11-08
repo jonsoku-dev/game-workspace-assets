@@ -192,3 +192,178 @@ pixel-asset action-set --request actions.json --out scout-actions
 캐릭터 아틀라스, 액션별 프레임·시간·이벤트 메타데이터, 합성 재생 미리보기와 효과 고지는 stdout의 상대 파일 목록으로 전달된다. 프레임 저작과 게임 판정은 호출자가 맡는다.
 
 각 캐릭터 동작에는 최대 64프레임, 이벤트 하나의 pixelfx 시트에는 최대 256프레임을 쓴다. 루프의 끝을 지나는 효과는 다음 접촉까지 이어지며, 같은 이벤트가 다시 시작되면 최신 접촉에서 재생을 시작한다. GIF는 한 번의 동작과 그 효과의 꼬리를 보여 준다. 미리보기의 픽셀·시간 예산을 넘는 극단적인 입력은 CLI가 오류를 반환한다. 정확한 프레임 시간은 JSON에서 읽는다.
+
+## motion · 승인된 원본의 로컬 관절 동작 제작
+
+```json
+{
+  "schema_version": 1,
+  "approved": true,
+  "master": "motion-master.png",
+  "pivot_px_from_top_left": [
+    24,
+    41
+  ],
+  "rig": {
+    "parts": [
+      {
+        "id": "body",
+        "role": "torso",
+        "parent": null,
+        "anchor_px": [
+          24,
+          24
+        ],
+        "rect": [
+          21,
+          18,
+          7,
+          13
+        ]
+      },
+      {
+        "id": "head",
+        "role": "head",
+        "parent": "body",
+        "anchor_px": [
+          24,
+          18
+        ],
+        "rect": [
+          20,
+          11,
+          9,
+          7
+        ]
+      },
+      {
+        "id": "left",
+        "role": "arm_left",
+        "parent": "body",
+        "anchor_px": [
+          20,
+          20
+        ],
+        "rect": [
+          17,
+          20,
+          4,
+          11
+        ]
+      },
+      {
+        "id": "right",
+        "role": "arm_right",
+        "parent": "body",
+        "anchor_px": [
+          28,
+          20
+        ],
+        "rect": [
+          28,
+          20,
+          4,
+          11
+        ]
+      },
+      {
+        "id": "legl",
+        "role": "leg_left",
+        "parent": null,
+        "anchor_px": [
+          23,
+          31
+        ],
+        "rect": [
+          21,
+          31,
+          3,
+          10
+        ]
+      },
+      {
+        "id": "legr",
+        "role": "leg_right",
+        "parent": null,
+        "anchor_px": [
+          26,
+          31
+        ],
+        "rect": [
+          25,
+          31,
+          3,
+          10
+        ]
+      }
+    ]
+  }
+}
+```
+
+```sh
+pixel-asset motion --request motion.json --out motion-out
+```
+
+이 예시는 48×48 투명 PNG `motion-master.png`에 여섯 rect의 불투명 직사각형만 그린 자가 제작 대조군을 사용한다. rect는 `[x,y,width,height]`이며 몸·머리·왼팔·오른팔·왼다리·오른다리를 각각 독립 색으로 칠한다. 실제 캐릭터에서는 승인된 원본과 해부학에 맞게 리그를 작성한다. `approved:true`는 호출자가 원본 사용을 승인했다는 선언이며, 출력 아트의 자동 승인이 아니다.
+
+원본은 4~128px, 이진 알파이며 투명·불투명 픽셀이 모두 있어야 한다. 모든 불투명 픽셀을 2~24개 부위에 정확히 한 번 배정한다. `rect` 대신 같은 크기의 0/255 grayscale PNG `mask`를 쓸 수 있다. 부모는 자식보다 앞에 선언하고 `anchor_px`는 원본 좌상단 기준 관절이다. 부위 순서가 합성 순서다. `role`은 torso, head, arm_left, arm_right, leg_left, leg_right, weapon, accessory 중 하나이며 팔이나 다리가 적어도 하나 필요하다. 가려진 픽셀이나 새로운 신체를 추론하지 않는다. 관절 틈이나 가림 문제가 생기면 원본 저작 단계에서 명시적으로 보완한 뒤 새 승인 원본으로 재시작한다.
+
+기본 동작은 idle·walk·run·attack·jump·hurt다. 네이티브 격자에서 역방향 최근접 샘플링하며 원본 팔레트와 이진 알파를 보존한다. `neutral.png`는 투명 RGB를 0으로 정규화한 원본과 정확히 일치해야 한다. 프레임 PNG와 `action-set.request.json`, `inspection.json`을 반환한다. 다음 명령으로 엔진용 아틀라스와 동작별 GIF를 만든다.
+
+```sh
+pixel-asset action-set --request motion-out/action-set.request.json --out motion-actions
+```
+
+검수는 `motion-actions`의 원속도 GIF와 원본 1× 포즈에서 한다. inspection의 `clipped_part_pixels`, `unique_poses`, `duplicate_frames`, `unmarked_adjacent_duplicates`, `loop_seam_changed_pixels`, `contact_error_px`를 함께 읽는다. 접촉값은 측정한 관절/랜드마크와 목표의 차이이며 발을 고정하는 역운동학이 아니다. 잘림이 있어도 번들은 게시되지만 `passed:false`와 `needs-clipping-review`이므로 채택 전에 수정한다. `visual_review`와 `artistic_acceptance`는 자동으로 승인되지 않는다.
+
+문제가 있는 동작만 요청의 `actions`에 덮어쓴다. 예를 들어 attack의 접촉을 조정하려면 기존 요청에 아래 필드를 추가하고 `--out motion-repair` 같은 새 경로에 `motion`을 재실행한다. 다른 다섯 동작의 기본 제작은 유지된다.
+
+```json
+{"actions":{"attack":{"frames":[{"duration_ms":100,"parts":{"left":{"angle_deg":-45}}},{"duration_ms":180,"parts":{"left":{"angle_deg":90}}},{"duration_ms":100,"parts":{"left":{"angle_deg":90}},"hold":true}]}}}
+```
+
+```sh
+pixel-asset motion --request motion.json --out motion-repair
+pixel-asset action-set --request motion-repair/action-set.request.json --out motion-repair-actions
+```
+
+각 동작은 2~32프레임이며 각 프레임은 `duration_ms`, 선택적 `parts`(부위별 `angle_deg` ±180°, `offset_px` 각 축 ±32), `root_offset_px` 각 축 ±32, `contacts`, `hold`를 받는다. `contact_px`를 부위에 지정하면 그 원본 랜드마크를 측정하고, 생략하면 관절을 측정한다. 예를 들어 부위 `legl`에 `contact_px:[23,40]`, 프레임에 `contacts:{"legl":[23,40]}`을 선언하면 발 목표 오차를 기록한다. 동작 시간 합은 120000ms 이하이며 프레임·연산 예산도 검사한다.
+
+동일 자세를 오래 유지하려면 보통 한 프레임의 시간을 늘린다. 별도 정지 프레임이 필요하면 `hold:true`로 의도를 표시한다. 표시해도 중복 픽셀과 unique pose 수는 그대로 측정하며, 모든 프레임이 동일한 동작과 서로 같은 포즈 시퀀스의 동작은 거부한다. 역할 기반 기본 포즈는 해부학별 시각 검수가 필요한 시작점이다. 실제 게임 판정과 엔진 통합은 호스트 책임이다.
+
+## snap · 확대 원화를 네이티브 픽셀 격자로 변환
+
+```json
+{"schema_version":1,"source":"soft.png","crop":[0,0,160,160],"grid_size":[40,40],"max_colors":16,"alpha_cutoff":128}
+```
+
+```sh
+pixel-asset snap --request snap.json --out snapped
+```
+
+결과의 `asset.png`를 1×에서 확인한다. 승인한 그림을 리그에 사용할 때는 `motion` 요청의 master와 부위 좌표를 새 격자에 맞춘다. [샘플링 방식과 한계](snap.md)
+
+## effect-clip · 기존 GIF 재편집
+
+```json
+{"schema_version":1,"source":"spell.gif","license":"spell-license.txt","notice":"spell-notice.txt","actor_cell_size":[40,40],"effect_size":[16,16],"pivot_px_from_top_left":[8,8],"background":{"mode":"preserve"},"phases":{"charge":[{"frame":0,"duration_ms":120}],"travel":[{"frame":1,"duration_ms":80}],"impact":[{"frame":2,"duration_ms":100}]}}
+```
+
+```sh
+pixel-asset effect-clip --request clip.json --out spell
+```
+
+세 단계의 원본 인덱스와 길이를 정한다. 결과 시트·메타데이터·원본의 라이선스와 고지를 `action-set`의 접촉 이벤트에 연결한다. 선택 프레임이 이동을 표현하며, 게임의 투사체 물리·충돌은 해당 엔진이 소유한다. [배경 처리·프레임 합성 규칙](effect-clip.md)
+
+## rig-draft · 정면 인물 리그 초안
+
+```json
+{"schema_version":1,"source":"relaxed-sprite.png"}
+```
+
+```sh
+pixel-asset rig-draft --request rig.json --out joints
+```
+
+정면에서 팔·몸·다리 사이의 투명한 틈이 보이는 단일 원화를 사용한다. 초안의 마스크·부모·관절을 그림과 맞춰 확인하고 승인 후 motion 요청에 사용한다. [입력 가이드와 지원 자세](rig-draft.md)

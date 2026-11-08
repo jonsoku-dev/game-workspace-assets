@@ -1,6 +1,9 @@
 """Local artifact I/O shared by the asset producers."""
+import ctypes
 import json
+import os
 from pathlib import Path
+import sys
 import tempfile
 
 from PIL import Image
@@ -29,5 +32,19 @@ def publish(output: Path, producer, *inputs):
         for filename in files.values():
             if Path(filename).name != filename or not (stage / filename).is_file():
                 raise ValueError(f"missing or invalid bundle artifact: {filename}")
-        stage.rename(output)
+        if sys.platform == 'win32':
+            stage.rename(output)
+        else:
+            libc = ctypes.CDLL(None, use_errno=True)
+            if sys.platform == 'darwin':
+                rename, flag = libc.renameatx_np, 0x4
+            elif sys.platform.startswith('linux') and hasattr(libc, 'renameat2'):
+                rename, flag = libc.renameat2, 1
+            else:
+                raise RuntimeError('This platform lacks atomic no-replace directory publication')
+            rename.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+            rename.restype = ctypes.c_int
+            if rename(-1, os.fsencode(stage.absolute()), -1, os.fsencode(output.absolute()), flag):
+                error = ctypes.get_errno()
+                raise OSError(error, os.strerror(error), str(output))
     return {"schema_version": 1, "status": "ready", "files": files}

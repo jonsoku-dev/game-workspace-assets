@@ -23,7 +23,8 @@ class SkillContractTests(unittest.TestCase):
             work.mkdir()
             subprocess.run([sys.executable, str(ROOT / "scripts/package-plugin.py"), str(package)],
                            cwd=work, check=True, capture_output=True, timeout=30)
-            environment = dict(os.environ, PYTHONPATH=str(package / "src"), PYTHONDONTWRITEBYTECODE="1")
+            environment = dict(os.environ, PYTHONPATH=str(package / "src"),
+                               PYTHONDONTWRITEBYTECODE="1", PYTHONWARNINGS="error")
             cli = [sys.executable, "-m", "pixel_asset_pipeline.cli"]
 
             def invoke(arguments):
@@ -37,6 +38,11 @@ class SkillContractTests(unittest.TestCase):
             self.assertIsNotNone(choices, help_text)
             commands = choices.group(1).split(",")
             skill_root = package / ".agents/skills/pixel-asset-pipeline"
+            manifest = json.loads((package / ".codex-plugin/plugin.json").read_text())
+            package_version = re.search(r'^version = "([^"]+)"',
+                                        (package / "pyproject.toml").read_text(), re.MULTILINE)
+            self.assertIsNotNone(package_version)
+            self.assertEqual(manifest["version"], package_version.group(1))
             skill = (skill_root / "SKILL.md").read_text(encoding="utf-8")
             routes = re.findall(r"^\|\s*`([^`]+)`\s*\|", skill, re.MULTILINE)
             self.assertCountEqual(routes, commands, "Skill routing must cover the public CLI exactly once")
@@ -55,6 +61,8 @@ class SkillContractTests(unittest.TestCase):
                 "gear/staff.png": "examples/production/gear/sources/staff.png",
                 "step-a.png": "examples/production/walk/frames/01.png",
                 "step-b.png": "examples/production/walk/frames/02.png",
+                "relaxed-sprite.png": "examples/production/rig-draft/relaxed-sprite.png",
+                "motion-master.png": "examples/production/motion/master.png",
             }
             for action in ("idle", "walk", "run", "attack", "jump", "hurt"):
                 for index in (1, 2):
@@ -65,6 +73,17 @@ class SkillContractTests(unittest.TestCase):
                 shutil.copyfile(ROOT / source, destination)
             shutil.copytree(ROOT / "examples/production/set/acorn-v2", work / "acorn")
             Image.new("RGB", (32, 32), "#425e3a").save(work / "grass.png")
+
+            with Image.open(work / "motion-master.png") as master:
+                master.convert("RGBA").resize((160, 160), Image.Resampling.BILINEAR).save(work / "soft.png")
+            spell = []
+            for x in (2, 7, 12):
+                frame = Image.new("RGBA", (16, 16))
+                frame.paste((255, 184, 50, 255), (x, 6, x + 2, 9))
+                spell.append(frame)
+            spell[0].save(work / "spell.gif", save_all=True, append_images=spell[1:], duration=80, disposal=2)
+            (work / "spell-license.txt").write_text("CC0-1.0\n")
+            (work / "spell-notice.txt").write_text("Original synthetic CLI fixture.\n")
 
             for command, section in sections:
                 with self.subTest(command=command):
@@ -96,3 +115,10 @@ class SkillContractTests(unittest.TestCase):
                     for filename in result["files"].values():
                         self.assertEqual(Path(filename).name, filename)
                         self.assertTrue((output / filename).is_file())
+                    if command == "motion":
+                        report = json.loads((output / "inspection.json").read_text())
+                        self.assertTrue(report["neutral_exact_visible_reconstruction"])
+                        self.assertTrue(report["passed"])
+                        packed = json.loads(invoke(["action-set", "--request",
+                                                   "motion-out/action-set.request.json", "--out", "motion-actions"]))
+                        self.assertEqual(packed["status"], "ready")
