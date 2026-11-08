@@ -419,7 +419,11 @@ def review_previews(master, parts, inspection, stage):
     qa.save(stage / 'motion-qa.png')
 
 
-def produce(request_path: Path, stage: Path):
+class PoseQualityError(ValueError):
+    """The requested rig and poses cannot produce distinguishable motion."""
+
+
+def produce(request_path: Path, stage: Path, *, selected_actions=None, provisional_rig=False):
     snapshots = {}
     request_bytes = snapshot(request_path, 1_048_576, 'motion request', snapshots)
     request = json.loads(request_bytes.decode('utf-8'))
@@ -428,7 +432,7 @@ def produce(request_path: Path, stage: Path):
     unknown = request.keys() - {'schema_version', 'master', 'approved', 'rig', 'pivot_px_from_top_left', 'actions', 'extra_actions', 'single_body'}
     if unknown:
         raise ValueError('unknown field(s) in motion request: ' + ', '.join(sorted(unknown)))
-    if request.get('approved') is not True:
+    if request.get('approved') is not True and not (provisional_rig and request.get('approved') is False):
         raise ValueError('master requires explicit approved:true')
     single_body = request.get('single_body', False)
     if type(single_body) is not bool:
@@ -463,9 +467,14 @@ def produce(request_path: Path, stage: Path):
             raise ValueError('extra actions require exactly loop (boolean) and frames')
         actions[name] = {'frames': action['frames']}
         loops[name] = action['loop']
+    if selected_actions is not None:
+        if not selected_actions or len(set(selected_actions)) != len(selected_actions) or set(selected_actions) - actions.keys():
+            raise ValueError('selected actions must be distinct actions available in the motion request')
+        actions = {name: actions[name] for name in selected_actions}
     frames = {name: frames_for(action, parts, master.size) for name, action in actions.items()}
     count = sum(len(value) for value in frames.values())
-    if extras and count > 256:
+    wants_rive = bool(extras) or selected_actions is not None
+    if wants_rive and count > 256:
         raise ValueError('extra actions exceed the 256-frame Rive manifest budget')
     if count * master.width * master.height > MAX_PIXELS or count * len(parts) * master.width * master.height > 33_554_432:
         raise ValueError('motion exceeds pixel/computation budget')
@@ -519,7 +528,7 @@ def produce(request_path: Path, stage: Path):
             hashes.append(hashlib.sha256(image.tobytes()).hexdigest())
         unique = len(set(hashes))
         if unique < 2:
-            raise ValueError(f'{name} has no visible articulation; revise rig/angles')
+            raise PoseQualityError(f'{name} has no visible articulation; revise rig/angles')
         packed['actions'][name] = {'loop': loops[name], 'frames': entries}
         inspection['actions'][name] = {'frames': records, 'unique_poses': unique,
                                        'duplicate_frames': [i for i, h in enumerate(hashes) if h in hashes[:i]],
@@ -528,7 +537,7 @@ def produce(request_path: Path, stage: Path):
                                        'changed_pixels_from_neutral': [difference(image, neutral) for image in images]}
     signatures = {name: [digest(stage / entry['path']) for entry in action['frames']] for name, action in packed['actions'].items()}
     if len({tuple(value) for value in signatures.values()}) != len(actions):
-        raise ValueError('actions must have distinct visible pose sequences')
+        raise PoseQualityError('actions must have distinct visible pose sequences')
     inspection['single_body_passed'] = rest_sizeable <= 1 and all(
         f['sizeable_component_count'] <= 1 for a in inspection['actions'].values() for f in a['frames'])
     connectivity_failed = single_body and not inspection['single_body_passed']
@@ -538,16 +547,21 @@ def produce(request_path: Path, stage: Path):
                                       'needs-connectivity-review' if connectivity_failed else
                                       'needs-clipping-review' if clipped else 'passed')
     inspection['rive_export_status'] = ('blocked-single-body' if connectivity_failed else 'blocked-clipping' if clipped else
-                                       'ready' if extras else 'not-requested')
+                                      'ready' if wants_rive else 'not-requested')
+    if provisional_rig:
+        inspection['rig_status'] = 'provisional'
     inspection['limitations'].append('8-connected components detect splits, not anatomical continuity or natural motion.')
     if any('joint_underlap' in part for part in parts):
         inspection['limitations'].append('Joint underlaps are authored palette-sampled patches clipped to rest alpha, not recovered hidden artwork.')
     inspection['review_files'] = {key: files[key] for key in ('master', 'rig_preview', 'motion_qa')}
     review_previews(master, parts, inspection, stage)
-    if extras and inspection['passed']:
+    if wants_rive and inspection['passed']:
         files['rive_poses'] = 'rive-poses.json'
         write_json(stage / files['rive_poses'], packed)
-    packed = {**packed, 'actions': {name: packed['actions'][name] for name in ACTIONS}}
-    write_json(stage / files['request'], packed)
+    if ACTIONS.keys() <= packed['actions'].keys():
+        packed = {**packed, 'actions': {name: packed['actions'][name] for name in ACTIONS}}
+        write_json(stage / files['request'], packed)
+    else:
+        del files['request']
     write_json(stage / files['inspection'], inspection)
     return files

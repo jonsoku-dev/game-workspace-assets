@@ -85,6 +85,9 @@ class SkillContractTests(unittest.TestCase):
             (work / "spell-license.txt").write_text("CC0-1.0\n")
             (work / "spell-notice.txt").write_text("Original synthetic CLI fixture.\n")
 
+            character_section = dict(sections)["character"]
+            cel_manifest = re.findall(r"```json\n(.*?)\n```", character_section, re.DOTALL)[1]
+            (work / "courier-cels.json").write_text(json.dumps(json.loads(cel_manifest)))
             for command, section in sections:
                 with self.subTest(command=command):
                     snippets = re.findall(r"```sh\n(.*?)\n```", section, re.DOTALL)

@@ -153,3 +153,7 @@ PIXEL_ASSET_CLI="$PWD/.venv/bin/pixel-asset" node examples/mock-game-plugin/impo
 ## 0.6.0 Rive 캐릭터 내보내기
 
 `pixel-asset rive`는 투명 PNG 포즈와 프레임별 밀리초를 받아 이미지·이름 있는 애니메이션·숫자 입력으로 선택하는 상태 머신을 하나의 `.riv`에 넣는다. 한 캐릭터의 부위 연결이 중요하면 `motion`에서 `single_body:true`를 쓰고 동작 중 새로 분리된 실루엣을 확인한다. 인사·환호처럼 추가로 그려야 할 동작은 `extra_actions`의 관절 변환으로 표현한다. 프레임 픽셀은 Rive 파일에 내장되며 런타임에서 개별 본을 다시 조작하는 라이브 퍼펫은 별도 제작 범위다. [설치본 입력과 출력 계약](.agents/skills/pixel-asset-pipeline/references/production.md)
+
+## 0.7.0 개별 작화 셀과 휴대용 플레이어
+
+손을 들어 흔들거나 몸이 옆으로 돌아가는 동작에서는 새로 보이는 손바닥·소매·옆얼굴을 해당 포즈에 그릴 수 있다. `pixel-asset character`의 `frames`에 완성 PNG와 시간을 적은 manifest를 주면, 요청한 동작만 지정 순서로 내장한 `character.riv`와 단일 파일 `player.html`을 만든다. `reference` 원화는 시각적 기준으로 보존한다. 독립 HTML은 공식 Rive JS·WASM·애니메이션을 모두 내장하며 원본 그림을 서버로 보내지 않는다. [입력 예시와 수정 방법](.agents/skills/pixel-asset-pipeline/references/production.md#character--개별-포즈에서-rive-파일과-오프라인-재생-화면-만들기)

@@ -391,3 +391,23 @@ pixel-asset rive --request builds/motion/rive-poses.json --out builds/rive
 ```
 
 중립에서는 붙은 팔이 회전 중 떨어지면 해당 프레임의 `inspection.json`에서 분리된 픽셀의 면적과 위치를 본다. 필요하면 부위의 `joint_underlap`에 연결할 부모·자식 좌표 `parent_px`, `child_px`, 연결 폭의 반경 `radius_px`, 원화의 색 샘플 좌표 `source_px`와 선택 사항인 가장자리 색 `edge_px`를 둔다. 원화의 투명 영역과 팔레트를 유지하면서 소매와 관절이 겹치도록 조정하는 방식이다. 걷기와 달리기는 지지발과 들어 올린 발이 서로 뒤바뀌는지, 인사와 환호는 팔꿈치·어깨가 이어지는지 실제 재생 크기에서 검토한다.
+
+## character · 개별 포즈에서 Rive 파일과 오프라인 재생 화면 만들기
+
+```json
+{"schema_version":1,"frames":"courier-cels.json","reference":"relaxed-sprite.png","actions":["wave","idle"],"title":"달빛 정류장","language":"ko"}
+```
+
+```sh
+pixel-asset character --request courier-character.json --out courier-player
+```
+
+`frames`는 아래처럼 이미 그려 둔 완성 포즈의 목록이다. PNG 경로는 이 목록 파일이 있는 폴더 기준이다. `courier-cels.json`의 예시 값은 다음과 같다.
+
+```json
+{"schema_version":1,"size":[48,48],"actions":{"idle":{"loop":true,"frames":[{"path":"idle-1.png","duration_ms":180}]},"wave":{"loop":true,"frames":[{"path":"walk-1.png","duration_ms":100},{"path":"walk-2.png","duration_ms":120}]}}}
+```
+
+문서 실행 검사에는 기존 작은 테스트 이미지를 사용한다. 실제 캐릭터에는 손과 얼굴이 보이게 작화한 인사 포즈를 넣는다. 같은 그림을 한 박자 더 보여 주려면 해당 프레임의 시간을 늘리고, 순서를 바꾸거나 다른 PNG로 교체해 새 출력 폴더로 다시 실행한다. `reference`는 선택한 기준 원화를 기록한다. 요청의 `actions` 순서가 버튼과 상태 입력 순서다. `player.html` 한 파일에 공식 Rive 런타임·캐릭터를 포함해 브라우저로 열 수 있다. `character.riv`는 게임에 전달할 파일이다. `language`는 ko 또는 ja를 지원한다.
+
+이미 관절·동작이 승인된 저작 요청이면 `frames` 대신 `motion_request`를 지정한다. 분리된 정면 인물에서 자동 리그의 동작 초안을 **명시적으로 원할 때만** `source`를 선택한다. 지원 자세 밖이거나 연결·잘림 검사에 실패하면 `needs_review`와 이유를 확인하고 원화에 맞는 리그나 개별 작화로 전환한다. 자동 초안으로 미술 승인을 대신하지 않는다.

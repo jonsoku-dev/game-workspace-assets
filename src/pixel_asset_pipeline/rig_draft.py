@@ -36,8 +36,12 @@ def connected(pixels):
     return seen == pixels
 
 
+class UnsupportedSilhouette(ValueError):
+    """A valid source needs an authored rig for this view or pose."""
+
+
 def fail(reason):
-    raise ValueError('unsupported or uncertain frontal neutral silhouette: ' + reason + '; author an explicit motion rig')
+    raise UnsupportedSilhouette('unsupported or uncertain frontal neutral silhouette: ' + reason + '; author an explicit motion rig')
 
 
 def analyse(master, guides):

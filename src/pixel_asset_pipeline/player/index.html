@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="@@LANG@@">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; img-src data: blob:; connect-src data: blob:; font-src data:; base-uri 'none'; form-action 'none'">
+<title>@@TITLE@@ · Rive</title>
+<style>@@CSS@@</style>
+</head>
+<body>
+<main>
+<header><h1>@@TITLE@@</h1><p class="intro">@@INTRO@@</p></header>
+<section class="stage" aria-label="@@TITLE@@"><canvas width="96" height="96" role="img" aria-label="@@TITLE@@"></canvas><p id="status" role="status">@@LOADING@@</p></section>
+<section class="controls" aria-label="@@ACTIONS@@"><div id="actions" class="actions"></div><div class="transport"><button id="pause" disabled>@@PAUSE@@</button><button id="replay" disabled>@@REPLAY@@</button></div></section>
+<footer><a id="download" download="character.riv">@@DOWNLOAD@@</a><details><summary>Rive Canvas 2.49.4 · MIT</summary><pre>@@LICENSE@@</pre></details></footer>
+</main>
+<script type="application/json" id="player-data">@@DATA@@</script>
+<script>@@JS@@</script>
+</body></html>

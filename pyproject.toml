@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pixel-asset-pipeline"
-version = "0.6.0"
+version = "0.7.0"
 description = "Produce pixel-art sprites, variants, locally rigged motion, sheets, terrain tiles and visual effects."
 requires-python = ">=3.10"
 dependencies = ["Pillow>=10,<13"]
@@ -14,3 +14,6 @@ pixel-asset = "pixel_asset_pipeline.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+pixel_asset_pipeline = ["player/*.html", "player/*.js", "player/*.css", "player/vendor/*"]

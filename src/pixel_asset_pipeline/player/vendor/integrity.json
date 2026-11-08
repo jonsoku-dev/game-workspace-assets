@@ -1,0 +1,15 @@
+{
+  "package": "@rive-app/canvas",
+  "version": "2.49.4",
+  "source": "https://registry.npmjs.org/@rive-app/canvas/-/canvas-2.49.4.tgz",
+  "license": "MIT",
+  "sha256": {
+    "rive.js": "bdd471f39a2133e775cfa2d6815ceb6b2670ced8fb6df4b142bd59d878dc12b8",
+    "rive.wasm": "43d09f2c8aa011e7b41003c1f4d4763b80ee2409c166c1cd40b4f65b55c4445a",
+    "rive_fallback.wasm": "3ad095325fb791842266c424f9ea517b050f6af623d9a05d03f8a735cbb7a2ba",
+    "LICENSE": "8a1efa755d19446b51a18e1c15f6308728da0b36283c4d38050698ad6954b69a",
+    "package.json": "d293bd27c0eee99355599e8bf5f6d11ca04027e2a600ab9ee28f96fbabbe185a"
+  },
+  "tarball_sha256": "a5f2d7a29d8ac3e759de1fcb1bf9cfe440c375e23a93fe07789855b1897d6efb",
+  "license_source": "https://raw.githubusercontent.com/rive-app/rive-wasm/master/LICENSE"
+}

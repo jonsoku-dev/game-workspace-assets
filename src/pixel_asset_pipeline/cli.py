@@ -8,12 +8,13 @@ import sys
 
 from PIL import Image, ImageDraw
 
-from . import action_set, asset_set, effect_clip, effects, motion, provider, raster, rig_draft, rive, sheet, snap, tile, variant
+from . import action_set, asset_set, character, effect_clip, effects, motion, provider, raster, rig_draft, rive, sheet, snap, tile, variant
 from .bundle import open_png, publish, write_json
 from .spec import Request, rgb
 
 
 LOCAL_PRODUCERS = {
+    "character": (character.produce, "make character actions, a Rive file and an offline player"),
     "rive": (rive.produce, "export pose animations to a self-contained Rive file with a selectable state machine"),
     "rig-draft": (rig_draft.produce, "propose an editable rig for a separated front-facing figure"),
     "snap": (snap.produce, "sample a guided pixel grid and prepare a palette-limited master"),
@@ -110,7 +111,14 @@ def main(argv=None):
         else:
             request = Request.load(args.request)
             result = raster.validate(open_png(args.png, max_pixels=raster.MAX_SIZE ** 2), *request.raster_args())
+        if args.command == "character":
+            report = json.loads((args.out / result["files"]["report"]).read_text())
+            result["status"] = report["status"]
+            if "reason" in report:
+                result["reason"] = report["reason"]
         print(json.dumps(result, ensure_ascii=False))
+        if result.get("status") == "needs_review":
+            return 1
         return 0 if result.get("passed", True) else 1
     except (OSError, ValueError, RuntimeError, Image.DecompressionBombError) as exc:
         print(json.dumps({"schema_version": 1, "status": "error", "error": str(exc)},
