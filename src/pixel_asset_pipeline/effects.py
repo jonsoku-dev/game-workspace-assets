@@ -14,8 +14,8 @@ from .sheet import export_sheet
 def _request(path):
     data = read_object(path, {"preset", "size", "palette", "seed"})
     preset = data.get("preset")
-    if not isinstance(preset, str) or preset not in {"pickup", "flame"}:
-        raise ValueError("preset must be pickup or flame")
+    if not isinstance(preset, str) or preset not in PRESETS:
+        raise ValueError("preset must be one of: " + ", ".join(PRESETS))
     size = data.get("size", 32)
     if type(size) is not int or not 16 <= size <= 64:
         raise ValueError("size must be an integer in 16..64")
@@ -109,18 +109,118 @@ def _flame(size, colors, seed):
     return frames
 
 
+# Timing is authored per cue; the final hold is a transparent resolved state.
+PRESETS = {
+    "pickup": ([60] * 10, "event", "collection committed", 3),
+    "flame": ([80] * 12, "event", "active fire; stop when extinguished", 0),
+    "step": ([30, 40, 50, 60, 60, 80], "ground", "foot contacts ground while moving", 1),
+    "land": ([30, 40, 50, 60, 70, 80, 90, 100], "ground", "airborne actor contacts ground", 1),
+    "slash": ([40, 30, 30, 40, 50, 60, 70, 80], "event", "right-facing attack active frame", 2),
+    "impact": ([30, 40, 40, 50, 60, 70, 80, 100], "event", "hit or damage confirmed at contact", 1),
+    "confirm": ([50, 50, 60, 80, 140, 100, 80, 100], "event", "UI action or progression committed", 4),
+    "deny": ([40, 40, 40, 40, 50, 100, 100, 100], "event", "UI action rejected or interaction unavailable", 5),
+}
+
+
+def _feedback(preset, size, colors, seed):
+    rng = random.Random(seed)
+    rays = [(i * math.tau / 8 + rng.uniform(-0.1, 0.1), rng.uniform(0.85, 1.05))
+            for i in range(8)]
+    frames = []
+    scale = size / 32
+    ground = preset in {"step", "land"}
+    origin = (size // 2, round(size * 0.8125) if ground else size // 2)
+    for frame in range(len(PRESETS[preset][0])):
+        image = Image.new("RGBA", (size, size))
+        draw = ImageDraw.Draw(image)
+
+        def point(x, y):
+            return round(origin[0] + x * scale), round(origin[1] + y * scale)
+
+        def line(points, color, width=1):
+            draw.line([point(x, y) for x, y in points], fill=color,
+                      width=max(1, round(width * scale)))
+
+        if frame == len(PRESETS[preset][0]) - 1:
+            frames.append(image)
+            continue
+        if ground:
+            strong = preset == "land"
+            spread = (3 + frame * 1.7) if strong else (2 + frame * 0.8)
+            if frame < 3:
+                line([(-spread, 0), (spread, 0)], colors[-1 if frame == 0 else 0])
+            for i, (angle, speed) in enumerate(rays[:6 if strong else 3]):
+                side = -1 if i % 2 else 1
+                x = side * (spread + i * 0.45) * speed
+                y = -math.sin((frame + 1) / (7 if strong else 5) * math.pi) * (3 + i % 3 if strong else 1.8)
+                radius = (2 if strong and frame < 3 else 1) if frame < 4 else 0
+                draw.rectangle([point(x - radius, y - radius), point(x + radius, y)],
+                               fill=colors[-2 if frame < 3 else 0])
+        elif preset == "slash":
+            # Right-facing crescent sweeps down; detached sparks continue beyond the blade.
+            if frame < 5:
+                end = -55 + frame * 32
+                start = max(-85, end - 90)
+                arc = [(math.cos(math.radians(a)) * 11, math.sin(math.radians(a)) * 11)
+                       for a in range(start, min(86, end + 1), 5)]
+                line(arc, colors[0], 3)
+                line(arc[-12:], colors[-1], 1)
+            for i, (angle, speed) in enumerate(rays[:4]):
+                if frame >= 2 and (frame < 5 or i % 2 == frame % 2):
+                    x = 6 + (frame - 2) * speed + i
+                    y = (i - 1.5) * (1 + (frame - 2) * 0.8)
+                    line([(x, y), (x + 1, y - 1)], colors[-2])
+        elif preset == "impact":
+            if frame < 3:
+                radius = 3 + frame * 2
+                star = [(math.cos(i * math.pi / 8) * (radius if i % 2 == 0 else radius / 3),
+                         math.sin(i * math.pi / 8) * (radius if i % 2 == 0 else radius / 3))
+                        for i in range(16)]
+                draw.polygon([point(x, y) for x, y in star], fill=colors[-1])
+            for i, (angle, speed) in enumerate(rays):
+                if frame < 5 or i % 2 == frame % 2:
+                    radius = (3 + frame * 1.55) * speed
+                    line([(math.cos(angle) * radius, math.sin(angle) * radius),
+                          (math.cos(angle) * (radius + 2), math.sin(angle) * (radius + 2))],
+                         colors[-2 if frame < 3 else 0])
+        elif preset == "confirm":
+            path = [(-7, 0), (-3, 4), (7, -6)]
+            if frame == 0:
+                line([path[0], (-5, 2)], colors[-1], 2)
+            elif frame == 1:
+                line(path[:2], colors[-1], 2)
+            else:
+                line(path, colors[-1 if frame < 5 else -2], 2)
+            if 2 <= frame < 5:
+                for x, y in [(-9, -6), (9, 5)]:
+                    line([(x, y - 1), (x, y + 1)], colors[0])
+                    line([(x - 1, y), (x + 1, y)], colors[0])
+        else:  # Rejection shakes, then holds a readable X without a success sparkle.
+            offset = (-2, 2, -1, 1, 0, 0, 0)[frame]
+            color = colors[-1 if frame < 5 else -2]
+            line([(-5 + offset, -5), (5 + offset, 5)], color, 2)
+            line([(5 + offset, -5), (-5 + offset, 5)], color, 2)
+        frames.append(image)
+    return frames
+
+
 def produce(request_path: Path, stage: Path) -> dict:
     """Write a native RGBA sheet and preview; palette order runs outer to hot core."""
     preset, size, colors, seed = _request(request_path)
-    frames = (_pickup if preset == "pickup" else _flame)(size, colors, seed)
-    duration = 60 if preset == "pickup" else 80
+    durations, anchor, trigger, reduced_frame = PRESETS[preset]
+    frames = (_pickup(size, colors, seed) if preset == "pickup" else
+              _flame(size, colors, seed) if preset == "flame" else
+              _feedback(preset, size, colors, seed))
+    pivot = [size // 2, round(size * 0.8125) if anchor == "ground" else size // 2]
     stage.mkdir(parents=True, exist_ok=True)
-    exported = export_sheet(frames, [duration] * len(frames), [size // 2, size // 2],
+    exported = export_sheet(frames, durations, pivot,
                             preset == "flame", stage)
     report = {
         "schema_version": 1, "producer": "local-procedural", "preset": preset,
         "size": size, "seed": seed, "frame_count": len(frames),
-        "duration_ms": duration * len(frames), "loop": preset == "flame",
+        "duration_ms": sum(durations), "loop": preset == "flame",
+        "timing_ms": durations, "pivot_px_from_top_left": pivot,
+        "anchor": anchor, "trigger_intent": trigger, "reduced_motion_frame": reduced_frame,
         "palette": ["#%02x%02x%02x" % color[:3] for color in colors],
         "frame_checks": [{"rgba": frame.mode == "RGBA",
                           "binary_alpha": sum(frame.getchannel("A").histogram()[1:255]) == 0,
@@ -131,7 +231,7 @@ def produce(request_path: Path, stage: Path) -> dict:
     }
     report["passed"] = (all(check["rgba"] and check["binary_alpha"] and check["palette"]
                             for check in report["frame_checks"])
-                        and (report["terminal_blank"] if preset == "pickup"
+                        and (report["terminal_blank"] if preset != "flame"
                              else not any(check["blank"] for check in report["frame_checks"])))
     if not report["passed"]:
         raise ValueError(f"{preset} effect failed frame validation")

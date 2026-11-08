@@ -1,3 +1,4 @@
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -89,6 +90,61 @@ class EffectTests(unittest.TestCase):
             for size in (16, 64):
                 small, _, _, _ = self.build(preset, preset + str(size), size=size)
                 self.assertEqual(small.size, (size * count, size))
+
+    def test_legacy_pixels_remain_compatible(self):
+        for preset, expected in {
+            "pickup": "5de713e81a8d058f253dec160e0bae2f6fc1154d20d95766e80e460d9f626552",
+            "flame": "1a73b907db80df8ace2d7db845229a2f72e21fc69c1122f696d1c84ff0eab566",
+        }.items():
+            image, meta, _, _ = self.build(preset)
+            pixels = b"".join(frame.tobytes() for frame in self.frames(image, meta))
+            self.assertEqual(hashlib.sha256(pixels).hexdigest(), expected)
+
+    def test_feedback_presets_resolve_and_publish_timing_anchor_and_event(self):
+        signatures = set()
+        for preset in ("step", "land", "slash", "impact", "confirm", "deny"):
+            for size in (16, 32, 64):
+                with self.subTest(preset=preset, size=size):
+                    image, meta, report, _ = self.build(preset, preset + str(size), size=size)
+                    repeated, _, _, _ = self.build(preset, "repeat", size=size)
+                    self.assertEqual(image.tobytes(), repeated.tobytes())
+                    self.assertEqual(image.size, (size * report["frame_count"], size))
+                    self.assertTrue(report["passed"])
+                    self.assertTrue(report["terminal_blank"])
+                    self.assertFalse(meta["loop"])
+                    self.assertEqual(report["timing_ms"], [f["duration_ms"] for f in meta["frames"]])
+                    self.assertEqual(sum(report["timing_ms"]), report["duration_ms"])
+                    ground = preset in {"step", "land"}
+                    self.assertEqual(report["anchor"], "ground" if ground else "event")
+                    self.assertEqual(meta["pivot_px_from_top_left"],
+                                     [size // 2, round(size * 0.8125) if ground else size // 2])
+                    self.assertEqual(report["pivot_px_from_top_left"], meta["pivot_px_from_top_left"])
+                    self.assertTrue(report["trigger_intent"])
+                    frames = self.frames(image, meta)
+                    self.assertIsNotNone(frames[report["reduced_motion_frame"]].getbbox())
+                    self.assertIsNotNone(frames[-2].getbbox())
+                    self.assertIsNone(frames[-1].getbbox())
+                    if size == 32:
+                        signatures.add(image.tobytes())
+        self.assertEqual(len(signatures), 6)
+
+    def test_ground_strength_direction_and_ui_shape_differ_without_color(self):
+        def masks(preset):
+            image, meta, report, _ = self.build(preset)
+            return [f.getchannel("A") for f in self.frames(image, meta)], report
+        step, step_report = masks("step")
+        land, land_report = masks("land")
+        self.assertLess(max(sum(f.histogram()[1:]) for f in step),
+                        max(sum(f.histogram()[1:]) for f in land))
+        self.assertLess(step_report["duration_ms"], land_report["duration_ms"])
+        slash, _ = masks("slash")
+        self.assertTrue(all(f.getbbox()[0] >= 16 for f in slash[:-1]))
+        confirm, confirm_report = masks("confirm")
+        deny, deny_report = masks("deny")
+        self.assertNotEqual([f.tobytes() for f in confirm], [f.tobytes() for f in deny])
+        self.assertNotEqual(confirm_report["timing_ms"], deny_report["timing_ms"])
+        self.assertEqual(deny[4].tobytes(), deny[5].tobytes())
+        self.assertNotEqual(confirm[0].tobytes(), confirm[2].tobytes())
 
     def test_malformed_requests_fail_before_writing(self):
         for changes in ({"preset": "storm"}, {"preset": []}, {"size": True}, {"size": 65},

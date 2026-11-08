@@ -37,3 +37,7 @@
 Polymation의 픽셀 캐릭터 문서는 카메라 쪽으로 향하는 팔다리의 단축과 윤곽 재작화를 설명한다. 가려진 신체나 포즈 변화가 큰 경우에는 기존 프레임을 flipbook으로 보존하는 경로도 있다. v0.7.0의 `character`는 완성 셀을 직접 입력받아 선택·재생하는 로컬 경로를 지원한다. 이 제품의 리깅·작화 코드는 복사하지 않았다. [픽셀 캐릭터](https://polymation.stunning.gg/docs/pixel-characters) · [이미지 리그](https://polymation.stunning.gg/docs/rig-from-picture) · [공개 체험](https://polymation.stunning.gg/try/)
 
 플레이어에는 공식 `@rive-app/canvas` 2.49.4의 JS·WASM과 MIT 고지를 포함한다. 공급 패키지와 파일 지문은 설치 배포물에 보존한다. [런타임 소스](https://github.com/rive-app/rive-wasm) · [포함 파일의 출처와 SHA-256](../src/pixel_asset_pipeline/player/vendor/integrity.json)
+
+## 행동별 피드백 제작
+
+첨부한 @porsukgames의 전투 사례와 GDC 강연을 참고해, 이동·착지·수집·확인·거절·명중을 서로 다른 시점과 피벗에 연결했다. 효과의 픽셀과 소리는 이 프로젝트에서 생성한다. 외부 게시물의 이미지나 음원을 배포물에 넣지 않았다. [Jonasson과 Purho의 GDC 강연](https://gdcvault.com/play/1016487/Juice-It-or-Lose-It)

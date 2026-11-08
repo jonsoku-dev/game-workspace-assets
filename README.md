@@ -1,6 +1,6 @@
 # Pixel Asset Pipeline
 
-게임 제작의 **2D 아트 에셋 제작**을 맡는 개인용 Codex 플러그인·스킬이다. 0.2에서는 정적 스프라이트 외에 장비 변형, 세트 비교, 동작 시트, 반복 타일과 절차적 이펙트를 로컬에서 만들 수 있다. 게임 엔진과 게임 규칙은 호출하는 호스트가 맡는다.
+게임 제작의 **2D 아트 에셋 제작**을 맡는 개인용 Codex 플러그인·스킬이다. 0.2에서는 정적 스프라이트 외에 장비 변형, 세트 비교, 동작 시트, 반복 타일과 절차적 이펙트를 로컬에서 만들 수 있다. 0.8은 발 접지·착지·베기·명중·UI 확인/거절 효과를 기존 `effect` 명령에 더한다. 게임 엔진과 게임 규칙은 호출하는 호스트가 맡는다.
 
 [제작 계획·완료 기록](docs/asset-production-plan.md) · [제작 요청 규격](.agents/skills/pixel-asset-pipeline/references/production.md) · [에셋 미리보기](examples/production/index.html)
 
@@ -70,6 +70,8 @@ Python 3.10 이상과 Pillow 10~12가 필요하다. 현재 작업 폴더에는 �
 .venv/bin/pixel-asset tile --request examples/production/tiles/grass-request.json --out /tmp/grass-tile
 .venv/bin/pixel-asset effect --request examples/production/effects/pickup/request.json --out /tmp/pickup-flash
 ```
+
+`effect`는 `step`, `land`, `slash`, `impact`, `confirm`, `deny`, `pickup`, `flame`을 지원한다. [프리셋별 피벗·타이밍·사건 및 감소된 모션 계약](.agents/skills/pixel-asset-pipeline/references/production.md#effect--게임-피드백)을 확인해 실제 발 접촉·명중·UI 확정에 맞춘다.
 
 기술 검사는 포즈의 픽셀·피벗·재생 시간, 팔레트, 장비가 바꾼 영역, 타일 경계 대비를 측정한다. 같은 아트 스타일인지, 원본 크기에서 동작이 자연스러운지는 실제 비교판과 재생 결과로 판단한다.
 
@@ -157,3 +159,7 @@ PIXEL_ASSET_CLI="$PWD/.venv/bin/pixel-asset" node examples/mock-game-plugin/impo
 ## 0.7.0 개별 작화 셀과 휴대용 플레이어
 
 손을 들어 흔들거나 몸이 옆으로 돌아가는 동작에서는 새로 보이는 손바닥·소매·옆얼굴을 해당 포즈에 그릴 수 있다. `pixel-asset character`의 `frames`에 완성 PNG와 시간을 적은 manifest를 주면, 요청한 동작만 지정 순서로 내장한 `character.riv`와 단일 파일 `player.html`을 만든다. `reference` 원화는 시각적 기준으로 보존한다. 독립 HTML은 공식 Rive JS·WASM·애니메이션을 모두 내장하며 원본 그림을 서버로 보내지 않는다. [입력 예시와 수정 방법](.agents/skills/pixel-asset-pipeline/references/production.md#character--개별-포즈에서-rive-파일과-오프라인-재생-화면-만들기)
+
+## 0.8.0 게임 전반의 반응 에셋
+
+`pixel-asset effect`에서 발걸음·착지·수집, 선택 확인·거절, 방향성 베기·접촉 타격을 선택할 수 있다. 지면용 효과는 발밑에, 상호작용용 효과는 실제 대상·커서에, 타격용 효과는 명중 위치에 배치한다. 반환된 시트와 메타데이터에는 각 프레임과 피벗이 있고 효과 보고서에는 연출을 줄일 때 쓸 대표 프레임이 있다. [입력과 제작 예시](.agents/skills/pixel-asset-pipeline/references/production.md)

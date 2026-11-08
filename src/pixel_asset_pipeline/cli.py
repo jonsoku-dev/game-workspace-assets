@@ -25,7 +25,7 @@ LOCAL_PRODUCERS = {
     "compare": (asset_set.produce, "review a set of build bundles at 1x and 4x"),
     "sheet": (sheet.produce, "pack same-grid poses with a common pivot and frame timings"),
     "tile": (tile.produce, "inspect an opaque repeating terrain tile"),
-    "effect": (effects.produce, "render a local pickup burst or looping flame"),
+    "effect": (effects.produce, "render local movement, interaction, impact and ambient effect sheets"),
 }
 
 FILES = dict(sprite="asset.png", preview="preview.png", metadata="metadata.json",
