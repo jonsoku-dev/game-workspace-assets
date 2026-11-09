@@ -1,6 +1,6 @@
 {
   "name": "pixel-asset-pipeline",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Create frame-drawn Rive characters and offline players; make 2D game sprites, equipment variants, articulated motion, Rive state machines, animation sheets, terrain tiles and pixel effects.",
   "skills": "./.agents/skills/",
   "interface": {

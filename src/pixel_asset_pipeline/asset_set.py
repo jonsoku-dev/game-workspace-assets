@@ -1,6 +1,5 @@
 """Bounded local comparison of build bundles, with no generation or resampling."""
 
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -8,7 +7,7 @@ import stat
 
 from PIL import Image, ImageDraw
 
-from .bundle import open_png, write_json
+from .bundle import png_bytes, read_once, sha256, write_json
 from .raster import MAX_SIZE, validate
 from .spec import nonempty, read_object, rgb
 
@@ -31,19 +30,25 @@ def _relative(request_path, value):
     return request_path.parent / value
 
 
+_SOURCES = {}  # reset per produce(); every input is read once, then decoded and hashed from those bytes
+
+
 def _json(path, fields):
-    return read_object(_file(path, 131072), fields)
+    path = _file(path, 131072)
+    return read_object(path, fields, read_once(path, _SOURCES, 131072))
 
 
 def _hash(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256(read_once(path, _SOURCES, 32 * 1024 * 1024))
 
 
 def _png(path):
-    return open_png(_file(path, 4 * 1024 * 1024), max_pixels=MAX_SIZE ** 2)
+    path = _file(path, 4 * 1024 * 1024)
+    return png_bytes(read_once(path, _SOURCES, 4 * 1024 * 1024), max_pixels=MAX_SIZE ** 2)
 
 
 def produce(request_path: Path, stage: Path) -> dict:
+    _SOURCES.clear()
     """Render native-scale pairs at the same pivot, plus a nearest 4x view."""
     request = _json(request_path, {"name", "assets"})
     name = nonempty(request.get("name"), "name")
@@ -72,7 +77,7 @@ def produce(request_path: Path, stage: Path) -> dict:
         image = _png(paths["sprite"])
         report = validate(image, spec.get("size"), [rgb(c) for c in spec["palette"]], spec.get("limit"), spec.get("kind"))
         # Build validation reports are deliberately unversioned; inspect their current pixels instead.
-        stored = json.loads(paths["validation"].read_text(encoding="utf-8"))
+        stored = json.loads(read_once(paths["validation"], _SOURCES, 131072))
         if not isinstance(stored, dict) or stored != report or not report["passed"]:
             raise ValueError("bundle validation does not match its current sprite")
         origin = metadata.get("origin")

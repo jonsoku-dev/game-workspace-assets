@@ -74,5 +74,18 @@ print('EMBER_VOLUME_OK')
         self.assertIn('EMBER_VOLUME_OK', result.stdout)
 
 
+
+class EmberContractSampleTests(unittest.TestCase):
+    def test_reference_sampler_matches_shared_vectors(self):
+        import json
+        from pathlib import Path
+        data = json.loads((Path(__file__).with_name('ember-samples.json')).read_text())
+        for item in data['samples']:
+            got = ember.sample(item['particle'], item['duration_s'], item['elapsed_s'])
+            self.assertEqual(got['visible'], item['expected']['visible'])
+            for a, b in zip(got['position'] + [got['scale']], item['expected']['position'] + [item['expected']['scale']]):
+                self.assertAlmostEqual(a, b, places=9)
+
+
 if __name__ == '__main__':
     unittest.main()

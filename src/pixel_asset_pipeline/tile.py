@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from .bundle import open_png, write_json
+from .bundle import open_png, write_json, local_path
 from .raster import MAX_SIZE, MIN_SIZE
 from .spec import read_object, rgb, nonempty
 
@@ -56,7 +56,7 @@ def produce(request_path: Path, stage: Path) -> dict[str, str]:
     if not isinstance(palette, list) or not 1 <= len(palette) <= 12:
         raise ValueError("tile palette requires 1..12 hex colors")
     colors = [rgb(color) for color in palette]
-    source = request_path.parent / nonempty(request.get("source"), "source")
+    source = local_path(request_path.parent, nonempty(request.get("source"), "source"))
     image = open_png(source, max_pixels=size * size)
     if image.size != (size, size):
         raise ValueError("tile failed validation: exact_square_size")

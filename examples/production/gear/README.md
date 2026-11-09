@@ -1,6 +1,6 @@
 # Scout equipment variants
 
-The base is the existing approved 48×48 scout in `../../codex-scout-styled/`.
+The base is the existing approved 48×48 scout, copied from `../../codex-scout-styled/` into `scout/` so every request path stays inside this folder.
 The lantern and staff are hand-placed native-resolution pixel art. They use only
 colors already visible in that base. No image service, resampling, recoloring,
 or base recropping is involved.

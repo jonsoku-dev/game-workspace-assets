@@ -48,3 +48,4 @@
 
 0.4.0부터 `schema_version: 2` 파라메트릭 조립 소품을 지원한다. 부품 계층과 피벗, 공유 아틀라스에 구운 base color·ORM·normal, 강체 애니메이션, 따로 컴파일·검증한 LOD, 메시·조립 품질 게이트와 조명 검수 시트를 만든다. [METALCUT 절삭기 요청](../examples/model-production/crawler-cutter/request.json)
 
+0.4.1은 불티 운동 계약의 기준 샘플러(`tools/ember.py`의 `sample`)와 공유 표본 벡터(`tests/ember-samples.json`)를 추가한다. Studio의 웹·Godot·Unity 런타임과 visualizer가 같은 공식을 쓴다.

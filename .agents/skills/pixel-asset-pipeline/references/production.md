@@ -95,7 +95,7 @@ size는 16~64px, 팔레트는 바깥색에서 중심색 순서로 서로 다른 
 
 피벗은 sheet.json과 effect.json의 `pivot_px_from_top_left`에 같다. 지면은 `[size//2, round(size*0.8125)]`, 사건 원점은 `[size//2,size//2]`이다. 지면 효과는 발 아래에 이 피벗을 맞추고, 나머지는 접촉점·UI 표시점에 맞춘다. `flame`의 기존 중심 피벗도 유지한다. `slash`의 기본 방향은 오른쪽이며 반대 방향은 호스트에서 피벗까지 함께 반전한다.
 
-effect.json은 기존 기술 검사에 `timing_ms`(프레임별 ms), `anchor`(`ground`/`event`), `trigger_intent`, `reduced_motion_frame`(0부터 시작하는 정적 대표 프레임)을 더한다. 정확한 타이밍은 sheet.json의 각 프레임이며 GIF는 10ms 단위 미리보기다. 실제 사건 시점과 1× 가독성, 타이밍·형태로 구분되는 확인/거절을 호스트에서 검수한다. 감소된 모션은 호스트에서 생략하거나 대표 프레임을 짧게 표시하고 정적 텍스트·아이콘으로 의미를 보존한다. 엔딩·진행은 확정 상태에 연결하고 반복 UI 입력·매 프레임 검사에 중복 재생하지 않는다. 원본 크기 시트 검사·재생 샘플은 기술/시각 근거이며 실제 게임의 사용자 승인과 구분한다.
+effect.json은 기존 기술 검사에 `timing_ms`(프레임별 ms), `anchor`(`ground`/`event`), `trigger_intent`, `reduced_motion_frame`(0부터 시작하는 정적 대표 프레임)을 더한다. 정확한 타이밍은 sheet.json의 각 프레임이며 GIF는 누적 시각을 10ms 단위로 반올림한 미리보기다. 20ms보다 짧은 노출은 앞 프레임에 합쳐 브라우저의 100ms 보정과 누적 어긋남을 피한다. 실제 사건 시점과 1× 가독성, 타이밍·형태로 구분되는 확인/거절을 호스트에서 검수한다. 감소된 모션은 호스트에서 생략하거나 대표 프레임을 짧게 표시하고 정적 텍스트·아이콘으로 의미를 보존한다. 엔딩·진행은 확정 상태에 연결하고 반복 UI 입력·매 프레임 검사에 중복 재생하지 않는다. 원본 크기 시트 검사·재생 샘플은 기술/시각 근거이며 실제 게임의 사용자 승인과 구분한다.
 
 ## pose-qa · 키 포즈 동작 품질 측정
 
@@ -242,6 +242,8 @@ pixel-asset action-set --request actions.json --out scout-actions
 ```json
 {"action":"attack","frame":1,"sheet":"fx/hit.png","metadata":"fx/hit.json","license":"fx/LICENSE","notice":"fx/NOTICE.md","at_px":[46,25],"effect_anchor_px":[44,44]}
 ```
+
+이벤트의 `metadata`는 Aseprite pixelfx JSON이나 `effect`·`sheet`가 만든 `sheet.json`(`rect`/`duration_ms`/`pivot_px_from_top_left`/`loop`)이다. 같은 폴더의 `effect.json`이 `producer: local-procedural`이면 이 플러그인이 만든 원본이므로 `license`/`notice`를 생략할 수 있고, 그 사실이 효과 고지에 기록된다. 가져온 효과는 원본의 라이선스와 고지를 지정한다.
 
 캐릭터 아틀라스, 액션별 프레임·시간·이벤트 메타데이터, 합성 재생 미리보기와 효과 고지는 stdout의 상대 파일 목록으로 전달된다. 프레임 저작과 게임 판정은 호출자가 맡는다.
 

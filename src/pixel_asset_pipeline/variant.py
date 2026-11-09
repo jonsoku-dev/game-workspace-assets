@@ -1,12 +1,11 @@
 """Exact-pixel equipment variants; never resize or recolor the approved base."""
 
-import hashlib
 import json
 from pathlib import Path
 
 from PIL import Image
 
-from .bundle import open_png, write_json
+from .bundle import local_path, png_bytes, read_once, sha256, write_json
 from .raster import MAX_SIZE, validate
 from .spec import nonempty, read_object, rgb
 
@@ -32,10 +31,7 @@ def _inside(x, y, rect):
 
 
 def _path(request_path, value, label):
-    name = nonempty(value, label)
-    if Path(name).is_absolute():
-        raise ValueError(f"{label} requires a relative local filename")
-    return request_path.parent / name
+    return local_path(request_path.parent, nonempty(value, label))
 
 
 def produce(request_path: Path, stage: Path) -> dict[str, str]:
@@ -45,7 +41,9 @@ def produce(request_path: Path, stage: Path) -> dict[str, str]:
     })
     base_path = _path(request_path, request.get("base"), "base")
     metadata_path = _path(request_path, request.get("base_metadata"), "base_metadata")
-    base = open_png(base_path, max_pixels=MAX_SIZE ** 2)
+    sources = {}
+    base_bytes = read_once(base_path, sources)
+    base = png_bytes(base_bytes, max_pixels=MAX_SIZE ** 2)
     with metadata_path.open(encoding="utf-8") as file:
         metadata = json.load(file)
     if not isinstance(metadata, dict) or type(metadata.get("schema_version")) is not int or metadata["schema_version"] != 1:
@@ -76,7 +74,8 @@ def produce(request_path: Path, stage: Path) -> dict[str, str]:
     region = None
     if "equipment" in request:
         equipment_path = _path(request_path, request["equipment"], "equipment")
-        equipment = open_png(equipment_path, max_pixels=size * size)
+        equipment_bytes = read_once(equipment_path, sources)
+        equipment = png_bytes(equipment_bytes, max_pixels=size * size)
         if equipment.mode != "RGBA" or not equipment.getchannel("A").getbbox():
             raise ValueError("equipment requires nonempty RGBA pixels")
         anchor = _pair(request.get("anchor"), "anchor")
@@ -137,8 +136,8 @@ def produce(request_path: Path, stage: Path) -> dict[str, str]:
     write_json(stage / "metadata.json", {
         "schema_version": 1, "request": spec, "variant_request": request,
         "origin": "local-equipment-overlay" if equipment_path else "approved-base-copy",
-        "base_sha256": hashlib.sha256(base_path.read_bytes()).hexdigest(),
-        "equipment_sha256": hashlib.sha256(equipment_path.read_bytes()).hexdigest() if equipment_path else None,
+        "base_sha256": sha256(base_bytes),
+        "equipment_sha256": sha256(equipment_bytes) if equipment_path else None,
         "base_visible_bounds": report["metrics"]["visible_bounds"] if not equipment_path else list(base.getchannel("A").getbbox()),
         "import": metadata["import"], "visual_review": "pending",
     })

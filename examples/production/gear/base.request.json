@@ -1,5 +1,5 @@
 {
   "schema_version": 1,
-  "base": "../../codex-scout-styled/asset.png",
-  "base_metadata": "../../codex-scout-styled/metadata.json"
+  "base": "scout/asset.png",
+  "base_metadata": "scout/metadata.json"
 }

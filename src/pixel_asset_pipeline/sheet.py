@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-from .bundle import open_png, write_json
+from .bundle import gif_timeline, local_path, open_png, write_json
 from .spec import read_object
 
 
@@ -71,9 +71,9 @@ def export_sheet(frames: list[Image.Image], durations: list[int], pivot: tuple[i
     previews = [view.quantize(palette=palette, dither=Image.Dither.NONE).resize(
         (width * scale, height * scale), Image.Resampling.NEAREST) for view in views]
     # GIF stores centiseconds; sheet metadata remains the exact source timing.
-    preview_durations = [max(10, ((duration + 5) // 10) * 10) for duration in durations]
+    timeline = gif_timeline(durations)
     holds, hold_durations = [], []
-    for preview, duration in zip(previews, preview_durations):
+    for preview, duration in ((previews[index], delay) for index, delay in timeline):
         if holds and preview.tobytes() == holds[-1].tobytes():
             # Pillow merges identical poses; cap preview-only holds to GIF's uint16 delay.
             hold_durations[-1] = min(MAX_GIF_HOLD_MS, hold_durations[-1] + duration)
@@ -96,7 +96,7 @@ def produce(request_path: Path, stage: Path) -> dict[str, str]:
         if (not isinstance(entry, dict) or set(entry) != {"path", "duration_ms"}
                 or not isinstance(entry["path"], str) or not entry["path"].strip()):
             raise ValueError("each frame requires path and duration_ms")
-        frames.append(open_png(request_path.parent / entry["path"], max_pixels=MAX_SIDE ** 2).convert("RGBA"))
+        frames.append(open_png(local_path(request_path.parent, entry["path"]), max_pixels=MAX_SIDE ** 2).convert("RGBA"))
         durations.append(entry["duration_ms"])
     return export_sheet(frames, durations, request.get("pivot_px_from_top_left"),
                         request.get("loop"), stage)

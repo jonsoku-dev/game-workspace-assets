@@ -73,6 +73,27 @@ class ActionSetTests(unittest.TestCase):
             self.assertIn(20, durations)
             self.assertEqual(sum(durations), 600)
 
+    def test_native_effect_bundle_attaches_as_contact_event(self):
+        fx = self.root / 'pickup'
+        fx.mkdir()
+        Image.new('RGBA', (4, 2), (255, 200, 0, 255)).save(fx / 'sheet.png')
+        (fx / 'sheet.json').write_text(json.dumps({'schema_version': 1, 'pivot_px_from_top_left': [1, 1], 'loop': False,
+            'frames': [{'rect': {'x': i * 2, 'y': 0, 'w': 2, 'h': 2}, 'duration_ms': 50} for i in range(2)]}))
+        (fx / 'effect.json').write_text(json.dumps({'schema_version': 1, 'producer': 'local-procedural'}))
+        event = {'action': 'attack', 'frame': 1, 'sheet': 'pickup/sheet.png', 'metadata': 'pickup/sheet.json',
+                 'at_px': [5, 3]}
+        self.request['events'] = [event]
+        result = self.build()
+        out = self.root / 'out'
+        self.assertEqual(result['status'], 'ready')
+        metadata = json.loads((out / 'action-set.json').read_text())
+        self.assertEqual(metadata['events'][0]['effect_anchor_px'], [1, 1])
+        self.assertIn('local-procedural', (out / 'effect-0-LICENSE').read_text())
+        # Without the procedural marker the native sheet still needs explicit terms.
+        (fx / 'effect.json').write_text(json.dumps({'schema_version': 1, 'producer': 'imported'}))
+        with self.assertRaises((ValueError, OSError)):
+            publish(self.root / 'out2', action_set.produce, self.root / 'request.json')
+
     def test_more_than_64_effect_frames_and_pre_crop_budget(self):
         path = self.root / 'fx.json'
         meta = json.loads(path.read_text())

@@ -34,6 +34,20 @@ def motion(seed=23):
             'duration_s': duration, 'particles': particles}
 
 
+def sample(particle, duration, elapsed):
+    """Reference sampler for the docstring contract; every runtime must reproduce it."""
+    age = (elapsed - particle['start_s']) % duration
+    visible = age < particle['life_s']
+    u = age / particle['life_s'] if visible else 0.0
+    envelope = math.sin(math.pi * u)
+    drift = particle['drift']
+    lateral = [drift[2], 0.0, -drift[0]]
+    return {'visible': visible,
+            'position': [o + d * u + envelope * 0.35 * l for o, d, l in zip(particle['offset'], drift, lateral)],
+            'rotation': [s * age for s in particle['spin']],
+            'scale': particle['scale'] * math.sqrt(max(0.0, envelope)) if visible else 0.0}
+
+
 def ember():
     import bpy
 

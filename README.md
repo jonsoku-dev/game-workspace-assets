@@ -89,12 +89,12 @@ codex plugin add pixel-asset-pipeline@pixel-asset-pipeline
 
 ### 설치된 스킬 업데이트
 
-프로젝트에서 직접 쓰는 스킬의 원본은 [SKILL.md](.agents/skills/pixel-asset-pipeline/SKILL.md)다. 캐시로 설치한 플러그인은 새 버전을 별도로 등록한다. 이전에 등록한 버전을 별도 경로의 0.9.0으로 교체하는 절차는 아래와 같다. 등록을 교체하기 전에 새 폴더 생성을 먼저 마친다.
+프로젝트에서 직접 쓰는 스킬의 원본은 [SKILL.md](.agents/skills/pixel-asset-pipeline/SKILL.md)다. 캐시로 설치한 플러그인은 새 버전을 별도로 등록한다. 이전에 등록한 버전을 별도 경로의 0.10.0으로 교체하는 절차는 아래와 같다. 등록을 교체하기 전에 새 폴더 생성을 먼저 마친다.
 
 ```sh
-python3 scripts/package-plugin.py /absolute/new/pixel-asset-0.9.0
+python3 scripts/package-plugin.py /absolute/new/pixel-asset-0.10.0
 codex plugin marketplace remove pixel-asset-pipeline
-codex plugin marketplace add /absolute/new/pixel-asset-0.9.0
+codex plugin marketplace add /absolute/new/pixel-asset-0.10.0
 codex plugin add pixel-asset-pipeline@pixel-asset-pipeline
 codex plugin list --marketplace pixel-asset-pipeline --json
 ```

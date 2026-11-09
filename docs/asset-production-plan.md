@@ -104,3 +104,11 @@ METALCUT 원화 6장에 적용해 회수 포즈의 역방향(대기 위치를 52
 
 검증: macOS Python 3.13.3·Pillow 12에서 `.venv/bin/python -W error -m unittest discover -s tests -v` 141개 통과(설치용 패키지에서 두 명령의 문서 예제 실행 포함).
 
+## 0.10.0 입력 경로·효과 연결·미리보기 시간 정리
+
+`sheet`, `tile`, `variant`와 스타일 프로필도 다른 제작기처럼 요청 폴더 안의 상대 경로만 받는다. 절대 경로, `../`, 폴더 밖을 가리키는 심볼릭 링크는 `source paths` 오류로 거부한다. 기존에 바깥 경로를 쓰던 요청은 입력을 요청 폴더 안으로 복사한다(저장소의 `gear` 예제는 `scout/`로 옮겼다).
+
+`effect`·`sheet`가 만든 `sheet.json`을 `action-set` 접촉 이벤트에 그대로 붙일 수 있다. 같은 폴더의 `effect.json`이 `local-procedural`이면 라이선스·고지를 생략하고 그 사실을 효과 고지에 쓴다. GIF 미리보기는 누적 시각을 10ms로 반올림하고 20ms보다 짧은 노출을 앞 프레임에 합쳐 동작과 효과가 어긋나지 않는다. 동작 프레임, 효과, 장비 교체, 비교 세트의 입력은 한 번 읽은 바이트로 디코딩·해시·복사한다.
+
+검증: macOS Python 3.13.3·Pillow 12에서 `.venv/bin/python -W error -m unittest discover -s tests -v` 148개 통과.
+

@@ -7,11 +7,11 @@
 필요한 프로그램은 Python 3, Blender, Node와 npm, Webstage CLI이다. macOS 또는 Linux에서 새 디렉터리로 패키징한다. Python 실행 파일, Blender, Webstage, Three.js 소스는 설치 묶음에 들어가지 않는다.
 
 ```sh
-python3 package.py "$HOME/.local/share/codex-local-plugins/model-assets/0.4.0"
-codex plugin marketplace add "$HOME/.local/share/codex-local-plugins/model-assets/0.4.0"
+python3 package.py "$HOME/.local/share/codex-local-plugins/model-assets/0.4.1"
+codex plugin marketplace add "$HOME/.local/share/codex-local-plugins/model-assets/0.4.1"
 codex plugin add model-assets@model-assets
 codex plugin list --marketplace model-assets --json
-MODEL_ROOT="${CODEX_HOME:-$HOME/.codex}/plugins/cache/model-assets/model-assets/0.4.0"
+MODEL_ROOT="${CODEX_HOME:-$HOME/.codex}/plugins/cache/model-assets/model-assets/0.4.1"
 npm ci --prefix "$MODEL_ROOT/three" --offline --ignore-scripts --no-audit --no-fund
 ```
 
@@ -19,7 +19,7 @@ Three.js 0.187.0의 npm 캐시가 있는 환경에서 실행한다. 새 캐시�
 
 Codex에서는 `$model-assets`로 요청한다. 입력·산출물·로컬 뷰어 실행 예시는 [모델 제작 스킬](.agents/skills/model-assets/SKILL.md)에 있다. [레퍼런스와 고지](../../docs/model-references.md)는 도구 사용과 배포 파일의 범위를 기록한다.
 
-0.3.x 이하에서 갱신할 때는 새 0.4.0 폴더를 먼저 준비한다. 기존 등록을 `codex plugin marketplace remove model-assets`로 교체한 뒤 위의 marketplace add와 plugin add를 실행한다. 이전에 만든 모델 번들은 각각 생성 당시의 리비전으로 남는다.
+0.3.x 이하에서 갱신할 때는 새 0.4.1 폴더를 먼저 준비한다. 기존 등록을 `codex plugin marketplace remove model-assets`로 교체한 뒤 위의 marketplace add와 plugin add를 실행한다. 이전에 만든 모델 번들은 각각 생성 당시의 리비전으로 남는다.
 
 ## 3D 불티
 

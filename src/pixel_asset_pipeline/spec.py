@@ -4,6 +4,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from .bundle import local_path
 from .raster import MAX_SIZE, MIN_SIZE
 
 
@@ -16,9 +17,9 @@ DEFAULT_PALETTE = (
 STYLE_FIELDS = {"palette", "style", "view", "outline"}
 
 
-def read_object(path, allowed):
-    with path.open(encoding="utf-8") as file:
-        data = json.load(file)
+def read_object(path, allowed, data=None):
+    """Parse a versioned request object; pass `data` (bytes already read) to avoid a second read."""
+    data = json.loads(path.read_bytes() if data is None else data)
     if not isinstance(data, dict) or type(data.get("schema_version")) is not int or data["schema_version"] != 1:
         raise ValueError(f"{path.name} requires schema_version 1")
     unknown = data.keys() - allowed - {"schema_version"}
@@ -55,7 +56,7 @@ class Request:
         request = read_object(path, STYLE_FIELDS | {"kind", "prompt", "size", "max_colors", "profile"})
         profile = {}
         if "profile" in request:
-            profile_path = path.parent / nonempty(request["profile"], "profile")
+            profile_path = local_path(path.parent, nonempty(request["profile"], "profile"))
             profile = read_object(profile_path, STYLE_FIELDS)
         fields = {**profile, **request}
         kind = fields.get("kind")
