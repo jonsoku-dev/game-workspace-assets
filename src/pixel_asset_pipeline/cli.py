@@ -113,7 +113,8 @@ def main(argv=None):
             result = build(Request.load(args.request), args.out, args.draft, args.style_reference)
         else:
             request = Request.load(args.request)
-            result = raster.validate(open_png(args.png, max_pixels=raster.MAX_SIZE ** 2), *request.raster_args())
+            # Decode with the shared bound and let validate report an oversize sprite as a failed size check.
+            result = raster.validate(open_png(args.png), *request.raster_args())
         if args.command in QA_REPORTS:
             report = json.loads((args.out / QA_REPORTS[args.command]).read_text())
             result["passed"] = report["passed"]

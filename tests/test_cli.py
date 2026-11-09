@@ -52,6 +52,13 @@ class CLITests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertFalse(json.loads(stdout)["checks"]["palette"])
 
+    def test_oversize_png_is_a_failed_size_check_not_an_input_error(self):
+        large = self.root / "large.png"
+        Image.new("RGBA", (300, 300), (24, 100, 67, 255)).save(large)
+        code, stdout, stderr = self.invoke("validate", "--request", self.request, large)
+        self.assertEqual(code, 1, stderr)
+        self.assertFalse(json.loads(stdout)["checks"]["size"])
+
     def test_invalid_inputs_publish_nothing(self):
         for update in ({"schema_version": True}, {"size": 3}, {"kind": "tile"},
                        {"palette": ["red"]}, {"outline": "#000000"}, {"max_colors": 13},

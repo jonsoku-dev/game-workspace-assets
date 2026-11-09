@@ -40,3 +40,13 @@ webstage 컴파일은 같은 재질의 정적 부품을 합쳐 그리기 호출�
 The Node inspector uses the already-required local Blender PNG/JPEG decoder and actual Three.js GLTFLoader DataTextures, without placeholder image shims. A textured build compares decoded RGBA hashes, sRGB material colors, and UV/world-position sample sets (rounded to 0.0001) between raw and compiled default scenes. A compiler change that simplifies textured vertices can fail this conservative fidelity gate. The browser viewer independently decodes embedded images through its normal image loader and renders the compiled artifact. Neither check grants artistic approval.
 
 The repository example `../../examples/model-production/` contains an original workshop rescue crate, its deterministic Blender recipe, packed editable source, texture and reference render. Rebuild it with the commands in its README. Installed plugins do not include those example assets.
+
+## 검증
+
+플러그인 폴더에서 실행한다. 조립 소품의 실제 빌드 테스트는 Blender·webstage·Node와 `three/node_modules`가 있을 때만 돈다.
+
+```sh
+python3 -m unittest discover -s tests -v
+python3 three/test_serve.py
+(cd three && node test.mjs)
+```
