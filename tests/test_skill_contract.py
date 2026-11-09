@@ -82,6 +82,13 @@ class SkillContractTests(unittest.TestCase):
                 frame.paste((255, 184, 50, 255), (x, 6, x + 2, 9))
                 spell.append(frame)
             spell[0].save(work / "spell.gif", save_all=True, append_images=spell[1:], duration=80, disposal=2)
+            sparks = Image.new("RGBA", (64, 48))
+            for i in range(12):
+                for t in range(18):
+                    x, y = 8 + t * (2 + i % 3), 40 - t * (1 + i % 4) // 2
+                    if 0 <= x < 64 and 0 <= y < 48:
+                        sparks.putpixel((x, y), (255, 250, 236, 255) if t < 5 else (255, 190, 80, 255))
+            sparks.save(work / "sparks.png")
             (work / "spell-license.txt").write_text("CC0-1.0\n")
             (work / "spell-notice.txt").write_text("Original synthetic CLI fixture.\n")
 

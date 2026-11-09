@@ -8,7 +8,7 @@ import sys
 
 from PIL import Image, ImageDraw
 
-from . import action_set, asset_set, character, effect_clip, effects, motion, provider, raster, rig_draft, rive, sheet, snap, tile, variant
+from . import action_set, asset_set, character, effect_clip, effects, fx_qa, motion, pose_qa, provider, raster, rig_draft, rive, sheet, snap, tile, variant
 from .bundle import open_png, publish, write_json
 from .spec import Request, rgb
 
@@ -26,7 +26,10 @@ LOCAL_PRODUCERS = {
     "sheet": (sheet.produce, "pack same-grid poses with a common pivot and frame timings"),
     "tile": (tile.produce, "inspect an opaque repeating terrain tile"),
     "effect": (effects.produce, "render local movement, interaction, impact and ambient effect sheets"),
+    "pose-qa": (pose_qa.produce, "measure tip arcs, post-contact reversal, floor, tool length and foot skate across key poses"),
+    "fx-qa": (fx_qa.produce, "check emissive VFX for a hot core, brightness over surfaces and hue camouflage"),
 }
+QA_REPORTS = {"pose-qa": pose_qa.FILES["report"], "fx-qa": fx_qa.FILES["report"]}
 
 FILES = dict(sprite="asset.png", preview="preview.png", metadata="metadata.json",
              validation="validation.json", source="draft.png")
@@ -111,6 +114,11 @@ def main(argv=None):
         else:
             request = Request.load(args.request)
             result = raster.validate(open_png(args.png, max_pixels=raster.MAX_SIZE ** 2), *request.raster_args())
+        if args.command in QA_REPORTS:
+            report = json.loads((args.out / QA_REPORTS[args.command]).read_text())
+            result["passed"] = report["passed"]
+            result["status"] = "ready" if report["passed"] else "failed"
+            result["findings"] = [f["code"] for f in report["findings"] if f["severity"] == "error"]
         if args.command == "character":
             report = json.loads((args.out / result["files"]["report"]).read_text())
             result["status"] = report["status"]

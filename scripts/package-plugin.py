@@ -44,6 +44,8 @@ def main():
         "src/pixel_asset_pipeline/rive_binary.py",
         "src/pixel_asset_pipeline/effect_clip.py",
         "src/pixel_asset_pipeline/effects.py",
+        "src/pixel_asset_pipeline/fx_qa.py",
+        "src/pixel_asset_pipeline/pose_qa.py",
         "src/pixel_asset_pipeline/sheet.py",
         "src/pixel_asset_pipeline/tile.py",
         "src/pixel_asset_pipeline/variant.py",

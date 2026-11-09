@@ -97,6 +97,45 @@ size는 16~64px, 팔레트는 바깥색에서 중심색 순서로 서로 다른 
 
 effect.json은 기존 기술 검사에 `timing_ms`(프레임별 ms), `anchor`(`ground`/`event`), `trigger_intent`, `reduced_motion_frame`(0부터 시작하는 정적 대표 프레임)을 더한다. 정확한 타이밍은 sheet.json의 각 프레임이며 GIF는 10ms 단위 미리보기다. 실제 사건 시점과 1× 가독성, 타이밍·형태로 구분되는 확인/거절을 호스트에서 검수한다. 감소된 모션은 호스트에서 생략하거나 대표 프레임을 짧게 표시하고 정적 텍스트·아이콘으로 의미를 보존한다. 엔딩·진행은 확정 상태에 연결하고 반복 UI 입력·매 프레임 검사에 중복 재생하지 않는다. 원본 크기 시트 검사·재생 샘플은 기술/시각 근거이며 실제 게임의 사용자 승인과 구분한다.
 
+## pose-qa · 키 포즈 동작 품질 측정
+
+```json
+{"schema_version":1,"name":"walk keys","canvas":[48,48],"floor_y":46,"facing":"right","frames":[{"id":"a","image":"step-a.png","sockets":{"tip":[30,28]}},{"id":"b","image":"step-b.png","sockets":{"tip":[31,27]}}],"sequences":{"walk":{"steps":[{"frame":"a","ms":130},{"frame":"b","ms":110}],"loop":true}}}
+```
+
+```sh
+pixel-asset pose-qa --request pose-qa.json --out pose-qa-out
+```
+
+프레임 수나 형식 대신 화면에서 보이는 움직임을 잰다. 모든 프레임은 같은 크기의 공통 캔버스(최대 4096px)에 같은 발 기준으로 정렬된 투명 PNG다. `sockets.tip`은 공구·무기·주먹 끝처럼 동작을 대표하는 점이고, `grip`을 주면 공구 길이 변동을 재고 중간 포즈를 손잡이 중심의 호로 계획한다. `foot_front`/`foot_back`을 생략하면 바닥선 띠에서 발 접지를 찾는다. 원근으로 짧아진 포즈는 `foreshortened: true`로 길이 비교에서 뺀다.
+
+시퀀스의 `contact_step`은 타격 노출, `planted`는 발을 고정해야 하는 단계 구간(`{"from":2,"to":3,"feet":["front","back"]}`), `arc`는 단계별 회전 방향(`"cw"`/`"ccw"`)이다. 몸높이는 첫 프레임의 보이는 높이이며 임계값은 몸높이 비율이다.
+
+| 코드 | 수준 | 기본 기준 |
+| --- | --- | --- |
+| `tip-jump` | 오류 | 한 노출에 끝점이 몸높이 0.6배 초과 이동 |
+| `post-contact-reversal` | 오류 | 접촉 뒤 첫 전환점 이후 끝점이 대기 위치를 몸높이 0.25배 넘게 지나침 |
+| `floor-penetration` | 오류 | 바닥선 아래 4px 초과 |
+| `tool-length-drift` | 오류 | grip~tip 길이의 (최대-최소)/중앙값 0.10 초과 |
+| `foot-skate` / `foot-lift` | 오류 | 고정 구간의 발이 몸높이 0.05배 넘게 이동하거나 바닥에서 떨어짐 |
+| `ground-contact-shift`, `silhouette-pop`, `contact-exposure` | 경고 | 고정하지 않은 발 이동, 실루엣 겹침 0.2 미만, 접촉 노출이 중앙값의 2/3 미만 |
+
+출력은 pose-qa.json(전환별 이동량·속도·실루엣 겹침·발 접지·발견 사항), breakdowns.json(필요한 중간 포즈 수, 목표 끝점·손잡이·각도, 출발 노출을 나눈 ms), tip-trail.png(시퀀스별 실루엣 겹침, 끝점 궤적, 바닥선, 대기 높이, 계획된 중간 포즈)다. 중간 포즈는 출발 포즈의 노출 시간을 나눠 쓰므로 총 길이와 이후 단계·접촉 시작 시각이 바뀌지 않는다. 오류가 있으면 CLI는 status `failed`와 종료 코드 1을 낸다. 측정 통과는 미술 승인이 아니며 `artistic_acceptance`는 pending으로 남는다.
+
+## fx-qa · 발광 효과 가독성
+
+```json
+{"schema_version":1,"name":"cut sparks","emissive":["sparks.png"],"surfaces":[{"name":"steel plate","color":"#3a4458"}]}
+```
+
+```sh
+pixel-asset fx-qa --request fx-qa.json --out fx-qa-out
+```
+
+`emissive`는 발광 레이어 PNG 또는 시트 1~16장, `surfaces`는 효과가 실제로 겹치는 재질 이미지나 단색이다. 흰 심(밝기 0.9 이상·채도 0.35 이하 화소가 1% 이상), 각 재질 하이라이트보다 밝은 최고 밝기(p99 차이 0.08 이상), 색상 분리(포화 화소의 평균 색상 차이 18° 이상이거나 충분히 밝음)를 오류로, 합성 시 효과 영역의 평균 밝기 상승 0.15 미만을 경고로 기록한다.
+
+출력은 fx-qa.json, emissive-regraded.png(같은 입자를 고온 램프로 다시 칠한 레이어), fx-comparison.png(입자가 가장 많은 영역을 재질 위에 원본과 램프로 나란히 합성)다. 재질에 주황·적색이 있으면 꼬리를 호박색(약 45°)으로 두는 `amber` 램프를, 그 밖에는 `hot` 램프를 고른다. 램프 결과는 수정 방향의 제안이며 최종 효과는 다시 측정하고 실제 게임 크기에서 확인한다.
+
 ## action-set · 캐릭터 6동작과 접촉 효과
 
 ```json
