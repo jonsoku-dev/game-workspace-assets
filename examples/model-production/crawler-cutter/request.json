@@ -1,0 +1,399 @@
+{
+  "schema_version": 2,
+  "name": "METALCUT crawler cutter",
+  "texel_density_px_per_m": 512,
+  "bake_samples": 16,
+  "expected_size_m": [
+    1.422,
+    0.46,
+    0.511
+  ],
+  "materials": {
+    "teal_steel": {
+      "base": "#4f6f6c",
+      "metallic": 0.55,
+      "roughness": 0.5,
+      "grain": "cast",
+      "grain_scale": 30,
+      "wear": 0.55,
+      "dirt": 0.5,
+      "edge": "#a7b0b0"
+    },
+    "enamel": {
+      "base": "#d9561a",
+      "metallic": 0.05,
+      "roughness": 0.42,
+      "grain": "noise",
+      "grain_scale": 60,
+      "wear": 0.7,
+      "dirt": 0.35,
+      "edge": "#9aa1a3"
+    },
+    "copper": {
+      "base": "#b8693a",
+      "metallic": 1.0,
+      "roughness": 0.3,
+      "grain": "brushed",
+      "grain_scale": 80,
+      "wear": 0.3,
+      "dirt": 0.45,
+      "edge": "#e7b48a"
+    },
+    "blade_steel": {
+      "base": "#8e9ca8",
+      "metallic": 1.0,
+      "roughness": 0.28,
+      "grain": "brushed",
+      "grain_scale": 120,
+      "wear": 0.15,
+      "dirt": 0.25,
+      "edge": "#d4dbe0"
+    },
+    "track_rubber": {
+      "base": "#2a2725",
+      "metallic": 0.0,
+      "roughness": 0.85,
+      "grain": "cast",
+      "grain_scale": 25,
+      "dirt": 0.6
+    },
+    "lamp": {
+      "base": "#ff3b1f",
+      "metallic": 0.0,
+      "roughness": 0.2,
+      "grain": "none",
+      "emission": "#ff3b1f",
+      "emission_strength": 6
+    }
+  },
+  "parts": [
+    {
+      "id": "chassis",
+      "shape": "box",
+      "size_m": [
+        0.86,
+        0.38,
+        0.22
+      ],
+      "position_m": [
+        -0.06,
+        0,
+        0.17
+      ],
+      "bevel_m": 0.012,
+      "material": "teal_steel"
+    },
+    {
+      "id": "track_left",
+      "shape": "extrude",
+      "profile_m": [
+        [
+          -0.48,
+          0.0
+        ],
+        [
+          0.36,
+          0.0
+        ],
+        [
+          0.42,
+          0.06
+        ],
+        [
+          0.36,
+          0.12
+        ],
+        [
+          -0.48,
+          0.12
+        ],
+        [
+          -0.54,
+          0.06
+        ]
+      ],
+      "depth_m": 0.07,
+      "position_m": [
+        0,
+        -0.195,
+        -0.17
+      ],
+      "bevel_m": 0.006,
+      "material": "track_rubber",
+      "parent": "chassis"
+    },
+    {
+      "id": "track_right",
+      "shape": "extrude",
+      "profile_m": [
+        [
+          -0.48,
+          0.0
+        ],
+        [
+          0.36,
+          0.0
+        ],
+        [
+          0.42,
+          0.06
+        ],
+        [
+          0.36,
+          0.12
+        ],
+        [
+          -0.48,
+          0.12
+        ],
+        [
+          -0.54,
+          0.06
+        ]
+      ],
+      "depth_m": 0.07,
+      "position_m": [
+        0,
+        0.195,
+        -0.17
+      ],
+      "bevel_m": 0.006,
+      "material": "track_rubber",
+      "parent": "chassis"
+    },
+    {
+      "id": "flywheel",
+      "shape": "tube",
+      "outer_radius_m": 0.11,
+      "inner_radius_m": 0.035,
+      "depth_m": 0.03,
+      "segments": 40,
+      "position_m": [
+        -0.08,
+        -0.205,
+        0.2
+      ],
+      "bevel_m": 0.004,
+      "material": "copper"
+    },
+    {
+      "id": "shell",
+      "shape": "extrude",
+      "profile_m": [
+        [
+          -0.47,
+          0.0
+        ],
+        [
+          0.24,
+          0.0
+        ],
+        [
+          0.33,
+          0.05
+        ],
+        [
+          0.33,
+          0.1
+        ],
+        [
+          -0.42,
+          0.1
+        ],
+        [
+          -0.49,
+          0.05
+        ]
+      ],
+      "depth_m": 0.4,
+      "position_m": [
+        -0.04,
+        0,
+        0.28
+      ],
+      "bevel_m": 0.01,
+      "material": "enamel",
+      "exploded_offset_m": [
+        0,
+        0,
+        0.22
+      ]
+    },
+    {
+      "id": "lamp",
+      "shape": "cylinder",
+      "radius_m": 0.022,
+      "depth_m": 0.03,
+      "segments": 24,
+      "position_m": [
+        0.25,
+        -0.205,
+        0.33
+      ],
+      "rotation_deg": [
+        0,
+        0,
+        0
+      ],
+      "bevel_m": 0.003,
+      "material": "lamp"
+    },
+    {
+      "id": "arm",
+      "shape": "box",
+      "size_m": [
+        0.24,
+        0.05,
+        0.06
+      ],
+      "position_m": [
+        0.46,
+        -0.1,
+        0.25
+      ],
+      "bevel_m": 0.006,
+      "material": "teal_steel"
+    },
+    {
+      "id": "bracket",
+      "shape": "box",
+      "size_m": [
+        0.04,
+        0.05,
+        0.2
+      ],
+      "position_m": [
+        0.5,
+        -0.1,
+        0.38
+      ],
+      "bevel_m": 0.004,
+      "material": "teal_steel"
+    },
+    {
+      "id": "guard",
+      "shape": "arc",
+      "inner_radius_m": 0.24,
+      "outer_radius_m": 0.275,
+      "depth_m": 0.05,
+      "start_deg": 15,
+      "end_deg": 165,
+      "segments": 40,
+      "position_m": [
+        0.56,
+        -0.1,
+        0.236
+      ],
+      "bevel_m": 0.004,
+      "material": "enamel",
+      "exploded_offset_m": [
+        0.0,
+        -0.2,
+        0.12
+      ]
+    },
+    {
+      "id": "blade",
+      "shape": "saw_blade",
+      "radius_m": 0.235,
+      "thickness_m": 0.006,
+      "teeth": 36,
+      "tooth_depth_m": 0.018,
+      "bore_radius_m": 0.03,
+      "parent": "hub",
+      "material": "blade_steel"
+    },
+    {
+      "id": "cap",
+      "shape": "cylinder",
+      "radius_m": 0.045,
+      "depth_m": 0.022,
+      "segments": 32,
+      "position_m": [
+        0.56,
+        -0.142,
+        0.236
+      ],
+      "bevel_m": 0.003,
+      "material": "copper"
+    }
+  ],
+  "pivots": [
+    {
+      "id": "hub",
+      "position_m": [
+        0.56,
+        -0.128,
+        0.236
+      ]
+    }
+  ],
+  "animations": [
+    {
+      "name": "blade_spin",
+      "target": "hub",
+      "loop": true,
+      "spin": {
+        "axis": "y",
+        "rpm": 240,
+        "duration_s": 0.5
+      }
+    },
+    {
+      "name": "shell_open",
+      "target": "shell",
+      "loop": false,
+      "interpolation": "smooth",
+      "keys": [
+        {
+          "t": 0,
+          "position_m": [
+            -0.04,
+            0,
+            0.28
+          ]
+        },
+        {
+          "t": 0.6,
+          "position_m": [
+            -0.04,
+            0,
+            0.5
+          ]
+        }
+      ]
+    },
+    {
+      "name": "guard_detach",
+      "target": "guard",
+      "loop": false,
+      "interpolation": "smooth",
+      "keys": [
+        {
+          "t": 0,
+          "position_m": [
+            0.56,
+            -0.1,
+            0.236
+          ]
+        },
+        {
+          "t": 0.5,
+          "position_m": [
+            0.56,
+            -0.3,
+            0.36
+          ]
+        }
+      ]
+    }
+  ],
+  "lod_ratios": [
+    0.45,
+    0.2
+  ],
+  "budget": {
+    "triangles": 40000,
+    "texture_px": 1024
+  }
+}

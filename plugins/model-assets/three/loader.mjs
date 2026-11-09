@@ -12,7 +12,7 @@ export function validateReceipt(receipt, byteLength) {
   }
 }
 
-export function inspectContainer(buffer, { textures = false } = {}) {
+export function inspectContainer(buffer, { textures = false, animated = false } = {}) {
   const view = new DataView(buffer);
   if (buffer.byteLength < 20 || view.getUint32(0, true) !== 0x46546c67 ||
       view.getUint32(4, true) !== 2 || view.getUint32(8, true) !== buffer.byteLength ||
@@ -33,7 +33,23 @@ export function inspectContainer(buffer, { textures = false } = {}) {
       throw new Error('Only embedded PNG/JPEG textures are supported');
     }
   }
-  if (json.animations?.length || json.skins?.length) throw new Error('Only static meshes are supported');
+  if (json.skins?.length) throw new Error('Skinned meshes are unsupported; use rigid part hierarchies');
+  if (json.animations?.length && !animated) throw new Error('Only static meshes are supported');
+  const paths = new Set(['translation', 'rotation', 'scale']);
+  for (const animation of json.animations ?? []) {
+    if (typeof animation.name !== 'string' || !animation.name) throw new Error('Animations must be named');
+    for (const channel of animation.channels ?? []) {
+      const node = json.nodes?.[channel.target?.node];
+      if (!Number.isInteger(channel.target?.node) || !node || typeof node.name !== 'string' || !node.name) {
+        throw new Error(`Animation ${animation.name} targets a missing or unnamed node`);
+      }
+      if (!paths.has(channel.target.path)) throw new Error('Only rigid translation/rotation/scale animation is supported');
+      const sampler = animation.samplers?.[channel.sampler];
+      if (!sampler || !['LINEAR', 'STEP', 'CUBICSPLINE', undefined].includes(sampler.interpolation)) {
+        throw new Error(`Animation ${animation.name} has an invalid sampler`);
+      }
+    }
+  }
   for (const mesh of json.meshes ?? []) {
     for (const primitive of mesh.primitives ?? []) {
       if ((primitive.mode ?? 4) !== 4 || primitive.targets?.length) throw new Error('Only static triangle primitives are supported');
@@ -102,6 +118,44 @@ export async function loadModel(buffer, options) {
   });
   const bounds = new THREE.Box3().setFromObject(scene, true);
   const size = bounds.getSize(new THREE.Vector3());
+  const animations = [];
+  if (options?.animated) {
+    for (const clip of gltf.animations) {
+      const mixer = new THREE.AnimationMixer(scene);
+      const action = mixer.clipAction(clip);
+      action.play();
+      const targets = [...new Set(clip.tracks.map(track => track.name.split('.')[0]))];
+      const snapshot = () => targets.map(name => {
+        const object = scene.getObjectByName(name);
+        if (!object) throw new Error(`Animation ${clip.name} target ${name} is missing after load`);
+        object.updateWorldMatrix(true, true);
+        return object.matrixWorld.elements.slice();
+      });
+      mixer.setTime(0);
+      const start = snapshot();
+      let moved = 0;
+      for (const fraction of [0.13, 0.37, 0.61, 0.89]) {
+        mixer.setTime(clip.duration * fraction);
+        const sample = snapshot();
+        if (!sample.flat().every(Number.isFinite)) throw new Error(`Animation ${clip.name} produces nonfinite transforms`);
+        moved = Math.max(moved, ...sample.flat().map((value, i) => Math.abs(value - start.flat()[i])));
+      }
+      action.stop();
+      mixer.uncacheRoot(scene);
+      if (moved < 1e-5) throw new Error(`Animation ${clip.name} does not move its targets`);
+      animations.push({ name: clip.name, duration_s: Number(clip.duration.toFixed(4)), targets, max_matrix_delta: Number(moved.toFixed(5)) });
+    }
+  }
+  const pbrMaps = { normal: 0, metallic_roughness: 0 };
+  for (const material of materials) {
+    if (material.normalMap) {
+      pbrMaps.normal++;
+      if (material.normalMap.colorSpace === THREE.SRGBColorSpace) throw new Error('Normal map must not be sRGB');
+    }
+    if (material.roughnessMap || material.metalnessMap) pbrMaps.metallic_roughness++;
+  }
+  const expectedNormals = (source.materials ?? []).filter(m => m.normalTexture).length;
+  if (expectedNormals && pbrMaps.normal !== expectedNormals) throw new Error('GLTFLoader failed to decode all normal maps');
   if (!meshCount || bounds.isEmpty() || ![...bounds.min, ...bounds.max, ...size].every(Number.isFinite) || size.length() === 0) {
     throw new Error('Expected nonempty finite drawable mesh bounds');
   }
@@ -118,6 +172,7 @@ export async function loadModel(buffer, options) {
     textured_mesh_count: texturedMeshCount, decoded_textures: decodedTextures,
     material_colors: [...materials].map(m => [...m.color.toArray(), m.opacity]).sort(),
     texture_scope: options?.textures ? 'embedded-png-jpeg' : 'untextured-only',
+    pbr_maps: pbrMaps, animations, node_names: (source.nodes ?? []).map(n => n.name ?? null),
     bounds: { min: bounds.min.toArray(), max: bounds.max.toArray(), size: size.toArray() }
   } };
 }

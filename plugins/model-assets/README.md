@@ -7,11 +7,11 @@
 필요한 프로그램은 Python 3, Blender, Node와 npm, Webstage CLI이다. macOS 또는 Linux에서 새 디렉터리로 패키징한다. Python 실행 파일, Blender, Webstage, Three.js 소스는 설치 묶음에 들어가지 않는다.
 
 ```sh
-python3 package.py "$HOME/.local/share/codex-local-plugins/model-assets/0.3.0"
-codex plugin marketplace add "$HOME/.local/share/codex-local-plugins/model-assets/0.3.0"
+python3 package.py "$HOME/.local/share/codex-local-plugins/model-assets/0.4.0"
+codex plugin marketplace add "$HOME/.local/share/codex-local-plugins/model-assets/0.4.0"
 codex plugin add model-assets@model-assets
 codex plugin list --marketplace model-assets --json
-MODEL_ROOT="${CODEX_HOME:-$HOME/.codex}/plugins/cache/model-assets/model-assets/0.3.0"
+MODEL_ROOT="${CODEX_HOME:-$HOME/.codex}/plugins/cache/model-assets/model-assets/0.4.0"
 npm ci --prefix "$MODEL_ROOT/three" --offline --ignore-scripts --no-audit --no-fund
 ```
 
@@ -19,11 +19,19 @@ Three.js 0.187.0의 npm 캐시가 있는 환경에서 실행한다. 새 캐시�
 
 Codex에서는 `$model-assets`로 요청한다. 입력·산출물·로컬 뷰어 실행 예시는 [모델 제작 스킬](.agents/skills/model-assets/SKILL.md)에 있다. [레퍼런스와 고지](../../docs/model-references.md)는 도구 사용과 배포 파일의 범위를 기록한다.
 
-0.1.x에서 갱신할 때는 새 0.3.0 폴더를 먼저 준비한다. 기존 등록을 `codex plugin marketplace remove model-assets`로 교체한 뒤 위의 marketplace add와 plugin add를 실행한다. 이전에 만든 모델 번들은 각각 생성 당시의 리비전으로 남는다.
+0.3.x 이하에서 갱신할 때는 새 0.4.0 폴더를 먼저 준비한다. 기존 등록을 `codex plugin marketplace remove model-assets`로 교체한 뒤 위의 marketplace add와 plugin add를 실행한다. 이전에 만든 모델 번들은 각각 생성 당시의 리비전으로 남는다.
 
 ## 3D 불티
 
 `{"schema_version":1,"name":"Lantern embers","preset":"embers","seed":23}`는 Blender에서 발광하는 입체 불티 메시를 만들고 동일한 GLB 검사를 거친다. `files.model`은 컴파일된 메시이며 `files.effect`는 결정적 3축 궤적·회전·수명·주기를 담은 로컬 재생 데이터다. 스튜디오에서 등불을 부모로 지정해 통풍구에 붙이면 메시가 등불과 같은 깊이 버퍼를 사용한다. 게임 엔진에 재사용할 때는 GLB 인스턴스에 레시피를 적용한다.
+
+## 파라메트릭 조립 소품 (schema_version 2)
+
+`schema_version: 2` 요청은 미터 단위의 이름 있는 부품(`box`, `cylinder`, `tube`, `saw_blade`, `extrude`, `arc`, `lathe`)과 피벗 계층, 재질 라이브러리, 강체 애니메이션, LOD 비율, 예산을 선언한다. Blender가 부품을 실제 베벨로 만들고, 모든 부품의 UV를 하나의 아틀라스에 같은 텍셀 밀도로 배치한 뒤 재질별 결(noise/brushed/cast), 볼록 모서리 마모, 오목부 때를 Cycles로 base color·ORM·normal 세 장에 굽는다. 출력은 v1 역할(`model`, `metadata`, `validation`, `source`, `raw`, `preview`, `receipt`)에 `review`(조명 검수 시트: 네 방향·위·게임 크기 128px·분해도·애니메이션 표본)와 `lodN`·`lodN_validation`·`lodN_receipt`를 더한다.
+
+Blender 단계의 품질 게이트가 하나라도 실패하면 번들을 만들지 않는다: 열린/공유 모서리, 면적 0 면, 안쪽 법선, UV 범위·부품 내/아틀라스 겹침 1% 초과, 텍셀 밀도 목표의 0.4~4배 밖, 삼각형 예산 초과, 다른 부품과 2mm 이내로 닿지 않는 부품(`free: true`로 예외), 회전 축에서 벗어난 회전 부품, z=0에 닿지 않는 바닥, `expected_size_m`과 2% 넘는 차이. 회전은 30fps 한 프레임에 120°(600rpm)를 넘으면 멈추거나 거꾸로 도는 것처럼 보이므로 요청 단계에서 거부하고, 반복 회전은 정수 바퀴여야 한다.
+
+webstage 컴파일은 같은 재질의 정적 부품을 합쳐 그리기 호출을 줄인다. 실행 중 움직이거나 떼어 내는 부품은 애니메이션을 선언해야 별도 노드로 남고, `raw`는 모든 이름 있는 부품을 보존한다. Node 검증은 애니메이션이 이름 있는 노드를 대상으로 실제로 움직이는지, 모든 재질에 normal·metallic-roughness 맵이 있는지, LOD가 삼각형을 줄이고 애니메이션을 유지하는지 확인한다. 예시는 `../../examples/model-production/crawler-cutter/request.json`(METALCUT 절삭기)이다. 측정 통과와 검수 시트는 외형 승인이 아니다.
 
 ## Packed textured static props
 

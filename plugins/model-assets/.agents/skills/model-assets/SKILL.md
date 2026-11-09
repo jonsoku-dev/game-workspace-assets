@@ -1,6 +1,6 @@
 ---
 name: model-assets
-description: 게임용 3D 소품을 Blender에서 제작하거나 선택한 로컬 .blend의 정적 메시를 GLB로 납품한다. 크기, 축, 재질, Webstage 예산, Three.js 로딩을 검사하고 필요할 때 WebGL 미리보기를 연다.
+description: 게임용 3D 소품을 Blender에서 제작한다. 부품·피벗·재질·애니메이션을 선언한 파라메트릭 조립 소품(schema 2)을 PBR 텍스처로 굽고 LOD와 품질 게이트를 통과한 GLB로 납품하거나, 등불·불티 프리셋과 로컬 .blend의 정적 메시를 내보낸다. Webstage 예산과 Three.js 로딩을 검사하고 검수 시트를 만든다.
 ---
 
 요청에 소품 이름, 실제 높이 또는 승인된 로컬 모델, 씬에서의 용도를 기록한다. 설치된 이 스킬 파일에서 네 디렉터리 위가 제작기 루트다. 아래 명령의 MODEL_ROOT에는 그 절대 경로를 쓴다.
@@ -21,6 +21,21 @@ description: 게임용 3D 소품을 Blender에서 제작하거나 선택한 로�
 4. 외관 확인이 필요하면 `python3 "$MODEL_ROOT/tools/serve.py" generated/lantern-v1 --port 8765`를 실행하고 로컬 URL을 연다. 모델이 실제로 보이는지, 재질과 바닥·손잡이 비율이 맞는지 확인한다. Node 로딩 결과와 브라우저에서 관찰한 결과를 각각 기록한다.
 
 지원 입력은 미터 단위의 정적 메시와 단색 PBR 또는 아래 계약의 packed Base Color 재질이다. 납품할 게임의 씬 배치와 플레이 동작은 호스트 스튜디오에서 정한다.
+
+### 파라메트릭 조립 소품 (권장 경로)
+
+새 기계·소품은 `schema_version: 2` 요청으로 만든다. 레퍼런스에서 실제 부품과 접합부를 먼저 적고, 부품마다 모양·치수(m)·재질·부모를 정한다. 회전하거나 열리는 부품은 축 중심에 피벗을 두고 그 피벗을 애니메이션한다.
+
+```json
+{"schema_version":2,"name":"Grinder","materials":{"steel":{"base":"#7d8a90","metallic":0.9,"roughness":0.4,"grain":"brushed","wear":0.2},"enamel":{"base":"#e2601c","roughness":0.45,"wear":0.6,"dirt":0.4}},"parts":[{"id":"body","shape":"box","size_m":[0.6,0.3,0.3],"position_m":[0,0,0.15],"bevel_m":0.01,"material":"enamel"},{"id":"blade","shape":"saw_blade","radius_m":0.14,"thickness_m":0.004,"teeth":24,"tooth_depth_m":0.012,"bore_radius_m":0.02,"parent":"hub","material":"steel"}],"pivots":[{"id":"hub","parent":"body","position_m":[0.3,-0.152,0.0]}],"animations":[{"name":"blade_spin","target":"hub","loop":true,"spin":{"axis":"y","rpm":240,"duration_s":0.5}}],"lod_ratios":[0.5],"budget":{"triangles":20000,"texture_px":1024}}
+```
+
+- 좌표는 Blender Z-up 미터다. 둥근 모양(cylinder, tube, saw_blade, arc)의 축은 Y이고, `extrude`는 XZ 평면 윤곽을 Y로 밀고, `lathe`는 (반지름, 높이) 윤곽을 Z축으로 돌린다. 바닥은 z=0이다.
+- 재질은 `base`, `metallic`, `roughness`, `grain`(none/noise/brushed/cast), `grain_scale`, `wear`(모서리 마모 0~1, 칠이 벗겨지면 금속이 드러남), `edge`(마모 색), `dirt`(오목부 때), `emission`/`emission_strength`를 쓴다.
+- 애니메이션은 `spin {axis, rpm, duration_s}` 또는 `keys [{t, position_m?, rotation_deg?}]`이다. 30fps에서 프레임당 120°를 넘는 회전과 정수 바퀴가 아닌 반복 회전은 거부된다. 실제 고속 회전감은 흐림 텍스처나 불꽃으로 표현한다.
+- `exploded_offset_m`은 검수 시트의 분해도에만 쓰인다. 게임에서 떼어 내는 부품은 탈착 애니메이션을 선언해야 컴파일 뒤에도 별도 노드로 남는다.
+- 품질 게이트 실패 메시지는 해당 부품과 원인을 말한다. 부품이 허공에 떠 있으면(`floating-part`) 접합 부품을 추가하거나 위치를 고치고, 회전이 흔들리면(`off-axis-spin`) 피벗을 허브 중심으로 옮긴다.
+- 결과의 `review`(조명 검수 시트)와 `preview`를 반드시 열어 본다. 정면·측면·뒤·위, 128px 게임 크기, 분해도, 애니메이션 표본에서 실루엣·재질 구분·접합부를 확인하고, 기술 검증·작성자 검토·사용자 승인을 구분해 기록한다.
 
 ### 모델링과 외관 검수
 

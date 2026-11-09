@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "source": "request.json",
+  "built_with": "model-assets 0.4.0 tools/build.py",
+  "dimensions_m": [
+    1.422,
+    0.46,
+    0.511
+  ],
+  "lod0_triangles": 4044,
+  "lods": [
+    {
+      "file": "model.lod1.web.glb",
+      "ratio": 0.45,
+      "triangles": 1988
+    },
+    {
+      "file": "model.lod2.web.glb",
+      "ratio": 0.2,
+      "triangles": 1062
+    }
+  ],
+  "atlas_px": 1024,
+  "animations": [
+    {
+      "name": "guard_detach",
+      "duration_s": 0.5,
+      "targets": [
+        "guard"
+      ],
+      "max_matrix_delta": 0.19279
+    },
+    {
+      "name": "blade_spin",
+      "duration_s": 0.5,
+      "targets": [
+        "hub"
+      ],
+      "max_matrix_delta": 1.06279
+    },
+    {
+      "name": "shell_open",
+      "duration_s": 0.6,
+      "targets": [
+        "shell"
+      ],
+      "max_matrix_delta": 0.21257
+    }
+  ],
+  "assembly_checks": {
+    "animations_preserved": true,
+    "animation_targets_named": true,
+    "every_animation_moves": true,
+    "pbr_maps_on_every_material": true
+  },
+  "compiled_nodes": [
+    "arm",
+    "guard",
+    "blade",
+    "hub",
+    "lamp",
+    "shell"
+  ],
+  "parts": {
+    "chassis": {
+      "triangles": 108,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "track_left": {
+      "triangles": 164,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "track_right": {
+      "triangles": 164,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "flywheel": {
+      "triangles": 960,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "shell": {
+      "triangles": 148,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "lamp": {
+      "triangles": 284,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.00038
+    },
+    "arm": {
+      "triangles": 108,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "bracket": {
+      "triangles": 108,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "guard": {
+      "triangles": 1044,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "blade": {
+      "triangles": 576,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    },
+    "cap": {
+      "triangles": 380,
+      "texel_density_px_per_m": 474.1,
+      "nearest_other_part_m": 0.0
+    }
+  },
+  "visual_review": "pending",
+  "artistic_acceptance": "pending"
+}

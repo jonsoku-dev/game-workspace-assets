@@ -10,6 +10,8 @@ FILES = (
     ".agents/plugins/marketplace.json",
     ".agents/skills/model-assets/SKILL.md",
     "tools/build.py",
+    "tools/assembly.py",
+    "tools/assembly_worker.py",
     "tools/decode_image.py",
     "tools/blender_worker.py",
     "tools/lantern.py",

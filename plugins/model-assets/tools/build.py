@@ -12,6 +12,9 @@ import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'tools'))
+import assembly  # noqa: E402  (schema-version-2 validation without Blender)
+
 FILES = {
     'model': 'model.web.glb', 'metadata': 'model.json',
     'validation': 'three-validation.json', 'source': 'source.blend',
@@ -22,6 +25,8 @@ FILES = {
 
 def read_request(path):
     spec = json.loads(path.read_text())
+    if isinstance(spec, dict) and type(spec.get('schema_version')) is int and spec['schema_version'] == 2:
+        return assembly.validate(spec)
     if not isinstance(spec, dict) or type(spec.get('schema_version')) is not int or spec['schema_version'] != 1:
         raise ValueError('Expected schema_version 1 object')
     if set(spec) - {'schema_version', 'name', 'preset', 'source_blend', 'height_m', 'seed'}:
@@ -116,6 +121,86 @@ def run(command):
         raise RuntimeError(f'{Path(command[0]).name} failed with exit code {result.returncode}')
 
 
+def compile_and_inspect(executables, stage, raw, model, validation, animated, compare_raw=True):
+    run([executables['webstage'], 'compile', str(stage / raw), '-b', 'hero', '-o', str(stage / model)])
+    command = [executables['node'], str(ROOT / 'three/inspect.mjs'), str(stage / model), str(stage / validation)]
+    if compare_raw:
+        command.append(str(stage / raw))
+    if animated:
+        command.append('--animated')
+    run(command)
+    return json.loads((stage / validation).read_text())
+
+
+def check_assembly(metadata, validation):
+    expected = sorted(a['name'] for a in metadata['animations'])
+    actual = sorted(a['name'] for a in validation.get('animations', []))
+    names = set(n for n in validation.get('node_names', []) if n)
+    targets = {a['target'] for a in metadata['animations']}
+    checks = {
+        'animations_preserved': actual == expected,
+        'animation_targets_named': targets <= names,
+        'every_animation_moves': all(a['max_matrix_delta'] > 0 for a in validation.get('animations', [])),
+        # Compilers merge identical materials; every surviving material must still carry its maps.
+        'pbr_maps_on_every_material': (validation.get('pbr_maps', {}).get('normal') == validation['material_count']
+                                       == validation.get('pbr_maps', {}).get('metallic_roughness')),
+    }
+    if not all(checks.values()):
+        raise ValueError('Compiled assembly mismatch: ' + json.dumps(checks))
+    return checks
+
+
+def build_assembly(spec, output, executables):
+    files = dict(FILES, review='review.png')
+    for index, _ in enumerate(spec['lod_ratios'], 1):
+        files[f'lod{index}'] = f'model.lod{index}.web.glb'
+        files[f'lod{index}_validation'] = f'lod{index}-validation.json'
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='.model-build-', dir=output.parent) as temporary:
+        temporary = Path(temporary)
+        stage = temporary / 'bundle'
+        spec_path = temporary / 'request.json'
+        spec_path.write_text(json.dumps(spec, allow_nan=False))
+        run([executables['blender'], '--background', '--factory-startup', '--offline-mode',
+             '--disable-autoexec', '--python-exit-code', '1',
+             '--python', str(ROOT / 'tools/assembly_worker.py'), '--', str(spec_path), str(stage)])
+        metadata = json.loads((stage / FILES['metadata']).read_text())
+        animated = bool(metadata['animations'])
+        validation = compile_and_inspect(executables, stage, FILES['raw'], FILES['model'], FILES['validation'], animated)
+        validation['compiled_comparison'] = compare_compiled(metadata, validation)
+        validation['assembly_checks'] = check_assembly(metadata, validation)
+        lods = []
+        for index, lod in enumerate(metadata['lods'], 1):
+            lod_validation = compile_and_inspect(executables, stage, lod['file'], files[f'lod{index}'],
+                                                 files[f'lod{index}_validation'], animated, compare_raw=False)
+            if not 0 < lod_validation['triangle_count'] < validation['triangle_count']:
+                raise ValueError(f'LOD{index} must have fewer triangles than LOD0')
+            if sorted(a['name'] for a in lod_validation.get('animations', [])) != sorted(a['name'] for a in metadata['animations']):
+                raise ValueError(f'LOD{index} lost animations')
+            (stage / lod['file']).unlink()
+            receipt = stage / (files[f'lod{index}'] + '.webstage.json')
+            data = json.loads(receipt.read_text())
+            data['input']['path'] = lod['file']
+            data['output']['path'] = files[f'lod{index}']
+            receipt.write_text(json.dumps(data, indent=2, allow_nan=False) + '\n')
+            files[f'lod{index}_receipt'] = receipt.name
+            lods.append({'file': files[f'lod{index}'], 'ratio': lod['ratio'],
+                         'triangles': lod_validation['triangle_count']})
+        validation['lods'] = lods
+        validation['schema_version'] = 2
+        (stage / FILES['validation']).write_text(json.dumps(validation, indent=2, allow_nan=False) + '\n')
+        receipt_path = stage / FILES['receipt']
+        receipt = json.loads(receipt_path.read_text())
+        receipt['input']['path'] = FILES['raw']
+        receipt['output']['path'] = FILES['model']
+        receipt_path.write_text(json.dumps(receipt, indent=2, allow_nan=False) + '\n')
+        for name in files.values():
+            if not (stage / name).is_file() or not (stage / name).stat().st_size:
+                raise ValueError(f'Missing or empty artifact: {name}')
+        publish(stage, output)
+    return {'schema_version': 2, 'status': 'ready', 'files': files}
+
+
 def build(request, output):
     spec = read_request(request)
     files = FILES.copy()
@@ -128,6 +213,8 @@ def build(request, output):
         executables[name] = shutil.which(name)
         if not executables[name]:
             raise RuntimeError(f'Required local executable missing: {name}')
+    if spec.get('schema_version') == 2:
+        return build_assembly(spec, output, executables)
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.model-build-', dir=output.parent) as temporary:
         temporary = Path(temporary)

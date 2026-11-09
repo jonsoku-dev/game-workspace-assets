@@ -1,7 +1,7 @@
 {
   "name": "model-assets",
-  "version": "0.3.0",
-  "description": "Build Blender game props and spatial mesh effects, then verify the compiled GLB in Three.js.",
+  "version": "0.4.0",
+  "description": "Build parametric, PBR-baked and animated Blender game props with LODs and quality gates, then verify the compiled GLB in Three.js.",
   "skills": "./.agents/skills/",
   "interface": {
     "displayName": "Model Assets",

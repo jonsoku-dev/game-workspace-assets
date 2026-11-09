@@ -45,3 +45,6 @@
 후속 설치본과 프로젝트 실행 결과는 [검증 기록](../../PROGRESS.md)에 있다. 위 0.1.0 경로는 조사 당시의 기준이다. 새 3D 씬은 Blender 불티 메시를 등불에 부착하고 Three.js 인스턴스 변환으로 재생한다. 이전 2D·3D 혼합 검증 실행도 그래프에 남는다.
 
 0.3.0부터 정적 로컬 .blend에서 UV에 직접 연결한 packed PNG/JPEG Base Color를 지원한다. [원본 상자와 검수 계약](../examples/model-production/README.md). Godot 4.5.1 인수와 실제 플레이 기록은 [엔진 보고서](../../studio/engines/godot/README.md)에 있다.
+
+0.4.0부터 `schema_version: 2` 파라메트릭 조립 소품을 지원한다. 부품 계층과 피벗, 공유 아틀라스에 구운 base color·ORM·normal, 강체 애니메이션, 따로 컴파일·검증한 LOD, 메시·조립 품질 게이트와 조명 검수 시트를 만든다. [METALCUT 절삭기 요청](../examples/model-production/crawler-cutter/request.json)
+
