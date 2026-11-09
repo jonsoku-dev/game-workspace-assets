@@ -1,6 +1,7 @@
 """Deterministic raster preparation and independent asset validation."""
 
 from collections import Counter
+import math
 
 from PIL import Image, ImageChops, ImageFilter, ImageOps
 
@@ -68,6 +69,9 @@ def process(image: Image.Image, size: int, palette: list[tuple[int, int, int]],
     available_width = size - 2 - 2 * border
     available_height = size - 1 - bottom - 2 * border
     scale = min(available_width / crop.width, available_height / crop.height)
+    if scale >= 1:
+        # Never resample a native-resolution draft by a fraction: keep it 1:1 or upscale by an integer.
+        scale = math.floor(scale)
     width = max(1, min(available_width, round(crop.width * scale)))
     height = max(1, min(available_height, round(crop.height * scale)))
     crop = crop.resize((width, height), Image.Resampling.NEAREST)

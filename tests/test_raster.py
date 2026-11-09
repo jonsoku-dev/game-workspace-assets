@@ -19,7 +19,8 @@ class RasterTests(unittest.TestCase):
         source = self.draft()
         before = source.tobytes()
         result = process(source, 32, PALETTE, 3, "character")
-        self.assertEqual(result.getchannel("A").getbbox(), (9, 1, 23, 30))
+        # A 10x20 draft fits 32px at 1.4x, so it is placed 1:1 on the baseline rather than resampled.
+        self.assertEqual(result.getchannel("A").getbbox(), (11, 10, 21, 30))
         self.assertTrue(validate(result, 32, PALETTE, 3, "character")["passed"])
         self.assertEqual(source.tobytes(), before)
 
@@ -28,9 +29,30 @@ class RasterTests(unittest.TestCase):
         ImageDraw.Draw(image).rectangle((2, 2, 5, 5), fill=(*PALETTE[2], 255))
         image.putpixel((3, 3), (*PALETTE[1], 255))
         result = process(image, 8, PALETTE, 3, "icon")
-        self.assertEqual(result.getchannel("A").getbbox(), (1, 1, 7, 7))
+        # A 4x4 draft fits the 6x6 box at 1.5x; it stays 1:1 instead of a fractional resample.
+        self.assertEqual(result.getchannel("A").getbbox(), (2, 2, 6, 6))
         self.assertIn((*PALETTE[1], 255), [color for _, color in result.getcolors(64)])
         self.assertTrue(validate(result, 8, PALETTE, 3, "icon")["passed"])
+
+    def test_native_draft_that_fits_is_not_resampled(self):
+        image = Image.new("RGBA", (48, 48))
+        for x in range(4, 44):
+            for y in range(2, 46):
+                color = PALETTE[(x * 7 + y * 3) % 2 + 1] if (x + y) % 5 else PALETTE[0]
+                image.putpixel((x, y), (*color, 255))
+        result = process(image, 48, PALETTE, 4, "character")
+        source = image.crop(image.getchannel("A").getbbox())
+        placed = result.crop(result.getchannel("A").getbbox())
+        self.assertEqual(placed.size, source.size)
+        self.assertEqual(placed.getchannel("A").tobytes(), source.getchannel("A").tobytes())
+        self.assertEqual(process(result, 48, PALETTE, 4, "character").tobytes(), result.tobytes())
+
+    def test_small_draft_upscales_by_integer_factor(self):
+        image = Image.new("RGBA", (12, 12))
+        ImageDraw.Draw(image).rectangle((1, 1, 6, 6), fill=(*PALETTE[2], 255))
+        result = process(image, 32, PALETTE, 3, "icon")
+        box = result.getchannel("A").getbbox()
+        self.assertEqual(((box[2] - box[0]) % 6, (box[3] - box[1]) % 6), (0, 0))
 
     def test_alpha_palette_limit_and_isolation(self):
         image = self.draft()

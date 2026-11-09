@@ -28,7 +28,11 @@ class ServerTest(unittest.TestCase):
                         self.assertEqual(response.status, 200)
                         self.assertTrue(response.read())
                         self.assertIsNone(response.headers.get("Access-Control-Allow-Origin"))
-                        self.assertIn("connect-src 'self'", response.headers["Content-Security-Policy"])
+                        policy = response.headers["Content-Security-Policy"]
+                        # GLTFLoader fetches embedded images through blob: URLs; meshopt needs wasm.
+                        self.assertIn("connect-src 'self' blob:", policy)
+                        self.assertIn("'wasm-unsafe-eval'", policy)
+                        self.assertNotIn("'unsafe-eval'", policy.replace("'wasm-unsafe-eval'", ""))
                 for route in ["/../serve.py", "/%2e%2e/serve.py", "/three/package.json", "/unknown"]:
                     with self.assertRaises(HTTPError) as error:
                         urlopen(base + route)
